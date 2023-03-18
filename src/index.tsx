@@ -1,6 +1,6 @@
-import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
 import App from "App";
+import { createRoot } from "react-dom/client";
 
 const element = (
   <BrowserRouter>
@@ -8,6 +8,7 @@ const element = (
   </BrowserRouter>
 );
 
-const container = document.getElementById("root");
+const elementHtml = document.getElementById("root");
+const root = createRoot(elementHtml!);
 
-ReactDOM.render(element, container);
+root.render(element);
