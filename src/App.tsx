@@ -1,11 +1,14 @@
 import React from "react";
+import { useRoutes } from "react-router-dom";
 
-function App() {
-  return (
-    <div className="App">
-      <h1>WLECOME</h1>
-    </div>
-  );
-}
+const App: React.FC = (): JSX.Element => {
+  const Routes = {
+    path: "/",
+    element: <h1>Hello jii</h1>,
+  };
+  const routing = useRoutes([Routes]);
+
+  return <>{routing}</>;
+};
 
 export default App;
