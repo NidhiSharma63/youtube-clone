@@ -1,6 +1,14 @@
 import { Grid, Card, Typography, CardContent, CardMedia } from "@mui/material";
 
-const HomePage: React.FC = (): JSX.Element => {
+import { useState } from "react";
+
+import { IVideo } from "common/Interfaces";
+
+interface IVideoProps {
+  videoProps: IVideo;
+}
+
+const HomePage = ({ videoProps }: IVideoProps) => {
   return (
     <Grid container spacing={1}>
       {" "}
@@ -8,73 +16,16 @@ const HomePage: React.FC = (): JSX.Element => {
         <Card sx={{ maxWidth: 345 }}>
           <CardMedia
             sx={{ height: 140 }}
-            image="/static/images/cards/contemplative-reptile.jpg"
-            title="green iguana"
+            image={`${videoProps?.snippet?.thumbnails?.high?.url}`}
+            title={`${videoProps?.snippet?.title}`}
           />
           <CardContent>
             <Typography gutterBottom variant="h5" component="div">
-              Lizard
+              {`${videoProps?.snippet?.title}`.slice(0, 45)}
+              ...
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              Lizards are a widespread group of squamate reptiles, with over
-              6,000 species, ranging across all continents except Antarctica
-            </Typography>
-          </CardContent>
-        </Card>
-      </Grid>
-      {/*  */}
-      <Grid item xs={3}>
-        <Card sx={{ maxWidth: 345 }}>
-          <CardMedia
-            sx={{ height: 140 }}
-            image="/static/images/cards/contemplative-reptile.jpg"
-            title="green iguana"
-          />
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="div">
-              Lizard
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              Lizards are a widespread group of squamate reptiles, with over
-              6,000 species, ranging across all continents except Antarctica
-            </Typography>
-          </CardContent>
-        </Card>
-      </Grid>
-      {/*  */}
-      <Grid item xs={3}>
-        <Card sx={{ maxWidth: 345 }}>
-          <CardMedia
-            sx={{ height: 140 }}
-            image="/static/images/cards/contemplative-reptile.jpg"
-            title="green iguana"
-          />
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="div">
-              Lizard
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              Lizards are a widespread group of squamate reptiles, with over
-              6,000 species, ranging across all continents except Antarctica
-            </Typography>
-          </CardContent>
-        </Card>
-      </Grid>
-      {/*  */}
-      <Grid item xs={3}>
-        <Card sx={{ maxWidth: 345 }}>
-          <CardMedia
-            sx={{ height: 140 }}
-            image="/static/images/cards/contemplative-reptile.jpg"
-            title="green iguana"
-          />
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="div">
-              Lizard
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              Lizards are a widespread group of squamate reptiles, with over
-              6,000 species, ranging across all continents except Antarctica
+              {`${videoProps?.snippet?.channelTitle}`}
             </Typography>
           </CardContent>
         </Card>
