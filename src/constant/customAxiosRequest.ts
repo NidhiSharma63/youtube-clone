@@ -11,10 +11,7 @@ const options = {
   },
 };
 
-console.log(process.env.REACT_APP_RAPID_API_KEY, "REACT_APP_RAPID_API_KEY");
-
 function customAxiosRequest(url: string) {
-  console.log(url);
   try {
     const response = axios.get(url, options);
     return response;

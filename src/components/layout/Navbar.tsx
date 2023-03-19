@@ -66,9 +66,8 @@ const Navbar: React.FC = (): JSX.Element => {
   const handleSearch: React.KeyboardEventHandler<HTMLInputElement> = (
     event
   ) => {
-    if (event.key === "13") {
-      console.log(search);
-      /// enter is pressed
+    if (event.key === "Enter") {
+      dispatch({ type: "addSearch", payload: { value: search } });
     }
   };
 
