@@ -5,7 +5,7 @@ import useFetchVideo from "hooks/useFetchVideo";
 import { IVideo } from "common/Interfaces";
 
 const Home = () => {
-  const { data } = useFetchVideo("search?part=snippet");
+  const { data } = useFetchVideo("search?part=snippet&q=");
   console.log(data, "this is data");
 
   return (

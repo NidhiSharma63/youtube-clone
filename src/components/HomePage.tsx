@@ -30,7 +30,7 @@ const HomePage = ({ videoProps }: IVideoProps) => {
         />
         <CardContent>
           <Typography gutterBottom variant="subtitle1" color="secondary.main">
-            {`${videoProps?.snippet?.title}`.slice(0, 30)}
+            {`${videoProps?.snippet?.title}`.slice(0, 40)}
             ...
           </Typography>
           <Typography

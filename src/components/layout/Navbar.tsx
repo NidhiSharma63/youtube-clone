@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import { styled, alpha } from "@mui/material/styles";
 import {
   Box,
@@ -13,6 +13,7 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import SearchIcon from "@mui/icons-material/Search";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import logo from "images/logo.png";
+import { searchContext } from "context/SearchProvider";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -58,6 +59,18 @@ const Navbar: React.FC = (): JSX.Element => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     React.useState<null | HTMLElement>(null);
+  const [search, setSearch] = useState("");
+
+  const { dispatch } = useContext(searchContext);
+
+  const handleSearch: React.KeyboardEventHandler<HTMLInputElement> = (
+    event
+  ) => {
+    if (event.key === "13") {
+      console.log(search);
+      /// enter is pressed
+    }
+  };
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -142,8 +155,11 @@ const Navbar: React.FC = (): JSX.Element => {
             <SearchIcon />
           </SearchIconWrapper>
           <StyledInputBase
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
             placeholder="Search…"
             inputProps={{ "aria-label": "search" }}
+            onKeyUp={handleSearch}
           />
         </Search>
         <Box sx={{ flexGrow: 1 }} />
