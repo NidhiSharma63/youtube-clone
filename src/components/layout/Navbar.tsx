@@ -1,7 +1,6 @@
 import React from "react";
 import { styled, alpha } from "@mui/material/styles";
 import {
-  AppBar,
   Box,
   Toolbar,
   IconButton,

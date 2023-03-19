@@ -21,7 +21,9 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
 import MuiDrawer from "muiStyledComponents/Drawer";
-import Navbar from "components/Navbar";
+import Navbar from "components/layout/Navbar";
+
+import { Outlet } from "react-router-dom";
 
 const drawerWidth = 240;
 
@@ -133,6 +135,7 @@ export default function PersistentDrawerLeft() {
       </MuiDrawer>
       <Main open={open}>
         <DrawerHeader />
+        <Outlet />
       </Main>
     </Box>
   );

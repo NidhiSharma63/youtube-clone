@@ -4,13 +4,18 @@ import { createRoot } from "react-dom/client";
 import "style/index.css";
 import theme from "theme/muiTheme";
 import { ThemeProvider } from "@mui/material";
+import { QueryClient, QueryClientProvider } from "react-query";
+
+const queryClient = new QueryClient();
 
 const element = (
-  <ThemeProvider theme={theme}>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </ThemeProvider>
+  <QueryClientProvider client={queryClient}>
+    <ThemeProvider theme={theme}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </ThemeProvider>
+  </QueryClientProvider>
 );
 
 const elementHtml = document.getElementById("root");
