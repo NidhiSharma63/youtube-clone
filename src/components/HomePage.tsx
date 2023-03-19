@@ -9,13 +9,18 @@ interface IVideoProps {
 
 const HomePage = ({ videoProps }: IVideoProps) => {
   return (
-    <Grid item xs={3}>
+    <Grid item lg={3} sm={4} xs={6}>
       <Card
         sx={{
           maxWidth: 345,
           height: 260,
           borderRadius: 0,
           backgroundColor: "primary.main",
+          transition: ".2s",
+          cursor: "pointer",
+          "&:hover": {
+            transform: "scale(1.04)",
+          },
         }}
       >
         <CardMedia
