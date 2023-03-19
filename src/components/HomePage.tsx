@@ -1,6 +1,5 @@
 import { Grid, Card, Typography, CardContent, CardMedia } from "@mui/material";
-
-import { useState } from "react";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
 import { IVideo } from "common/Interfaces";
 
@@ -10,26 +9,35 @@ interface IVideoProps {
 
 const HomePage = ({ videoProps }: IVideoProps) => {
   return (
-    <Grid container spacing={1}>
-      {" "}
-      <Grid item xs={3} border="1px solid red">
-        <Card sx={{ maxWidth: 345 }}>
-          <CardMedia
-            sx={{ height: 140 }}
-            image={`${videoProps?.snippet?.thumbnails?.high?.url}`}
-            title={`${videoProps?.snippet?.title}`}
-          />
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="div">
-              {`${videoProps?.snippet?.title}`.slice(0, 45)}
-              ...
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              {`${videoProps?.snippet?.channelTitle}`}
-            </Typography>
-          </CardContent>
-        </Card>
-      </Grid>
+    <Grid item xs={3}>
+      <Card
+        sx={{
+          maxWidth: 345,
+          height: 260,
+          borderRadius: 0,
+          backgroundColor: "primary.main",
+        }}
+      >
+        <CardMedia
+          sx={{ height: 140 }}
+          image={`${videoProps?.snippet?.thumbnails?.high?.url}`}
+          title={`${videoProps?.snippet?.title}`}
+        />
+        <CardContent>
+          <Typography gutterBottom variant="subtitle1" color="secondary.main">
+            {`${videoProps?.snippet?.title}`.slice(0, 30)}
+            ...
+          </Typography>
+          <Typography
+            variant="body2"
+            color="secondary.dark"
+            fontWeight={"bold"}
+          >
+            {`${videoProps?.snippet?.channelTitle}`}
+            {<CheckCircleIcon sx={{ fontSize: ".9rem" }} />}
+          </Typography>
+        </CardContent>
+      </Card>
     </Grid>
   );
 };

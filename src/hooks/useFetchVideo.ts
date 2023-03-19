@@ -6,7 +6,7 @@ function useFetchVideo(search: string) {
   return useQuery(
     "videos",
     () => customAxiosRequest(`${BASE_URL}/${search}`),
-    { staleTime: 1000 * 60 * 100 } // 10 minutes in milliseconds
+    { staleTime: 1000 * 60 * 10000 } // 10 minutes in milliseconds
   );
 }
 
