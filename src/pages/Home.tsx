@@ -24,7 +24,7 @@ const Home = () => {
   useEffect(() => {
     if (state.search) {
       setSearch(state.search);
-      // navigate(`/search/${state.search}`);
+      navigate(`/search?=${state.search}`);
     }
   }, [state.search, navigate]);
 
