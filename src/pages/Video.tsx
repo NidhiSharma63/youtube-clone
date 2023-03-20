@@ -3,14 +3,10 @@ import customAxiosRequest from "constant/customAxiosRequest";
 import { useQuery } from "react-query";
 import { BASE_URL } from "constant/Misc";
 import ReactPlayer from "react-player";
-import { Typography, Box, Grid, Button, IconButton } from "@mui/material";
+import { Typography, Box, Grid } from "@mui/material";
 import { ISnippet } from "common/Interfaces";
-import ThumbUpIcon from "@mui/icons-material/ThumbUp";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import formatLikes from "utils/formatLikes";
-import ReplyIcon from "@mui/icons-material/Reply";
-import DownloadIcon from "@mui/icons-material/Download";
-import MoreIcon from "@mui/icons-material/MoreVert";
+
+import VideoInfo from "components/video/VideoInfo";
 
 interface ISnippetVideo extends ISnippet {
   categoryId: string;
@@ -75,78 +71,15 @@ const Video = () => {
           <Typography gutterBottom variant="h5" color="secondary.main" mt={1}>
             {data?.[0].snippet.title}
           </Typography>
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              flexDirection: "row",
-              // border: "1px solid red",
-            }}
-          >
-            {/*  */}
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
-              <Typography variant="subtitle1" color="secondary.main">
-                {data?.[0].snippet.channelTitle}
-              </Typography>
-              <CheckCircleIcon
-                sx={{ fontSize: ".9rem", ml: 1, color: "secondary.dark" }}
-              />
-              <Button
-                variant="contained"
-                color="info"
-                sx={{ ml: 3, borderRadius: 5 }}
-              >
-                Subscribe
-              </Button>
-            </Box>
-            {/*  */}
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                gap: ".5rem",
-              }}
-            >
-              <Button
-                variant="contained"
-                sx={{ backgroundColor: "#9c9a9a", borderRadius: 5 }}
-                startIcon={<ThumbUpIcon />}
-              >
-                {data?.[0].statistics.likeCount &&
-                  formatLikes(data?.[0].statistics.likeCount)}
-              </Button>
-              <Button
-                variant="contained"
-                sx={{ backgroundColor: "#9c9a9a", borderRadius: 5 }}
-                startIcon={<ReplyIcon />}
-              >
-                share
-              </Button>
-              <Button
-                variant="contained"
-                sx={{ backgroundColor: "#9c9a9a", borderRadius: 5 }}
-                startIcon={<DownloadIcon />}
-              >
-                Download
-              </Button>
-              <IconButton
-                size="large"
-                aria-label="show more"
-                aria-haspopup="true"
-                color="inherit"
-                sx={{ backgroundColor: "#9c9a9a", color: "secondary.main" }}
-              >
-                <MoreIcon />
-              </IconButton>
-            </Box>
 
-            {/*  */}
-          </Box>
+          {data && (
+            <VideoInfo
+              videoProps={{
+                channelTitle: data?.[0].snippet.channelTitle,
+                likeCount: data?.[0].statistics.likeCount,
+              }}
+            />
+          )}
         </Box>
         {/* <Typography variant="h1">THIS IS H1</Typography> */}
       </Grid>
