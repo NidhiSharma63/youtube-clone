@@ -7,7 +7,10 @@ import {
   InputBase,
   MenuItem,
   Menu,
+  Typography,
 } from "@mui/material";
+
+import { useNavigate } from "react-router-dom";
 
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import SearchIcon from "@mui/icons-material/Search";
@@ -56,6 +59,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const Navbar: React.FC = (): JSX.Element => {
+  const naviagte = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     React.useState<null | HTMLElement>(null);
@@ -76,6 +80,10 @@ const Navbar: React.FC = (): JSX.Element => {
 
   const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
+  };
+
+  const showHomePage = () => {
+    naviagte("/");
   };
 
   const handleMobileMenuClose = () => {
@@ -148,7 +156,17 @@ const Navbar: React.FC = (): JSX.Element => {
   return (
     <Box sx={{ flexGrow: 1, boxShadow: 0 }}>
       <Toolbar>
-        <img src={logo} alt="logo" style={{ width: "40px" }} />
+        <Box
+          onClick={showHomePage}
+          sx={{ cursor: "pointer", display: "flex", alignItems: "center" }}
+        >
+          <img
+            src={logo}
+            alt="logo"
+            style={{ width: "40px", cursor: "pointer" }}
+          />
+          <Typography variant="h6">Youtube</Typography>
+        </Box>
         <Search>
           <SearchIconWrapper>
             <SearchIcon />
