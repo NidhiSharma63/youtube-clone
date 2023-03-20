@@ -40,12 +40,12 @@ const Home = () => {
   };
 
   const { data }: IData = useQuery({
-    queryKey: ["videos", search, nextPage],
+    queryKey: ["AllVideos", search, nextPage],
     queryFn: queryFunction,
     staleTime: 1000 * 60 * 10000,
     refetchOnWindowFocus: false,
     refetchOnMount: false,
-    select: (videos) => videos.data,
+    select: (AllVideos) => AllVideos.data,
   });
 
   useEffect(() => {
