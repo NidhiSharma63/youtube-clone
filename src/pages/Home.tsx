@@ -60,7 +60,6 @@ const Home = () => {
       return [...prev, ...data.items];
     });
   }, [data?.items]);
-  console.log(videos);
 
   useEffect(() => {
     if (state.search) {
