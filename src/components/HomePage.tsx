@@ -45,7 +45,7 @@ const HomePage = ({ videoProps }: IVideoProps) => {
 
   return (
     <Grid item lg={3} sm={4} xs={6}>
-      <CoverVideoCard videoProps={videoProps} />
+      <CoverVideoCard videoProps={videoProps} width={{ maxWidth: 320 }} />
     </Grid>
   );
 };

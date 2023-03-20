@@ -141,7 +141,12 @@ const Video = () => {
       >
         {suggestVideo
           ? suggestVideo.map((suggestion: IVideo) => {
-              return <CoverVideoCard videoProps={suggestion} />;
+              return (
+                <CoverVideoCard
+                  videoProps={suggestion}
+                  width={{ width: 345 }}
+                />
+              );
             })
           : null}
       </Grid>

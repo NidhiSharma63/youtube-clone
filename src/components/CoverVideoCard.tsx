@@ -4,11 +4,17 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { useNavigate } from "react-router-dom";
 import { IVideo } from "common/Interfaces";
 
-interface IVideoProps {
+interface IProps {
   videoProps: IVideo;
+  width: {
+    maxWidth?: number;
+    width?: number;
+  };
 }
 
-const CoverVideoCard = ({ videoProps }: IVideoProps) => {
+const CoverVideoCard = (props: IProps) => {
+  const { videoProps, width } = props;
+  console.log(width);
   const naigate = useNavigate();
   const handleClick = (id: string): void => {
     naigate(`video/${id}`);
@@ -17,8 +23,8 @@ const CoverVideoCard = ({ videoProps }: IVideoProps) => {
   return (
     <Card
       sx={{
-        maxWidth: 345,
-        height: 350,
+        ...{ width },
+        height: 320,
         mt: 0.6,
         borderRadius: 0,
         backgroundColor: "primary.main",
