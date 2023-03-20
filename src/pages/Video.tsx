@@ -3,13 +3,23 @@ import customAxiosRequest from "constant/customAxiosRequest";
 import { useQuery } from "react-query";
 import { BASE_URL } from "constant/Misc";
 import ReactPlayer from "react-player";
-import { Typography, Box, Grid, Stack, Avatar } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import {
+  Typography,
+  Box,
+  Grid,
+  Stack,
+  Card,
+  CardContent,
+  CardMedia,
+} from "@mui/material";
 import { ISnippet } from "common/Interfaces";
 import VideoInfo from "components/video/VideoInfo";
 import VideoDescription from "components/video/VideoDescription";
 import { IComments } from "common/Interfaces";
 import VideoComments from "components/video/VideoComments";
-
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import CoverVideoCard from "components/CoverVideoCard";
 import { IVideo } from "common/Interfaces";
 
 interface ISnippetVideo extends ISnippet {
@@ -55,7 +65,7 @@ interface ISuggestedVideo {
 
 const Video = () => {
   const { id } = useParams();
-
+  const naigate = useNavigate();
   const { data: videoData }: IData = useQuery({
     queryKey: ["video", id],
     queryFn: () =>
@@ -94,8 +104,6 @@ const Video = () => {
     refetchOnWindowFocus: false,
     refetchOnMount: false,
   });
-
-  console.log(suggestVideo, "suggestVideo");
 
   return (
     <Grid container spacing={1}>
@@ -137,7 +145,12 @@ const Video = () => {
         <Stack></Stack>
       </Grid>
       <Grid item xs={5}>
-        this is item 6
+        {suggestVideo
+          ? suggestVideo.map((suggestion: IVideo) => {
+              // <></>;
+              return <CoverVideoCard videoProps={suggestion} />;
+            })
+          : null}
       </Grid>
     </Grid>
   );

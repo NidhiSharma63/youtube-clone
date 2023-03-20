@@ -6,6 +6,8 @@ import { useEffect, useState } from "react";
 
 import { useNavigate } from "react-router-dom";
 
+import CoverVideoCard from "components/CoverVideoCard";
+
 interface IVideoProps {
   videoProps: IVideo;
 }
@@ -49,44 +51,7 @@ const HomePage = ({ videoProps }: IVideoProps) => {
   };
   return (
     <Grid item lg={3} sm={4} xs={6}>
-      <Card
-        sx={{
-          maxWidth: 345,
-          height: 280,
-          borderRadius: 0,
-          backgroundColor: "primary.main",
-          transition: ".2s",
-          cursor: "pointer",
-          "&:hover": {
-            transform: "scale(1.04)",
-          },
-        }}
-        onClick={() => handleClick(videoProps.id.videoId)}
-      >
-        <CardMedia
-          sx={{ height: 140 }}
-          image={`${videoProps?.snippet?.thumbnails?.high?.url}`}
-          title={`${videoProps?.snippet?.title}`}
-        />
-        <CardContent>
-          <Typography
-            sx={{ height: 55 }}
-            gutterBottom
-            variant="subtitle1"
-            color="secondary.main"
-          >
-            {`${videoProps?.snippet?.title}`.slice(0, 40)}
-            ...
-          </Typography>
-          <Typography variant="body2" color="secondary.dark">
-            {`${videoProps?.snippet?.channelTitle}`}
-            {<CheckCircleIcon sx={{ fontSize: ".9rem" }} />}
-          </Typography>
-          <Typography color="secondary.dark" variant="body2">
-            {publishedTime} ago
-          </Typography>
-        </CardContent>
-      </Card>
+      <CoverVideoCard videoProps={videoProps} />
     </Grid>
   );
 };
