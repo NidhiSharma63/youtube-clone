@@ -8,6 +8,7 @@ import { ISnippet } from "common/Interfaces";
 import formatCounts from "utils/formatCounts";
 import VideoInfo from "components/video/VideoInfo";
 import { useState } from "react";
+import VideoDescription from "components/video/VideoDescription";
 
 interface ISnippetVideo extends ISnippet {
   categoryId: string;
@@ -95,47 +96,12 @@ const Video = () => {
           )}
           {/*  video description */}
           {data && (
-            <Box
-              sx={{
-                backgroundColor: "info.main",
-                borderRadius: 2,
-                padding: 0.4,
+            <VideoDescription
+              videoDescriptionProps={{
+                description: data[0].snippet.description,
+                viewCount: data[0].statistics.viewCount,
               }}
-            >
-              <Typography
-                gutterBottom
-                variant="subtitle1"
-                color="secondary.main"
-                mt={1}
-              >
-                {formatCounts(data?.[0].statistics.viewCount)} views
-              </Typography>
-              <Typography
-                gutterBottom
-                variant="subtitle1"
-                color="secondary.main"
-              >
-                {data?.[0].snippet.description.slice(0, wordLength)}
-                {wordLength === 60 ? "..." : ""}
-              </Typography>
-              {wordLength === data?.[0].snippet.description.length ? (
-                <Button
-                  variant="text"
-                  sx={{ color: "secondary.main" }}
-                  onClick={hanldeWordLength}
-                >
-                  Show Less
-                </Button>
-              ) : (
-                <Button
-                  variant="text"
-                  sx={{ color: "secondary.main" }}
-                  onClick={hanldeWordLength}
-                >
-                  Show more
-                </Button>
-              )}
-            </Box>
+            />
           )}
         </Box>
         {/* <Typography variant="h1">THIS IS H1</Typography> */}
