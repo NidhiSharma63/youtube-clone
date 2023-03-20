@@ -1,10 +1,7 @@
-import { Grid, Card, Typography, CardContent, CardMedia } from "@mui/material";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import { Grid } from "@mui/material";
 
 import { IVideo } from "common/Interfaces";
 import { useEffect, useState } from "react";
-
-import { useNavigate } from "react-router-dom";
 
 import CoverVideoCard from "components/CoverVideoCard";
 
@@ -14,7 +11,7 @@ interface IVideoProps {
 
 const HomePage = ({ videoProps }: IVideoProps) => {
   const [publishedTime, setPublishedTime] = useState<string>();
-  const naigate = useNavigate();
+
   useEffect(() => {
     const interval = setInterval(() => {
       const videoPublishedTime = new Date(videoProps.snippet.publishTime);
@@ -46,9 +43,6 @@ const HomePage = ({ videoProps }: IVideoProps) => {
     return () => clearInterval(interval);
   }, []);
 
-  const handleClick = (id: string): void => {
-    naigate(`video/${id}`);
-  };
   return (
     <Grid item lg={3} sm={4} xs={6}>
       <CoverVideoCard videoProps={videoProps} />
