@@ -96,7 +96,7 @@ const Video = () => {
 
   return (
     <Grid container spacing={1}>
-      <Grid item xs={7}>
+      <Grid item xs={8}>
         <Box>
           <ReactPlayer
             url={`https://www.youtube.com/watch?v=${id}`}
@@ -133,7 +133,12 @@ const Video = () => {
         {/* <Typography variant="h1">THIS IS H1</Typography> */}
         <Stack></Stack>
       </Grid>
-      <Grid item xs={5} mt="-1rem">
+      <Grid
+        item
+        xs={4}
+        mt="-1rem"
+        sx={{ display: "flex", alignItems: "center", flexDirection: "column" }}
+      >
         {suggestVideo
           ? suggestVideo.map((suggestion: IVideo) => {
               return <CoverVideoCard videoProps={suggestion} />;
