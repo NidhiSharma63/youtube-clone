@@ -18,7 +18,8 @@ const CoverVideoCard = ({ videoProps }: IVideoProps) => {
     <Card
       sx={{
         maxWidth: 345,
-        height: 280,
+        height: 350,
+        mt: 0.6,
         borderRadius: 0,
         backgroundColor: "primary.main",
         transition: ".2s",
@@ -30,7 +31,7 @@ const CoverVideoCard = ({ videoProps }: IVideoProps) => {
       onClick={() => handleClick(videoProps.id.videoId)}
     >
       <CardMedia
-        sx={{ height: 140 }}
+        sx={{ height: 200 }}
         image={`${videoProps?.snippet?.thumbnails?.high?.url}`}
         title={`${videoProps?.snippet?.title}`}
       />

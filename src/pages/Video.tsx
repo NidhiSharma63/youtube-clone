@@ -3,22 +3,12 @@ import customAxiosRequest from "constant/customAxiosRequest";
 import { useQuery } from "react-query";
 import { BASE_URL } from "constant/Misc";
 import ReactPlayer from "react-player";
-import { useNavigate } from "react-router-dom";
-import {
-  Typography,
-  Box,
-  Grid,
-  Stack,
-  Card,
-  CardContent,
-  CardMedia,
-} from "@mui/material";
+import { Typography, Box, Grid, Stack } from "@mui/material";
 import { ISnippet } from "common/Interfaces";
 import VideoInfo from "components/video/VideoInfo";
 import VideoDescription from "components/video/VideoDescription";
 import { IComments } from "common/Interfaces";
 import VideoComments from "components/video/VideoComments";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CoverVideoCard from "components/CoverVideoCard";
 import { IVideo } from "common/Interfaces";
 
@@ -65,7 +55,6 @@ interface ISuggestedVideo {
 
 const Video = () => {
   const { id } = useParams();
-  const naigate = useNavigate();
   const { data: videoData }: IData = useQuery({
     queryKey: ["video", id],
     queryFn: () =>
@@ -144,10 +133,9 @@ const Video = () => {
         {/* <Typography variant="h1">THIS IS H1</Typography> */}
         <Stack></Stack>
       </Grid>
-      <Grid item xs={5}>
+      <Grid item xs={5} mt="-1rem">
         {suggestVideo
           ? suggestVideo.map((suggestion: IVideo) => {
-              // <></>;
               return <CoverVideoCard videoProps={suggestion} />;
             })
           : null}
