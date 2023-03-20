@@ -27,22 +27,25 @@ interface IData {
 const Home = () => {
   const { state } = useContext(searchContext);
   const [search, setSearch] = useState<string>(state.search);
+  const [nextPage, setNextPage] = useState<string>("");
 
   const navigate = useNavigate();
   const [videos, setVideos] = useState<IVideo[]>([]);
 
   const queryFunction = () => {
     return customAxiosRequest(
-      `${BASE_URL}/search?part=snippet&q=${state.search}`
+      `${BASE_URL}/search?part=snippet&q=${state.search}`,
+      nextPage
     );
   };
 
   const { data }: IData = useQuery({
-    queryKey: ["videos", search],
+    queryKey: ["videos", search, nextPage],
     queryFn: queryFunction,
     staleTime: 1000 * 60 * 10000,
     select: (videos) => videos.data,
   });
+
   useEffect(() => {
     // As data can be undefined so first need to check because videos can have onlye Array of IVideo
     setVideos((prev: IVideo[]) => {
@@ -50,12 +53,11 @@ const Home = () => {
       if (!data?.items) {
         return prev;
       }
+
       // Otherwise, concatenate the new items to the previous state
       return [...prev, ...data.items];
     });
   }, [data?.items]);
-
-  console.log(videos, "videos");
 
   useEffect(() => {
     if (state.search) {
@@ -64,10 +66,24 @@ const Home = () => {
     }
   }, [state.search, navigate]);
 
+  const handleScroll = (event: React.UIEvent<HTMLDivElement>) => {
+    const el = event.target as HTMLDivElement;
+    if (el.scrollTop + el.offsetHeight >= el.scrollHeight) {
+      if (data?.nextPageToken) {
+        setNextPage(data?.nextPageToken);
+      }
+    }
+  };
+
   return (
     <>
-      <Grid container spacing={1}>
-        {data?.items?.map((item: IVideo) => {
+      <Grid
+        container
+        onScroll={handleScroll}
+        spacing={1}
+        sx={{ height: "100vw", overflowY: "scroll", overflowX: "hidden" }}
+      >
+        {videos?.map((item: IVideo) => {
           return <HomePage key={uuidv4()} videoProps={item} />;
         })}
       </Grid>
