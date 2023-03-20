@@ -3,12 +3,12 @@ import customAxiosRequest from "constant/customAxiosRequest";
 import { useQuery } from "react-query";
 import { BASE_URL } from "constant/Misc";
 import ReactPlayer from "react-player";
-import { Typography, Box, Grid, Button } from "@mui/material";
+import { Typography, Box, Grid, Stack, Avatar } from "@mui/material";
 import { ISnippet } from "common/Interfaces";
-import formatCounts from "utils/formatCounts";
 import VideoInfo from "components/video/VideoInfo";
-import { useState } from "react";
 import VideoDescription from "components/video/VideoDescription";
+import { IComments } from "common/Interfaces";
+import VideoComments from "components/video/VideoComments";
 
 interface ISnippetVideo extends ISnippet {
   categoryId: string;
@@ -43,11 +43,14 @@ interface IData {
   }[];
 }
 
+interface ICommentsData {
+  data?: IComments[];
+}
+
 const Video = () => {
   const { id } = useParams();
 
-  const [wordLength, setWordLength] = useState<number>(60);
-  const { data }: IData = useQuery({
+  const { data: videoData }: IData = useQuery({
     queryKey: ["video", id],
     queryFn: () =>
       customAxiosRequest(
@@ -60,17 +63,20 @@ const Video = () => {
     refetchOnMount: false,
   });
 
-  const hanldeWordLength = (): void => {
-    if (data) {
-      setWordLength((prev) => {
-        return prev === data[0].snippet.description.length
-          ? 60
-          : data[0].snippet.description.length;
-      });
-    }
-  };
+  const { data: commentData }: ICommentsData = useQuery({
+    queryKey: ["videoComments", id],
+    queryFn: () =>
+      customAxiosRequest(
+        `${BASE_URL}/commentThreads?part=snippet&videoId=${id}`,
+        ""
+      ),
+    staleTime: 1000 * 60 * 10000,
+    select: (videoComments) => videoComments.data.items,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+  });
 
-  console.log(data, "this is data");
+  console.log(commentData, "commets");
 
   return (
     <Grid container spacing={1}>
@@ -82,29 +88,34 @@ const Video = () => {
             width={"100%"}
           />
           <Typography gutterBottom variant="h5" color="secondary.main" mt={1}>
-            {data?.[0].snippet.title}
+            {videoData?.[0].snippet.title}
           </Typography>
 
           {/* video info */}
-          {data && (
+          {videoData && (
             <VideoInfo
               videoProps={{
-                channelTitle: data?.[0].snippet.channelTitle,
-                likeCount: data?.[0].statistics.likeCount,
+                channelTitle: videoData?.[0].snippet.channelTitle,
+                likeCount: videoData?.[0].statistics.likeCount,
               }}
             />
           )}
           {/*  video description */}
-          {data && (
+          {videoData && (
             <VideoDescription
               videoDescriptionProps={{
-                description: data[0].snippet.description,
-                viewCount: data[0].statistics.viewCount,
+                description: videoData[0].snippet.description,
+                viewCount: videoData[0].statistics.viewCount,
               }}
             />
           )}
+          {commentData &&
+            commentData.map((comment: IComments) => {
+              return <VideoComments commentsData={comment} />;
+            })}
         </Box>
         {/* <Typography variant="h1">THIS IS H1</Typography> */}
+        <Stack></Stack>
       </Grid>
       <Grid item xs={6}>
         this is item 6

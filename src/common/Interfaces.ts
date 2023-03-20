@@ -32,3 +32,34 @@ export interface IVideo {
   id: IId;
   snippet: ISnippet;
 }
+
+export interface IComments {
+  id: string;
+  kind: string;
+  snippet: {
+    canReply: boolean;
+    isPublic: boolean;
+    totalReplyCount: number;
+    videoId: string;
+    topLevelComment: {
+      id: string;
+      kind: string;
+      snippet: {
+        authorChannelId: {
+          value: string;
+        };
+        authorChannelUrl: string;
+        authorDisplayName: string;
+        authorProfileImageUrl: string;
+        canRate: boolean;
+        likeCount: number;
+        publishedAt: string;
+        textDisplay: string;
+        textOriginal: string;
+        updatedAt: string;
+        videoId: string;
+        viewerRating: string;
+      };
+    };
+  };
+}
