@@ -3,7 +3,7 @@ import { Grid } from "@mui/material";
 import HomePage from "components/HomePage";
 import { searchContext } from "context/SearchProvider";
 import { IVideo } from "common/Interfaces";
-import { useQuery, UseQueryResult } from "react-query";
+import { useQuery } from "react-query";
 import customAxiosRequest from "constant/customAxiosRequest";
 import { BASE_URL } from "constant/Misc";
 import { useNavigate } from "react-router-dom";
@@ -43,6 +43,8 @@ const Home = () => {
     queryKey: ["videos", search, nextPage],
     queryFn: queryFunction,
     staleTime: 1000 * 60 * 10000,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
     select: (videos) => videos.data,
   });
 
@@ -58,6 +60,7 @@ const Home = () => {
       return [...prev, ...data.items];
     });
   }, [data?.items]);
+  console.log(videos);
 
   useEffect(() => {
     if (state.search) {
@@ -66,6 +69,7 @@ const Home = () => {
     }
   }, [state.search, navigate]);
 
+  // if user reaches at the end then set the next page token and it will refecth the data
   const handleScroll = (event: React.UIEvent<HTMLDivElement>) => {
     const el = event.target as HTMLDivElement;
     if (el.scrollTop + el.offsetHeight >= el.scrollHeight) {
