@@ -3,12 +3,46 @@ import customAxiosRequest from "constant/customAxiosRequest";
 import { useQuery } from "react-query";
 import { BASE_URL } from "constant/Misc";
 import ReactPlayer from "react-player";
-import { Box } from "@mui/material";
+import { Typography, Box, Grid } from "@mui/material";
+import { ISnippet } from "common/Interfaces";
+
+interface ISnippetVideo extends ISnippet {
+  categoryId: string;
+  defaultAudioLanguage: string;
+  defaultLanguage: string;
+  localized: {
+    description: string;
+    title: string;
+  };
+}
+
+interface IData {
+  data?: {
+    contentDetails: {
+      caption: string;
+      contentRating: {};
+      definition: string;
+      dimension: string;
+      duration: string;
+      licensedContent?: boolean;
+      projection: string;
+    };
+    kind: string;
+    videoId: string;
+    snippet: ISnippetVideo;
+    statistics: {
+      commentCount: string;
+      favoriteCount: string;
+      likeCount: string;
+      viewCount: string;
+    };
+  }[];
+}
 
 const Video = () => {
   const { id } = useParams();
 
-  const { data } = useQuery({
+  const { data }: IData = useQuery({
     queryKey: ["video", id],
     queryFn: () =>
       customAxiosRequest(
@@ -24,12 +58,21 @@ const Video = () => {
   console.log(data, "this is data");
 
   return (
-    <div>
-      vido
-      <Box sx={{ width: "500px" }}>
-        <ReactPlayer url={`https://www.youtube.com/watch?v=${id}`} />
-      </Box>
-    </div>
+    <Grid container spacing={1}>
+      <Grid item xs={6}>
+        <Box>
+          <ReactPlayer url={`https://www.youtube.com/watch?v=${id}`} />
+          <Typography gutterBottom variant="h5" color="secondary.main" mt={1}>
+            {data?.[0].snippet.title}
+            {}
+          </Typography>
+        </Box>
+        <Typography variant="h1">THIS IS H1</Typography>
+      </Grid>
+      <Grid item xs={6}>
+        this is item 6
+      </Grid>
+    </Grid>
   );
 };
 

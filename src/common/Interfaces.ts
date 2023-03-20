@@ -8,6 +8,8 @@ export interface IThumbnails {
   default: IImage;
   medium: IImage;
   high: IImage;
+  maxres?: IImage;
+  standard?: IImage;
 }
 
 export interface ISnippet {
@@ -21,11 +23,12 @@ export interface ISnippet {
   publishTime: string;
 }
 
+export interface IId {
+  kind: string;
+  videoId: string;
+}
 export interface IVideo {
   kind: string;
-  id: {
-    kind: string;
-    videoId: string;
-  };
+  id: IId;
   snippet: ISnippet;
 }
