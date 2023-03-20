@@ -3,10 +3,11 @@ import customAxiosRequest from "constant/customAxiosRequest";
 import { useQuery } from "react-query";
 import { BASE_URL } from "constant/Misc";
 import ReactPlayer from "react-player";
-import { Typography, Box, Grid } from "@mui/material";
+import { Typography, Box, Grid, Button } from "@mui/material";
 import { ISnippet } from "common/Interfaces";
 import formatCounts from "utils/formatCounts";
 import VideoInfo from "components/video/VideoInfo";
+import { useState } from "react";
 
 interface ISnippetVideo extends ISnippet {
   categoryId: string;
@@ -44,6 +45,7 @@ interface IData {
 const Video = () => {
   const { id } = useParams();
 
+  const [wordLength, setWordLength] = useState<number>(60);
   const { data }: IData = useQuery({
     queryKey: ["video", id],
     queryFn: () =>
@@ -56,6 +58,16 @@ const Video = () => {
     refetchOnWindowFocus: false,
     refetchOnMount: false,
   });
+
+  const hanldeWordLength = (): void => {
+    if (data) {
+      setWordLength((prev) => {
+        return prev === data[0].snippet.description.length
+          ? 60
+          : data[0].snippet.description.length;
+      });
+    }
+  };
 
   console.log(data, "this is data");
 
@@ -103,8 +115,26 @@ const Video = () => {
                 variant="subtitle1"
                 color="secondary.main"
               >
-                {data?.[0].snippet.description}
+                {data?.[0].snippet.description.slice(0, wordLength)}
+                {wordLength === 60 ? "..." : ""}
               </Typography>
+              {wordLength === data?.[0].snippet.description.length ? (
+                <Button
+                  variant="text"
+                  sx={{ color: "secondary.main" }}
+                  onClick={hanldeWordLength}
+                >
+                  Show Less
+                </Button>
+              ) : (
+                <Button
+                  variant="text"
+                  sx={{ color: "secondary.main" }}
+                  onClick={hanldeWordLength}
+                >
+                  Show more
+                </Button>
+              )}
             </Box>
           )}
         </Box>
