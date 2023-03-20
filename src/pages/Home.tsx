@@ -8,6 +8,8 @@ import customAxiosRequest from "constant/customAxiosRequest";
 import { BASE_URL } from "constant/Misc";
 import { useNavigate } from "react-router-dom";
 
+import { v4 as uuidv4 } from "uuid";
+
 const Home = () => {
   const { state } = useContext(searchContext);
   const [search, setSearch] = useState<string>(state.search);
@@ -32,7 +34,7 @@ const Home = () => {
     <>
       <Grid container spacing={1}>
         {data?.data?.items?.map((item: IVideo) => {
-          return <HomePage key={item.snippet.description} videoProps={item} />;
+          return <HomePage key={uuidv4()} videoProps={item} />;
         })}
       </Grid>
     </>
