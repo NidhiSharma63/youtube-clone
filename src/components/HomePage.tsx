@@ -2,7 +2,7 @@ import { Grid, Card, Typography, CardContent, CardMedia } from "@mui/material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
 import { IVideo } from "common/Interfaces";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 
 interface IVideoProps {
   videoProps: IVideo;
@@ -12,44 +12,34 @@ const HomePage = ({ videoProps }: IVideoProps) => {
   const [publishedTime, setPublishedTime] = useState<string>();
 
   useEffect(() => {
-    const interVal = setInterval(() => {
+    const interval = setInterval(() => {
       const videoPublishedTime = new Date(videoProps.snippet.publishTime);
       const todaysTime = new Date();
-      let minutes: number | undefined;
-      let hours: number | undefined;
-      let days: number | undefined;
-      let year: number | undefined;
-      let month: number | undefined;
 
       const differenceBetweenTime =
         todaysTime.getTime() - videoPublishedTime.getTime();
 
       // Convert milliseconds to seconds, minutes, hours, or days as necessary
       var seconds = Math.floor(differenceBetweenTime / 1000);
-      setPublishedTime(`${seconds} second${seconds > 1 ? "s" : ""}`);
 
-      if (seconds >= 60) {
-        minutes = Math.floor(differenceBetweenTime / 60000);
+      if (seconds < 60) {
+        setPublishedTime(`${seconds} second${seconds > 1 ? "s" : ""}`);
+      } else if (seconds < 3600) {
+        const minutes = Math.floor(seconds / 60);
         setPublishedTime(`${minutes} minute${minutes > 1 ? "s" : ""}`);
-      }
-      if (minutes && minutes >= 60) {
-        hours = Math.floor(minutes / 60);
+      } else if (seconds < 86400) {
+        const hours = Math.floor(seconds / 3600);
         setPublishedTime(`${hours} hour${hours > 1 ? "s" : ""}`);
-      }
-      if (hours && hours >= 24) {
-        days = Math.floor(hours / 24);
+      } else if (seconds < 31536000) {
+        const days = Math.floor(seconds / 86400);
         setPublishedTime(`${days} day${days > 1 ? "s" : ""}`);
-      }
-
-      if (days && days >= 365) {
-        year = Math.floor(days / 365);
-        setPublishedTime(`${year} year${year > 1 ? "s" : ""}`);
+      } else {
+        const years = Math.floor(seconds / 31536000);
+        setPublishedTime(`${years} year${years > 1 ? "s" : ""}`);
       }
     }, 1000);
-    return () => {
-      clearInterval(interVal);
-      console.log("clean up");
-    };
+
+    return () => clearInterval(interval);
   }, []);
 
   return (
