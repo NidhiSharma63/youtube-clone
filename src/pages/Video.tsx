@@ -5,7 +5,7 @@ import { BASE_URL } from "constant/Misc";
 import ReactPlayer from "react-player";
 import { Typography, Box, Grid } from "@mui/material";
 import { ISnippet } from "common/Interfaces";
-
+import formatCounts from "utils/formatCounts";
 import VideoInfo from "components/video/VideoInfo";
 
 interface ISnippetVideo extends ISnippet {
@@ -82,11 +82,31 @@ const Video = () => {
             />
           )}
           {/*  video description */}
-          <Box sx={{ backgroundColor: "secondary" }}>
-            <Typography gutterBottom variant="h5" color="secondary.main" mt={1}>
-              {data?.[0].snippet.title}
-            </Typography>
-          </Box>
+          {data && (
+            <Box
+              sx={{
+                backgroundColor: "info.main",
+                borderRadius: 2,
+                padding: 0.4,
+              }}
+            >
+              <Typography
+                gutterBottom
+                variant="subtitle1"
+                color="secondary.main"
+                mt={1}
+              >
+                {formatCounts(data?.[0].statistics.viewCount)} views
+              </Typography>
+              <Typography
+                gutterBottom
+                variant="subtitle1"
+                color="secondary.main"
+              >
+                {data?.[0].snippet.description}
+              </Typography>
+            </Box>
+          )}
         </Box>
         {/* <Typography variant="h1">THIS IS H1</Typography> */}
       </Grid>

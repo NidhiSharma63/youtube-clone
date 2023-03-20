@@ -5,7 +5,7 @@ export interface ISuffixes {
 
 const suffixes: ISuffixes = ["", "k", "m", "b", "t"];
 
-function formatLikes(likes: string) {
+function formatCounts(likes: string) {
   let value = parseInt(likes);
   let suffixIndex;
   for (
@@ -25,4 +25,4 @@ function formatLikes(likes: string) {
   return formattedLikes + suffix;
 }
 
-export default formatLikes;
+export default formatCounts;

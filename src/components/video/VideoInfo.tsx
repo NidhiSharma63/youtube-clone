@@ -1,7 +1,7 @@
 import { Box, Typography, Button, IconButton } from "@mui/material";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import formatLikes from "utils/formatLikes";
+import formatCounts from "utils/formatCounts";
 import ReplyIcon from "@mui/icons-material/Reply";
 import DownloadIcon from "@mui/icons-material/Download";
 import MoreIcon from "@mui/icons-material/MoreVert";
@@ -61,7 +61,7 @@ const VideoInfo = ({ videoProps }: IVideoInfoProps) => {
           sx={{ backgroundColor: "info.main", borderRadius: 5 }}
           startIcon={<ThumbUpIcon />}
         >
-          {formatLikes(videoProps.likeCount)}
+          {formatCounts(videoProps.likeCount)}
         </Button>
         <Button
           variant="contained"
