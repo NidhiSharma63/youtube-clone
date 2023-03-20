@@ -38,8 +38,12 @@ const VideoInfo = ({ videoProps }: IVideoInfoProps) => {
         />
         <Button
           variant="contained"
-          color="info"
-          sx={{ ml: 3, borderRadius: 5 }}
+          sx={{
+            ml: 3,
+            borderRadius: 5,
+            backgroundColor: "secondary.main",
+            color: "primary.main",
+          }}
         >
           Subscribe
         </Button>
@@ -54,21 +58,21 @@ const VideoInfo = ({ videoProps }: IVideoInfoProps) => {
       >
         <Button
           variant="contained"
-          sx={{ backgroundColor: "#9c9a9a", borderRadius: 5 }}
+          sx={{ backgroundColor: "info.main", borderRadius: 5 }}
           startIcon={<ThumbUpIcon />}
         >
           {formatLikes(videoProps.likeCount)}
         </Button>
         <Button
           variant="contained"
-          sx={{ backgroundColor: "#9c9a9a", borderRadius: 5 }}
+          sx={{ backgroundColor: "info.main", borderRadius: 5 }}
           startIcon={<ReplyIcon />}
         >
           share
         </Button>
         <Button
           variant="contained"
-          sx={{ backgroundColor: "#9c9a9a", borderRadius: 5 }}
+          sx={{ backgroundColor: "info.main", borderRadius: 5 }}
           startIcon={<DownloadIcon />}
         >
           Download
@@ -78,7 +82,7 @@ const VideoInfo = ({ videoProps }: IVideoInfoProps) => {
           aria-label="show more"
           aria-haspopup="true"
           color="inherit"
-          sx={{ backgroundColor: "#9c9a9a", color: "secondary.main" }}
+          sx={{ backgroundColor: "info.main", color: "secondary.main" }}
         >
           <MoreIcon />
         </IconButton>

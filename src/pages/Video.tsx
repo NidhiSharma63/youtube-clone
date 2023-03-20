@@ -72,6 +72,7 @@ const Video = () => {
             {data?.[0].snippet.title}
           </Typography>
 
+          {/* video info */}
           {data && (
             <VideoInfo
               videoProps={{
@@ -80,6 +81,12 @@ const Video = () => {
               }}
             />
           )}
+          {/*  video description */}
+          <Box sx={{ backgroundColor: "secondary" }}>
+            <Typography gutterBottom variant="h5" color="secondary.main" mt={1}>
+              {data?.[0].snippet.title}
+            </Typography>
+          </Box>
         </Box>
         {/* <Typography variant="h1">THIS IS H1</Typography> */}
       </Grid>
