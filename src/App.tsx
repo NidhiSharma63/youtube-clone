@@ -7,7 +7,7 @@ const App: React.FC = (): JSX.Element => {
   const Routes = {
     path: "/",
     element: <DrawerComponent />,
-    children: [{ path: "/", element: <Home /> }],
+    children: [{ path: "/:search?", element: <Home /> }],
   };
   const routing = useRoutes([Routes]);
 
