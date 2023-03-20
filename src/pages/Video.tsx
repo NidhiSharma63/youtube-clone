@@ -10,6 +10,8 @@ import VideoDescription from "components/video/VideoDescription";
 import { IComments } from "common/Interfaces";
 import VideoComments from "components/video/VideoComments";
 
+import { IVideo } from "common/Interfaces";
+
 interface ISnippetVideo extends ISnippet {
   categoryId: string;
   defaultAudioLanguage: string;
@@ -47,6 +49,10 @@ interface ICommentsData {
   data?: IComments[];
 }
 
+interface ISuggestedVideo {
+  data?: IVideo[];
+}
+
 const Video = () => {
   const { id } = useParams();
 
@@ -76,7 +82,20 @@ const Video = () => {
     refetchOnMount: false,
   });
 
-  console.log(commentData, "commets");
+  const { data: suggestVideo }: ISuggestedVideo = useQuery({
+    queryKey: ["suggestedVideo", id],
+    queryFn: () =>
+      customAxiosRequest(
+        `${BASE_URL}/search?part=snippet&relatedToVideoId=${id}&type=video`,
+        ""
+      ),
+    staleTime: 1000 * 60 * 10000,
+    select: (suggestedVideo) => suggestedVideo.data.items,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+  });
+
+  console.log(suggestVideo, "suggestVideo");
 
   return (
     <Grid container spacing={1}>
@@ -117,7 +136,7 @@ const Video = () => {
         {/* <Typography variant="h1">THIS IS H1</Typography> */}
         <Stack></Stack>
       </Grid>
-      <Grid item xs={6}>
+      <Grid item xs={5}>
         this is item 6
       </Grid>
     </Grid>
