@@ -3,6 +3,7 @@ import customAxiosRequest from "constant/customAxiosRequest";
 import { useQuery } from "react-query";
 import { BASE_URL } from "constant/Misc";
 import ReactPlayer from "react-player";
+import { Box } from "@mui/material";
 
 const Video = () => {
   const { id } = useParams();
@@ -24,7 +25,10 @@ const Video = () => {
 
   return (
     <div>
-      <ReactPlayer url="https://www.youtube.com/watch?v=ysz5S6PUM-U" />
+      vido
+      <Box sx={{ width: "500px" }}>
+        <ReactPlayer url={`https://www.youtube.com/watch?v=${id}`} />
+      </Box>
     </div>
   );
 };
