@@ -40,13 +40,19 @@ const Home = () => {
   };
 
   const { data }: IData = useQuery({
-    queryKey: ["AllVideos", search, nextPage],
-    queryFn: queryFunction,
-    staleTime: 1000 * 60 * 10000,
+    queryKey: ["AllVideos", state.search, nextPage],
+    queryFn: () =>
+      customAxiosRequest(
+        `${BASE_URL}/search?part=snippet&q=${state.search}`,
+        nextPage
+      ),
+    // staleTime: 1000 * 60 * 10000,
     refetchOnWindowFocus: false,
     refetchOnMount: false,
     select: (AllVideos) => AllVideos.data,
   });
+
+  console.log(data, "data");
 
   useEffect(() => {
     // As data can be undefined so first need to check because videos can have onlye Array of IVideo
@@ -62,6 +68,17 @@ const Home = () => {
   }, [data?.items]);
 
   useEffect(() => {
+    if (search) {
+      setVideos((val: IVideo[]) => {
+        if (!data?.items) {
+          return val;
+        }
+        return data?.items;
+      });
+    }
+  }, [search, data]);
+
+  useEffect(() => {
     if (state.search) {
       setSearch(state.search);
       navigate(`/search?=${state.search}`);
@@ -70,6 +87,7 @@ const Home = () => {
 
   // if user reaches at the end then set the next page token and it will refecth the data
   const handleScroll = (event: React.UIEvent<HTMLDivElement>) => {
+    setSearch("");
     const el = event.target as HTMLDivElement;
     if (el.scrollTop + el.offsetHeight >= el.scrollHeight) {
       if (data?.nextPageToken) {

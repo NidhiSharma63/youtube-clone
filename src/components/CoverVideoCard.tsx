@@ -14,7 +14,6 @@ interface IProps {
 
 const CoverVideoCard = (props: IProps) => {
   const { videoProps, width } = props;
-  console.log(width);
   const naigate = useNavigate();
   const handleClick = (id: string): void => {
     naigate(`video/${id}`);

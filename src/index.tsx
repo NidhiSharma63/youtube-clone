@@ -6,6 +6,7 @@ import theme from "theme/muiTheme";
 import { ThemeProvider } from "@mui/material";
 import { QueryClient, QueryClientProvider } from "react-query";
 import SearchProvider from "context/SearchProvider";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 const queryClient = new QueryClient();
 
@@ -18,6 +19,7 @@ const element = (
         </BrowserRouter>
       </ThemeProvider>
     </SearchProvider>
+    {/* <ReactQueryDevtools initialIsOpen={false} /> */}
   </QueryClientProvider>
 );
 
