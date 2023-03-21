@@ -10,6 +10,8 @@ import {
   Typography,
 } from "@mui/material";
 
+import { useQuery } from "react-query";
+
 import { useNavigate } from "react-router-dom";
 
 import AccountCircle from "@mui/icons-material/AccountCircle";
@@ -17,6 +19,8 @@ import SearchIcon from "@mui/icons-material/Search";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import logo from "images/logo.png";
 import { searchContext } from "context/SearchProvider";
+import customAxiosRequest from "constant/customAxiosRequest";
+import { BASE_URL } from "constant/Misc";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -75,15 +79,31 @@ const Navbar: React.FC = (): JSX.Element => {
     }
   };
 
+  const queryFunction = () => {
+    return customAxiosRequest(`${BASE_URL}/search?part=snippet&q=`, "");
+  };
+
+  const { refetch } = useQuery({
+    queryKey: ["AllVideos"],
+    queryFn: queryFunction,
+    // staleTime: 1000 * 60 * 10000,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    enabled: false,
+  });
+
+  const showHomePage = (): void => {
+    window.scrollY = 0;
+    naviagte("/");
+    refetch();
+    dispatch({ type: "addSearch", payload: { value: "" } });
+  };
+
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
   const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
-  };
-
-  const showHomePage = () => {
-    naviagte("/");
   };
 
   const handleMobileMenuClose = () => {
