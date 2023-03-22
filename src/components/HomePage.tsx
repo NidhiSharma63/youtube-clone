@@ -44,7 +44,20 @@ const HomePage = ({ videoProps }: IVideoProps) => {
   }, []);
 
   return (
-    <Grid item lg={3} sm={4} xs={6}>
+    <Grid
+      item
+      lg={3}
+      md={4}
+      sm={6}
+      xs={12}
+      sx={{
+        border: {
+          lg: "1px solid red",
+          md: "1px solid green",
+          sm: "1px solid orange",
+        },
+      }}
+    >
       <CoverVideoCard videoProps={videoProps} width={{ maxWidth: 320 }} />
     </Grid>
   );

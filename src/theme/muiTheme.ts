@@ -20,6 +20,15 @@ const theme = createTheme({
       textTransform: "none",
     },
   },
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 500,
+      md: 850,
+      lg: 1200,
+      xl: 1536,
+    },
+  },
 });
 
 export default theme;
