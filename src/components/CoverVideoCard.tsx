@@ -27,6 +27,7 @@ const CoverVideoCard = (props: IProps) => {
     <Card
       sx={{
         ...{ width },
+        width: { xs: "100% !important" },
         height: 320,
         mt: 0.6,
         borderRadius: 0,
