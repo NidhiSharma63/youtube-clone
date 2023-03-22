@@ -107,7 +107,7 @@ const Home = () => {
         onScroll={handleScroll}
         spacing={1}
         sx={{
-          height: "100vw",
+          height: { xs: "auto", sm: "100vw" },
           overflowY: "scroll",
           overflowX: "hidden0",
           justifyContent: "center",
