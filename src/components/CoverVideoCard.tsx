@@ -27,12 +27,15 @@ const CoverVideoCard = (props: IProps) => {
     <Card
       sx={{
         ...{ width },
-        height: 320,
+        // display: "flex",
+        // width: { xs: "100% !important" },
+        height: 310,
         mt: 0.6,
         borderRadius: 0,
         backgroundColor: "primary.main",
         transition: ".2s",
         cursor: "pointer",
+        boxShadow: 0,
         "&:hover": {
           transform: "scale(1.04)",
         },
@@ -40,7 +43,7 @@ const CoverVideoCard = (props: IProps) => {
       onClick={() => handleClick(videoProps.id.videoId)}
     >
       <CardMedia
-        sx={{ height: 200 }}
+        sx={{ height: 180, borderRadius: 3 }}
         image={`${videoProps?.snippet?.thumbnails?.high?.url}`}
         title={`${videoProps?.snippet?.title}`}
       />

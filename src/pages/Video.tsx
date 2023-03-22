@@ -3,7 +3,7 @@ import customAxiosRequest from "constant/customAxiosRequest";
 import { useQuery } from "react-query";
 import { BASE_URL } from "constant/Misc";
 import ReactPlayer from "react-player";
-import { Typography, Box, Grid, Stack } from "@mui/material";
+import { Typography, Box, Grid, Stack, Divider } from "@mui/material";
 import { ISnippet } from "common/Interfaces";
 import VideoInfo from "components/video/VideoInfo";
 import VideoDescription from "components/video/VideoDescription";
@@ -101,35 +101,39 @@ const Video = () => {
 
   return (
     <Grid container spacing={1}>
-      <Grid item xs={8}>
-        <Box>
-          <ReactPlayer
-            url={`https://www.youtube.com/watch?v=${id}`}
-            controls
-            width={"100%"}
-          />
-          <Typography gutterBottom variant="h5" color="secondary.main" mt={1}>
-            {videoData?.[0].snippet.title}
-          </Typography>
+      <Grid item xs={12} custom={8}>
+        <ReactPlayer
+          url={`https://www.youtube.com/watch?v=${id}`}
+          controls
+          width={"100%"}
+        />
+        <Typography gutterBottom variant="h5" color="secondary.main" mt={1}>
+          {videoData?.[0].snippet.title}
+        </Typography>
 
-          {/* video info */}
-          {videoData && (
-            <VideoInfo
-              videoProps={{
-                channelTitle: videoData?.[0].snippet.channelTitle,
-                likeCount: videoData?.[0].statistics.likeCount,
-              }}
-            />
-          )}
-          {/*  video description */}
-          {videoData && (
-            <VideoDescription
-              videoDescriptionProps={{
-                description: videoData[0].snippet.description,
-                viewCount: videoData[0].statistics.viewCount,
-              }}
-            />
-          )}
+        {/* video info */}
+        {videoData && (
+          <VideoInfo
+            videoProps={{
+              channelTitle: videoData?.[0].snippet.channelTitle,
+              likeCount: videoData?.[0].statistics.likeCount,
+            }}
+          />
+        )}
+        {/*  video description */}
+        {videoData && (
+          <VideoDescription
+            videoDescriptionProps={{
+              description: videoData[0].snippet.description,
+              viewCount: videoData[0].statistics.viewCount,
+            }}
+          />
+        )}
+        <Box
+          sx={{
+            display: { custom: "block", xs: "none" },
+          }}
+        >
           {commentData &&
             commentData.map((comment: IComments) => {
               return <VideoComments commentsData={comment} />;
@@ -140,9 +144,14 @@ const Video = () => {
       </Grid>
       <Grid
         item
-        xs={4}
+        xs={12}
+        custom={4}
         mt="-1rem"
-        sx={{ display: "flex", alignItems: "center", flexDirection: "column" }}
+        sx={{
+          display: "flex",
+          alignItems: { xs: "center", sm: "flex-start" },
+          flexDirection: "column",
+        }}
       >
         {suggestVideo
           ? suggestVideo.map((suggestion: IVideo) => {
@@ -155,6 +164,13 @@ const Video = () => {
               );
             })
           : null}
+      </Grid>
+      <Grid item sx={{ display: { custom: "none", xs: "block" } }}>
+        <Divider />
+        {commentData &&
+          commentData.map((comment: IComments) => {
+            return <VideoComments commentsData={comment} />;
+          })}
       </Grid>
     </Grid>
   );

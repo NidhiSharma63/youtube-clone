@@ -27,6 +27,7 @@ const VideoDescription = ({
         backgroundColor: "info.main",
         borderRadius: 2,
         padding: 0.4,
+        mb: 1,
       }}
     >
       <Typography

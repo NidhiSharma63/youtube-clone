@@ -106,7 +106,12 @@ const Home = () => {
         container
         onScroll={handleScroll}
         spacing={1}
-        sx={{ height: "100vw", overflowY: "scroll", overflowX: "hidden" }}
+        sx={{
+          height: { xs: "auto", sm: "100vw" },
+          overflowY: "scroll",
+          overflowX: "hidden0",
+          justifyContent: "center",
+        }}
       >
         {videos?.map((item: IVideo) => {
           return <HomePage key={uuidv4()} videoProps={item} />;
