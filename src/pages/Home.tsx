@@ -98,7 +98,7 @@ const Home = () => {
     }
   };
 
-  if (isLoading) return <Loader />;
+  if (isLoading && videos.length === 0) return <Loader />;
 
   return (
     <>
@@ -109,7 +109,7 @@ const Home = () => {
         sx={{
           height: { xs: "auto", sm: "100vw" },
           overflowY: "scroll",
-          overflowX: "hidden0",
+          overflowX: "hidden",
           justifyContent: "center",
         }}
       >
