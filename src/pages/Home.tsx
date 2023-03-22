@@ -7,6 +7,7 @@ import { useQuery } from "react-query";
 import customAxiosRequest from "constant/customAxiosRequest";
 import { BASE_URL } from "constant/Misc";
 import { useNavigate } from "react-router-dom";
+import Loader from "components/Loader";
 
 import { v4 as uuidv4 } from "uuid";
 
@@ -22,6 +23,7 @@ interface IData {
     };
     regionCode?: "IN";
   };
+  isLoading: boolean;
 }
 
 const Home = () => {
@@ -39,14 +41,20 @@ const Home = () => {
     );
   };
 
-  const { data }: IData = useQuery({
-    queryKey: ["videos", search, nextPage],
-    queryFn: queryFunction,
-    staleTime: 1000 * 60 * 10000,
+  const { data, isLoading }: IData = useQuery({
+    queryKey: ["AllVideos", state.search, nextPage],
+    queryFn: () =>
+      customAxiosRequest(
+        `${BASE_URL}/search?part=snippet&q=${state.search}`,
+        nextPage
+      ),
+    // staleTime: 1000 * 60 * 10000,
     refetchOnWindowFocus: false,
     refetchOnMount: false,
-    select: (videos) => videos.data,
+    select: (AllVideos) => AllVideos.data,
   });
+
+  console.log(isLoading, "isLoading");
 
   useEffect(() => {
     // As data can be undefined so first need to check because videos can have onlye Array of IVideo
@@ -60,7 +68,17 @@ const Home = () => {
       return [...prev, ...data.items];
     });
   }, [data?.items]);
-  console.log(videos);
+
+  useEffect(() => {
+    if (search) {
+      setVideos((val: IVideo[]) => {
+        if (!data?.items) {
+          return val;
+        }
+        return data?.items;
+      });
+    }
+  }, [search, data]);
 
   useEffect(() => {
     if (state.search) {
@@ -71,6 +89,7 @@ const Home = () => {
 
   // if user reaches at the end then set the next page token and it will refecth the data
   const handleScroll = (event: React.UIEvent<HTMLDivElement>) => {
+    setSearch("");
     const el = event.target as HTMLDivElement;
     if (el.scrollTop + el.offsetHeight >= el.scrollHeight) {
       if (data?.nextPageToken) {
@@ -78,6 +97,8 @@ const Home = () => {
       }
     }
   };
+
+  if (isLoading) return <Loader />;
 
   return (
     <>

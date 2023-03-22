@@ -21,10 +21,11 @@ function customAxiosRequest(
   nextPageToken: string
 ): Promise<AxiosResponse> {
   try {
+    console.log(url, "url");
     const response = axios.get(url, {
       params: {
         regionCode: "IN",
-        maxResults: "50",
+        maxResults: "100",
         pageToken: nextPageToken,
       },
       headers: {

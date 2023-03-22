@@ -30,7 +30,6 @@ export const searchContext = createContext<MyContextValue>({
 });
 
 const reducer = (state: IState, action: IAction): IState => {
-  console.log(action.payload, "payload");
   switch (action.type) {
     case "addSearch":
       return { ...state, search: action.payload.value };

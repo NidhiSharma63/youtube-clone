@@ -7,13 +7,20 @@ import {
   InputBase,
   MenuItem,
   Menu,
+  Typography,
 } from "@mui/material";
+
+import { useQuery } from "react-query";
+
+import { useNavigate } from "react-router-dom";
 
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import SearchIcon from "@mui/icons-material/Search";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import logo from "images/logo.png";
 import { searchContext } from "context/SearchProvider";
+import customAxiosRequest from "constant/customAxiosRequest";
+import { BASE_URL } from "constant/Misc";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -56,6 +63,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const Navbar: React.FC = (): JSX.Element => {
+  const naviagte = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     React.useState<null | HTMLElement>(null);
@@ -69,6 +77,26 @@ const Navbar: React.FC = (): JSX.Element => {
     if (event.key === "Enter") {
       dispatch({ type: "addSearch", payload: { value: search } });
     }
+  };
+
+  const queryFunction = () => {
+    return customAxiosRequest(`${BASE_URL}/search?part=snippet&q=`, "");
+  };
+
+  const { refetch } = useQuery({
+    queryKey: ["AllVideos"],
+    queryFn: queryFunction,
+    // staleTime: 1000 * 60 * 10000,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    enabled: false,
+  });
+
+  const showHomePage = (): void => {
+    window.scrollY = 0;
+    naviagte("/");
+    refetch();
+    dispatch({ type: "addSearch", payload: { value: "" } });
   };
 
   const isMenuOpen = Boolean(anchorEl);
@@ -148,7 +176,17 @@ const Navbar: React.FC = (): JSX.Element => {
   return (
     <Box sx={{ flexGrow: 1, boxShadow: 0 }}>
       <Toolbar>
-        <img src={logo} alt="logo" style={{ width: "40px" }} />
+        <Box
+          onClick={showHomePage}
+          sx={{ cursor: "pointer", display: "flex", alignItems: "center" }}
+        >
+          <img
+            src={logo}
+            alt="logo"
+            style={{ width: "40px", cursor: "pointer" }}
+          />
+          <Typography variant="h6">Youtube</Typography>
+        </Box>
         <Search>
           <SearchIconWrapper>
             <SearchIcon />
