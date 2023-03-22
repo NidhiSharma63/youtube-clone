@@ -27,7 +27,7 @@ const CoverVideoCard = (props: IProps) => {
     <Card
       sx={{
         ...{ width },
-        height: 300,
+        height: 320,
         mt: 0.6,
         borderRadius: 0,
         backgroundColor: "primary.main",
@@ -41,7 +41,7 @@ const CoverVideoCard = (props: IProps) => {
       onClick={() => handleClick(videoProps.id.videoId)}
     >
       <CardMedia
-        sx={{ height: 200, borderRadius: 3 }}
+        sx={{ height: 180, borderRadius: 3 }}
         image={`${videoProps?.snippet?.thumbnails?.high?.url}`}
         title={`${videoProps?.snippet?.title}`}
       />
