@@ -18,14 +18,13 @@ import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
 import MuiDrawer from "muiStyledComponents/Drawer";
 import Navbar from "components/layout/Navbar";
+import { categories } from "constant/categories";
 
 import { Outlet } from "react-router-dom";
 
-const drawerWidth = 240;
+const drawerWidth = 190;
 
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })<{
   open?: boolean;
@@ -120,12 +119,9 @@ export default function PersistentDrawerLeft() {
         </DrawerHeader>
         <Divider />
         <List>
-          {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
+          {categories.map((text, index) => (
             <ListItem key={text} disablePadding>
               <ListItemButton>
-                <ListItemIcon sx={{ color: "secondary.main" }}>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
                 <ListItemText sx={{ color: "secondary.main" }} primary={text} />
               </ListItemButton>
             </ListItem>
