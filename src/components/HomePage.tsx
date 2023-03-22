@@ -57,7 +57,6 @@ const HomePage = ({ videoProps }: IVideoProps) => {
           sm: "1px solid orange",
           xs: "1px solid blue",
         },
-        width: { xs: "100%" },
       }}
     >
       <CoverVideoCard videoProps={videoProps} width={{ maxWidth: 320 }} />

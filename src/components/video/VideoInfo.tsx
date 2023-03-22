@@ -19,7 +19,10 @@ const VideoInfo = ({ videoProps }: IVideoInfoProps) => {
       sx={{
         display: "flex",
         justifyContent: "space-between",
-        flexDirection: "row",
+        // flexDirection: "row",
+        flexDirection: { xs: "column", custom: "row" },
+        gap: ".5rem",
+        // flexDirection: "column",
         // border: "1px solid red",
       }}
     >
