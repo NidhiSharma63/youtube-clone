@@ -29,7 +29,7 @@ const Search = styled("div")(({ theme }) => ({
   "&:hover": {
     backgroundColor: alpha(theme.palette.common.white, 0.25),
   },
-  marginRight: theme.spacing(2),
+  marginRight: theme.spacing(-2),
   marginLeft: 0,
   width: "100%",
   [theme.breakpoints.up("sm")]: {
@@ -178,14 +178,25 @@ const Navbar: React.FC = (): JSX.Element => {
       <Toolbar>
         <Box
           onClick={showHomePage}
-          sx={{ cursor: "pointer", display: "flex", alignItems: "center" }}
+          sx={{
+            cursor: "pointer",
+            marginLeft: "-1rem",
+            marginRight: "2rem",
+            display: "flex",
+            alignItems: "center",
+          }}
         >
           <img
             src={logo}
             alt="logo"
-            style={{ width: "40px", cursor: "pointer" }}
+            style={{
+              width: "40px",
+              cursor: "pointer",
+            }}
           />
-          <Typography variant="h6">Youtube</Typography>
+          <Typography sx={{ display: { xs: "none", sm: "flex" } }} variant="h6">
+            Youtube
+          </Typography>
         </Box>
         <Search>
           <SearchIconWrapper>
@@ -213,7 +224,7 @@ const Navbar: React.FC = (): JSX.Element => {
             <AccountCircle />
           </IconButton>
         </Box>
-        <Box sx={{ display: { xs: "flex", md: "none" } }}>
+        {/* <Box sx={{ display: { xs: "flex", md: "none" }, mr: "-2rem" }}>
           <IconButton
             size="large"
             aria-label="show more"
@@ -224,7 +235,7 @@ const Navbar: React.FC = (): JSX.Element => {
           >
             <MoreIcon />
           </IconButton>
-        </Box>
+        </Box> */}
       </Toolbar>
       {renderMobileMenu}
       {renderMenu}
