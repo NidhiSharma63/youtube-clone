@@ -101,7 +101,7 @@ const Video = () => {
 
   return (
     <Grid container spacing={1}>
-      <Grid item xs={8}>
+      <Grid item xs={12} custom={8}>
         <Box>
           <ReactPlayer
             url={`https://www.youtube.com/watch?v=${id}`}
@@ -140,7 +140,8 @@ const Video = () => {
       </Grid>
       <Grid
         item
-        xs={4}
+        xs={12}
+        custom={4}
         mt="-1rem"
         sx={{ display: "flex", alignItems: "center", flexDirection: "column" }}
       >

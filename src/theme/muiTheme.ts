@@ -1,5 +1,16 @@
 import { createTheme } from "@mui/material/styles";
 
+declare module "@mui/material/styles" {
+  interface BreakpointOverrides {
+    xs: true; // removes the `xs` breakpoint
+    sm: true;
+    md: true;
+    lg: true;
+    xl: true;
+    custom: true;
+  }
+}
+
 const theme = createTheme({
   palette: {
     primary: {
@@ -27,6 +38,7 @@ const theme = createTheme({
       md: 850,
       lg: 1200,
       xl: 1536,
+      custom: 1000,
     },
   },
 });
