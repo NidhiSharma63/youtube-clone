@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { Grid, Box } from "@mui/material";
+import { Grid } from "@mui/material";
 import HomePage from "components/HomePage";
 import { searchContext } from "context/SearchProvider";
 import { IVideo } from "common/Interfaces";
@@ -7,7 +7,7 @@ import { useQuery } from "react-query";
 import customAxiosRequest from "constant/customAxiosRequest";
 import { BASE_URL } from "constant/Misc";
 import { useNavigate } from "react-router-dom";
-import { ThreeDots } from "react-loader-spinner";
+import Loader from "components/Loader";
 
 import { v4 as uuidv4 } from "uuid";
 
@@ -98,19 +98,7 @@ const Home = () => {
     }
   };
 
-  if (isLoading)
-    return (
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100vh", // set the height of the parent container
-        }}
-      >
-        <ThreeDots color="#fff" ariaLabel="loading" />
-      </Box>
-    );
+  if (isLoading) return <Loader />;
 
   return (
     <>
