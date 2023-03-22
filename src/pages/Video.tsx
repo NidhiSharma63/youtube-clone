@@ -11,6 +11,7 @@ import { IComments } from "common/Interfaces";
 import VideoComments from "components/video/VideoComments";
 import CoverVideoCard from "components/CoverVideoCard";
 import { IVideo } from "common/Interfaces";
+import { v4 as uuidv4 } from "uuid";
 
 import Loader from "components/Loader";
 interface ISnippetVideo extends ISnippet {
@@ -147,6 +148,7 @@ const Video = () => {
           ? suggestVideo.map((suggestion: IVideo) => {
               return (
                 <CoverVideoCard
+                  key={uuidv4()}
                   videoProps={suggestion}
                   width={{ width: 345 }}
                 />

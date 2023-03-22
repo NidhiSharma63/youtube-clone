@@ -14,9 +14,13 @@ interface IProps {
 
 const CoverVideoCard = (props: IProps) => {
   const { videoProps, width } = props;
-  const naigate = useNavigate();
+  const navigate = useNavigate();
   const handleClick = (id: string): void => {
-    naigate(`video/${id}`);
+    if (window.location.pathname.includes("/video")) {
+      window.location.href = `/video/${id}`;
+    } else {
+      navigate(`video/${id}`);
+    }
   };
 
   return (
