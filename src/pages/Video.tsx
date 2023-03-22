@@ -12,6 +12,7 @@ import VideoComments from "components/video/VideoComments";
 import CoverVideoCard from "components/CoverVideoCard";
 import { IVideo } from "common/Interfaces";
 
+import Loader from "components/Loader";
 interface ISnippetVideo extends ISnippet {
   categoryId: string;
   defaultAudioLanguage: string;
@@ -43,6 +44,7 @@ interface IData {
       viewCount: string;
     };
   }[];
+  isLoading: boolean;
 }
 
 interface ICommentsData {
@@ -55,7 +57,7 @@ interface ISuggestedVideo {
 
 const Video = () => {
   const { id } = useParams();
-  const { data: videoData }: IData = useQuery({
+  const { data: videoData, isLoading }: IData = useQuery({
     queryKey: ["video", id],
     queryFn: () =>
       customAxiosRequest(
@@ -93,6 +95,8 @@ const Video = () => {
     refetchOnWindowFocus: false,
     refetchOnMount: false,
   });
+
+  if (isLoading) return <Loader />;
 
   return (
     <Grid container spacing={1}>
