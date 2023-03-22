@@ -100,7 +100,7 @@ const Video = () => {
   if (isLoading) return <Loader />;
 
   return (
-    <Grid container spacing={1} display="flex">
+    <Grid container spacing={1}>
       <Grid item xs={12} custom={8}>
         <ReactPlayer
           url={`https://www.youtube.com/watch?v=${id}`}
@@ -129,7 +129,11 @@ const Video = () => {
             }}
           />
         )}
-        <Box sx={{ display: { custom: "block", xs: "none" } }}>
+        <Box
+          sx={{
+            display: { custom: "block", xs: "none" },
+          }}
+        >
           {commentData &&
             commentData.map((comment: IComments) => {
               return <VideoComments commentsData={comment} />;
@@ -145,7 +149,7 @@ const Video = () => {
         mt="-1rem"
         sx={{
           display: "flex",
-          alignItems: "flex-start",
+          alignItems: { xs: "center", sm: "flex-start" },
           flexDirection: "column",
         }}
       >

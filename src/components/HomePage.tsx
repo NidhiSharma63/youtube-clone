@@ -51,12 +51,6 @@ const HomePage = ({ videoProps }: IVideoProps) => {
       sm={6}
       // xs={12}
       sx={{
-        border: {
-          lg: "1px solid red",
-          md: "1px solid green",
-          sm: "1px solid orange",
-          xs: "1px solid blue",
-        },
         width: "100%",
       }}
     >
