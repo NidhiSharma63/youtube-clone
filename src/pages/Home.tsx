@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { Grid } from "@mui/material";
+import { Grid, Box } from "@mui/material";
 import HomePage from "components/HomePage";
 import { searchContext } from "context/SearchProvider";
 import { IVideo } from "common/Interfaces";
@@ -7,6 +7,7 @@ import { useQuery } from "react-query";
 import customAxiosRequest from "constant/customAxiosRequest";
 import { BASE_URL } from "constant/Misc";
 import { useNavigate } from "react-router-dom";
+import { ThreeDots } from "react-loader-spinner";
 
 import { v4 as uuidv4 } from "uuid";
 
@@ -22,6 +23,7 @@ interface IData {
     };
     regionCode?: "IN";
   };
+  isLoading: boolean;
 }
 
 const Home = () => {
@@ -39,7 +41,7 @@ const Home = () => {
     );
   };
 
-  const { data }: IData = useQuery({
+  const { data, isLoading }: IData = useQuery({
     queryKey: ["AllVideos", state.search, nextPage],
     queryFn: () =>
       customAxiosRequest(
@@ -52,7 +54,7 @@ const Home = () => {
     select: (AllVideos) => AllVideos.data,
   });
 
-  console.log(data, "data");
+  console.log(isLoading, "isLoading");
 
   useEffect(() => {
     // As data can be undefined so first need to check because videos can have onlye Array of IVideo
@@ -95,6 +97,20 @@ const Home = () => {
       }
     }
   };
+
+  if (isLoading)
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh", // set the height of the parent container
+        }}
+      >
+        <ThreeDots color="#fff" ariaLabel="loading" />
+      </Box>
+    );
 
   return (
     <>
