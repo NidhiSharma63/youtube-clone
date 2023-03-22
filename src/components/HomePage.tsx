@@ -52,6 +52,9 @@ const HomePage = ({ videoProps }: IVideoProps) => {
       // xs={12}
       sx={{
         width: "100%",
+        justifyContent: "center",
+        display: "flex",
+        alignItems: "center",
       }}
     >
       <CoverVideoCard videoProps={videoProps} width={{ maxWidth: 320 }} />
