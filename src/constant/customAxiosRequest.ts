@@ -30,7 +30,6 @@ const options: IOptions = {
 
 function customAxiosRequest(url: string): Promise<AxiosResponse> {
   try {
-    console.log(url, "url");
     const response = axios.get(url, options);
     return response;
   } catch (error) {

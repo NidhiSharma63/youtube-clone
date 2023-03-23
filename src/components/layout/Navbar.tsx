@@ -93,10 +93,10 @@ const Navbar: React.FC = (): JSX.Element => {
   });
 
   const showHomePage = (): void => {
-    window.scrollY = 0;
     naviagte("/");
+    window.location.href = "/";
     refetch();
-    dispatch({ type: "addSearch", payload: { value: "" } });
+    setSearch("");
   };
 
   const isMenuOpen = Boolean(anchorEl);

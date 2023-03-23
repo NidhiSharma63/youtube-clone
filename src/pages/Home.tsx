@@ -35,12 +35,15 @@ const Home = () => {
   const [videos, setVideos] = useState<IVideo[]>([]);
   const mainWrapperRef = useRef<HTMLDivElement | null>(null);
 
+  const queryFunction = () => {
+    return customAxiosRequest(
+      `${BASE_URL}/search?part=snippet&q=${state.search}`
+    );
+  };
+
   const { data, isLoading }: IData = useQuery({
     queryKey: ["AllVideos", state.search, nextPage],
-    queryFn: () =>
-      customAxiosRequest(
-        `${BASE_URL}/search?part=snippet&pageToken=${nextPage}&q=${state.search}`
-      ),
+    queryFn: queryFunction,
     // staleTime: 1000 * 60 * 10000,
     refetchOnWindowFocus: false,
     refetchOnMount: false,
@@ -61,7 +64,9 @@ const Home = () => {
   }, [data?.items]);
 
   useEffect(() => {
+    // console.log(search, "setSearch");
     if (search.length !== 0) {
+      // console.log("I SHOULD RUN ONLY-----------------");
       setVideos((val: IVideo[]) => {
         if (!data?.items) {
           return val;
