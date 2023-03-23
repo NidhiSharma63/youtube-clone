@@ -2,12 +2,9 @@ import { useParams } from "react-router";
 import { useQuery } from "@tanstack/react-query";
 import customAxiosRequest from "constant/customAxiosRequest";
 import { BASE_URL } from "constant/Misc";
-import { Grid, Box, Typography, Button } from "@mui/material";
+import { Grid, Box } from "@mui/material";
 import banner from "images/banner2.jpg";
-import { useState, useEffect } from "react";
-
-import formatCounts from "utils/formatCounts";
-
+import { useState, useEffect, useRef } from "react";
 import { ISnippet, IVideo } from "common/Interfaces";
 import ChannelInfo from "components/channel/ChannelInfo";
 import HomePage from "components/HomePage";
@@ -62,6 +59,7 @@ interface IChannelVideData {
 const Channel = () => {
   const { id } = useParams();
   const [channelVideoData, setChannelVideoData] = useState<IVideo[]>([]);
+  const [positionVal, setPositionVal] = useState("relative");
 
   const { data: channelData }: IChannelData = useQuery({
     queryKey: ["channel", id],
@@ -73,7 +71,19 @@ const Channel = () => {
     refetchOnMount: false,
   });
 
-  // console.log(channelData, "chnneldata");
+  const handleScroll = () => {
+    console.log(window.scrollY);
+    if (window.scrollY > 160) {
+      setPositionVal("fixed");
+    } else {
+      setPositionVal("relative");
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const { data: channelVideo }: IChannelVideData = useQuery({
     queryKey: ["channelVideo", id],
@@ -92,17 +102,27 @@ const Channel = () => {
     // setChannelVideoData(channelVideo.)
   }, [channelVideo]);
 
-  console.log(id, "thid is ");
+  console.log(positionVal, "posiyio ");
   return (
     <Grid container>
       {channelData
         ? channelData.map((item: any) => {
             // console.log(item.);
             return (
-              <>
-                <Grid item xs={12} sx={{ height: "10rem" }}>
+              <Grid
+                item
+                xs={12}
+                sx={{
+                  position: positionVal,
+                  top: positionVal === "fixed" ? "-6rem" : 0,
+                  width: "100%",
+                  backgroundColor: "primary.main",
+                  zIndex: 9,
+                }}
+              >
+                <Box sx={{ height: "10rem" }}>
                   <img src={banner} alt="banner" className="banner-img" />
-                </Grid>
+                </Box>
                 <Grid item container>
                   <ChannelInfo
                     ChannelInfoProps={{
@@ -114,13 +134,21 @@ const Channel = () => {
                     }}
                   />
                 </Grid>
-              </>
+              </Grid>
             );
           })
         : null}
-      {channelVideoData?.map((item: IVideo) => {
-        return <HomePage key={uuidv4()} videoProps={item} />;
-      })}
+      <Grid
+        item
+        container
+        sx={{
+          marginTop: positionVal === "fixed" ? "20rem" : "0rem",
+        }}
+      >
+        {channelVideoData?.map((item: IVideo) => {
+          return <HomePage key={uuidv4()} videoProps={item} />;
+        })}
+      </Grid>
     </Grid>
   );
 };
