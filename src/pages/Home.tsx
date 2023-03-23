@@ -3,7 +3,7 @@ import { Grid } from "@mui/material";
 import HomePage from "components/HomePage";
 import { searchContext } from "context/SearchProvider";
 import { IVideo } from "common/Interfaces";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import customAxiosRequest from "constant/customAxiosRequest";
 import { BASE_URL } from "constant/Misc";
 import { useNavigate } from "react-router-dom";

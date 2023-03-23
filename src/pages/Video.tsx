@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import customAxiosRequest from "constant/customAxiosRequest";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { BASE_URL } from "constant/Misc";
 import ReactPlayer from "react-player";
 import { Typography, Box, Grid, Stack, Divider } from "@mui/material";
