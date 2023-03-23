@@ -80,7 +80,7 @@ const Navbar: React.FC = (): JSX.Element => {
   };
 
   const queryFunction = () => {
-    return customAxiosRequest(`${BASE_URL}/search?part=snippet&q=`, "");
+    return customAxiosRequest(`${BASE_URL}/search?part=snippet&q=`);
   };
 
   const { refetch } = useQuery({

@@ -100,8 +100,7 @@ export default function PersistentDrawerLeft() {
   const queryFunction = () => {
     console.log(selectedCategories, "jj");
     return customAxiosRequest(
-      `${BASE_URL}/search?part=snippet&q=${selectedCategories}`,
-      ""
+      `${BASE_URL}/search?part=snippet&q=${selectedCategories}`
     );
   };
 
