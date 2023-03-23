@@ -4,12 +4,14 @@ import customAxiosRequest from "constant/customAxiosRequest";
 import { BASE_URL } from "constant/Misc";
 import { Grid, Box, Typography, Button } from "@mui/material";
 import banner from "images/banner2.jpg";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import formatCounts from "utils/formatCounts";
 
 import { ISnippet, IVideo } from "common/Interfaces";
 import ChannelInfo from "components/channel/ChannelInfo";
+import HomePage from "components/HomePage";
+import { v4 as uuidv4 } from "uuid";
 
 interface IChannelDataSnippte extends ISnippet {
   localized: {
@@ -59,7 +61,7 @@ interface IChannelVideData {
 
 const Channel = () => {
   const { id } = useParams();
-  const [wordLength, setWordLength] = useState<number>(60);
+  const [channelVideoData, setChannelVideoData] = useState<IVideo[]>([]);
 
   const { data: channelData }: IChannelData = useQuery({
     queryKey: ["channel", id],
@@ -83,15 +85,12 @@ const Channel = () => {
     refetchOnMount: false,
   });
 
-  const hanldeWordLength = (): void => {
-    if (channelData) {
-      setWordLength((prev) => {
-        return prev === channelData[0].snippet.localized.description.length
-          ? 60
-          : channelData[0].snippet.localized.description.length;
-      });
+  useEffect(() => {
+    if (channelVideo) {
+      setChannelVideoData(channelVideo);
     }
-  };
+    // setChannelVideoData(channelVideo.)
+  }, [channelVideo]);
 
   console.log(id, "thid is ");
   return (
@@ -119,6 +118,9 @@ const Channel = () => {
             );
           })
         : null}
+      {channelVideoData?.map((item: IVideo) => {
+        return <HomePage key={uuidv4()} videoProps={item} />;
+      })}
     </Grid>
   );
 };
