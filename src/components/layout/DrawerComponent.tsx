@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useState, MouseEventHandler, useEffect } from "react";
 import { styled, useTheme } from "@mui/material/styles";
 import {
   Box,
@@ -24,6 +24,9 @@ import { categories } from "constant/categories";
 import { icons } from "assets";
 
 import { Outlet } from "react-router-dom";
+import customAxiosRequest from "constant/customAxiosRequest";
+import { BASE_URL } from "constant/Misc";
+import { useQuery } from "@tanstack/react-query";
 
 interface ICategories {
   name: string;
@@ -83,7 +86,8 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 
 export default function PersistentDrawerLeft() {
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [selectedCategories, setSelectedCategories] = useState<string>("");
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -93,6 +97,34 @@ export default function PersistentDrawerLeft() {
     setOpen(false);
   };
 
+  const queryFunction = () => {
+    console.log(selectedCategories, "jj");
+    return customAxiosRequest(
+      `${BASE_URL}/search?part=snippet&q=${selectedCategories}`
+    );
+  };
+
+  const { refetch } = useQuery({
+    queryKey: ["AllVideos"],
+    queryFn: queryFunction,
+    // staleTime: 1000 * 60 * 10000,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    enabled: false,
+  });
+  useEffect(() => {
+    if (selectedCategories) {
+      console.log(selectedCategories);
+      refetch();
+    }
+  }, [selectedCategories]);
+
+  const handleCategories = (name: string) => {
+    // console.log(name);
+    setSelectedCategories(name);
+    // refetch();
+    // Code to handle the click event goes here
+  };
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -128,7 +160,11 @@ export default function PersistentDrawerLeft() {
           {categories.map((item: ICategories) => {
             const Icon = icons[item.icon];
             return (
-              <ListItem key={item.name} disablePadding>
+              <ListItem
+                key={item.name}
+                disablePadding
+                onClick={() => handleCategories(item.name)}
+              >
                 <ListItemButton>
                   <ListItemIcon>
                     <Icon sx={{ color: "secondary.main" }} />

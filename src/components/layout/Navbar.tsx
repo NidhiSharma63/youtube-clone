@@ -10,7 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 
 import { useNavigate } from "react-router-dom";
 
@@ -80,7 +80,7 @@ const Navbar: React.FC = (): JSX.Element => {
   };
 
   const queryFunction = () => {
-    return customAxiosRequest(`${BASE_URL}/search?part=snippet&q=`, "");
+    return customAxiosRequest(`${BASE_URL}/search?part=snippet&q=`);
   };
 
   const { refetch } = useQuery({
@@ -93,10 +93,10 @@ const Navbar: React.FC = (): JSX.Element => {
   });
 
   const showHomePage = (): void => {
-    window.scrollY = 0;
     naviagte("/");
+    window.location.href = "/";
     refetch();
-    dispatch({ type: "addSearch", payload: { value: "" } });
+    setSearch("");
   };
 
   const isMenuOpen = Boolean(anchorEl);

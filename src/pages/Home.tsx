@@ -3,7 +3,7 @@ import { Grid } from "@mui/material";
 import HomePage from "components/HomePage";
 import { searchContext } from "context/SearchProvider";
 import { IVideo } from "common/Interfaces";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import customAxiosRequest from "constant/customAxiosRequest";
 import { BASE_URL } from "constant/Misc";
 import { useNavigate } from "react-router-dom";
@@ -37,18 +37,13 @@ const Home = () => {
 
   const queryFunction = () => {
     return customAxiosRequest(
-      `${BASE_URL}/search?part=snippet&q=${state.search}`,
-      nextPage
+      `${BASE_URL}/search?part=snippet&q=${state.search}`
     );
   };
 
   const { data, isLoading }: IData = useQuery({
     queryKey: ["AllVideos", state.search, nextPage],
-    queryFn: () =>
-      customAxiosRequest(
-        `${BASE_URL}/search?part=snippet&q=${state.search}`,
-        nextPage
-      ),
+    queryFn: queryFunction,
     // staleTime: 1000 * 60 * 10000,
     refetchOnWindowFocus: false,
     refetchOnMount: false,
@@ -58,12 +53,6 @@ const Home = () => {
   useEffect(() => {
     // As data can be undefined so first need to check because videos can have onlye Array of IVideo
     setVideos((prev: IVideo[]) => {
-      // console.log(
-      //   "I SHOULD RUN BUT NOT MANUPLATE THE DATA-----------------",
-      //   data?.items,
-      //   prev
-      // );
-
       // If data.items is undefined, return the previous state
       if (!data?.items) {
         return prev;
@@ -109,6 +98,7 @@ const Home = () => {
       }
       if (el.scrollTop + el.offsetHeight >= el.scrollHeight) {
         if (data?.nextPageToken) {
+          console.log(data?.nextPageToken, "next page token");
           setNextPage(data?.nextPageToken);
         }
       }

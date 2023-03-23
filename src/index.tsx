@@ -4,7 +4,7 @@ import { createRoot } from "react-dom/client";
 import "style/index.css";
 import theme from "theme/muiTheme";
 import { ThemeProvider } from "@mui/material";
-import { QueryClient, QueryClientProvider } from "react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import SearchProvider from "context/SearchProvider";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
@@ -19,7 +19,7 @@ const element = (
         </BrowserRouter>
       </ThemeProvider>
     </SearchProvider>
-    {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+    <ReactQueryDevtools initialIsOpen={false} />
   </QueryClientProvider>
 );
 
