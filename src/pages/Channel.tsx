@@ -4,7 +4,7 @@ import customAxiosRequest from "constant/customAxiosRequest";
 import { BASE_URL } from "constant/Misc";
 import { Grid, Box } from "@mui/material";
 import banner from "images/banner2.jpg";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { ISnippet, IVideo } from "common/Interfaces";
 import ChannelInfo from "components/channel/ChannelInfo";
 import HomePage from "components/HomePage";
@@ -99,7 +99,6 @@ const Channel = () => {
     if (channelVideo) {
       setChannelVideoData(channelVideo);
     }
-    // setChannelVideoData(channelVideo.)
   }, [channelVideo]);
 
   console.log(positionVal, "posiyio ");
@@ -107,7 +106,6 @@ const Channel = () => {
     <Grid container>
       {channelData
         ? channelData.map((item: any) => {
-            // console.log(item.);
             return (
               <Grid
                 item
