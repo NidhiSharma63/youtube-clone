@@ -18,6 +18,12 @@ a {
   color: black;
 }
 
+.thumbnail-img{
+  width: 8rem;
+  height: 8rem;
+  object-fit: contain;
+  border-radius: 50%;
+}
 .banner-img{
   width: 100%;
   height: 100%;

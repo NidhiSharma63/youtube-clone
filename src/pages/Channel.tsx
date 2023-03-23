@@ -2,11 +2,14 @@ import { useParams } from "react-router";
 import { useQuery } from "@tanstack/react-query";
 import customAxiosRequest from "constant/customAxiosRequest";
 import { BASE_URL } from "constant/Misc";
-import { Grid, Box } from "@mui/material";
+import { Grid, Box, Typography, Button } from "@mui/material";
 import banner from "images/banner2.jpg";
+import { useState } from "react";
 
+import formatCounts from "utils/formatCounts";
 const Channel = () => {
   const { id } = useParams();
+  const [wordLength, setWordLength] = useState<number>(60);
 
   const { data: channelData }: any = useQuery({
     queryKey: ["channel", id],
@@ -18,6 +21,14 @@ const Channel = () => {
     refetchOnMount: false,
   });
 
+  const hanldeWordLength = (): void => {
+    setWordLength((prev) => {
+      return prev === channelData[0].snippet.localized.description.length
+        ? 60
+        : channelData[0].snippet.localized.description.length;
+    });
+  };
+
   console.log(channelData, "hhhhhhh");
   console.log(id, "thid is ");
   return (
@@ -27,8 +38,95 @@ const Channel = () => {
             // console.log(item.);
             return (
               <>
-                <Grid item xs={12} sx={{ height: "16rem" }}>
+                <Grid item xs={12} sx={{ height: "10rem" }}>
                   <img src={banner} alt="banner" className="banner-img" />
+                </Grid>
+                <Grid item container>
+                  <Grid
+                    item
+                    direction={"row"}
+                    xs={12}
+                    sx={{
+                      paddingLeft: "1rem",
+                      paddingRight: "1rem",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        display: "flex",
+                        paddingTop: "1rem",
+                        alignItems: "flex-start",
+                        justifyContent: "center",
+                        gap: "1rem",
+                      }}
+                    >
+                      <img
+                        src={item.snippet.thumbnails.high.url}
+                        alt="banner"
+                        className="thumbnail-img"
+                      />
+                      <Box>
+                        <Typography
+                          variant="h6"
+                          sx={{ color: "secondary.main" }}
+                        >
+                          {item.snippet.title}
+                        </Typography>
+                        <Typography
+                          variant="body1"
+                          sx={{ color: "secondary.dark" }}
+                        >
+                          {item.snippet.localized.description.slice(
+                            0,
+                            wordLength
+                          )}
+                          {wordLength === 60 ? "..." : ""}
+                          {wordLength ===
+                          item.snippet.localized.description.length ? (
+                            <Button
+                              variant="text"
+                              sx={{ color: "secondary.main" }}
+                              onClick={hanldeWordLength}
+                            >
+                              Show Less
+                            </Button>
+                          ) : (
+                            <Button
+                              variant="text"
+                              sx={{ color: "secondary.main" }}
+                              onClick={hanldeWordLength}
+                            >
+                              Show more
+                            </Button>
+                          )}
+                        </Typography>
+                        <Typography
+                          variant="body1"
+                          sx={{ color: "secondary.dark" }}
+                        >
+                          {formatCounts(item.statistics.subscriberCount)}{" "}
+                          subscribers {formatCounts(item.statistics.videoCount)}{" "}
+                          views
+                        </Typography>{" "}
+                      </Box>
+                    </Box>
+                    <Box width="8rem">
+                      <Button
+                        variant="contained"
+                        sx={{
+                          ml: 3,
+                          borderRadius: 5,
+                          backgroundColor: "secondary.main",
+                          color: "primary.main",
+                        }}
+                      >
+                        Subscribe
+                      </Button>
+                    </Box>
+                  </Grid>
                 </Grid>
               </>
             );
