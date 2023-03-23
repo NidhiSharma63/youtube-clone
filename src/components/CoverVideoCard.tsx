@@ -16,7 +16,10 @@ const CoverVideoCard = (props: IProps) => {
   const { videoProps, width } = props;
   const navigate = useNavigate();
   const handleClick = (id: string): void => {
-    if (window.location.pathname.includes("/video")) {
+    if (
+      window.location.pathname.includes("/video") ||
+      window.location.pathname.includes("/search")
+    ) {
       window.location.href = `/video/${id}`;
     } else {
       navigate(`video/${id}`);
