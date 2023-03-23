@@ -3,7 +3,7 @@ import customAxiosRequest from "constant/customAxiosRequest";
 import { useQuery } from "@tanstack/react-query";
 import { BASE_URL } from "constant/Misc";
 import ReactPlayer from "react-player";
-import { Typography, Box, Grid, Stack, Divider } from "@mui/material";
+import { Typography, Box, Grid, Divider } from "@mui/material";
 import { ISnippet } from "common/Interfaces";
 import VideoInfo from "components/video/VideoInfo";
 import VideoDescription from "components/video/VideoDescription";
@@ -12,6 +12,7 @@ import VideoComments from "components/video/VideoComments";
 import CoverVideoCard from "components/CoverVideoCard";
 import { IVideo } from "common/Interfaces";
 import { v4 as uuidv4 } from "uuid";
+import { useState, useEffect } from "react";
 
 import Loader from "components/Loader";
 interface ISnippetVideo extends ISnippet {
@@ -58,6 +59,7 @@ interface ISuggestedVideo {
 
 const Video = () => {
   const { id } = useParams();
+  const [channelId, setChannelId] = useState<string>("");
   const { data: videoData, isLoading }: IData = useQuery({
     queryKey: ["video", id],
     queryFn: () =>
@@ -79,6 +81,13 @@ const Video = () => {
     refetchOnWindowFocus: false,
     refetchOnMount: false,
   });
+  useEffect(() => {
+    if (videoData) {
+      setChannelId(videoData[0].snippet.channelId);
+    }
+  }, [videoData]);
+
+  console.log(channelId);
 
   const { data: suggestVideo }: ISuggestedVideo = useQuery({
     queryKey: ["suggestedVideo", id],
@@ -91,6 +100,18 @@ const Video = () => {
     refetchOnWindowFocus: false,
     refetchOnMount: false,
   });
+
+  // const { data: channelData }: any = useQuery({
+  //   queryKey: ["channel", channelId],
+  //   queryFn: () =>
+  //     customAxiosRequest(`${BASE_URL}/channels?part=snippet&id=${channelId}`),
+  //   staleTime: 1000 * 60 * 10000,
+  //   select: (suggestedVideo) => suggestedVideo.data.items,
+  //   refetchOnWindowFocus: false,
+  //   refetchOnMount: false,
+  // });
+
+  // console.log(channelData, "hhhhhhh");
 
   if (isLoading) return <Loader />;
 
@@ -112,6 +133,7 @@ const Video = () => {
             videoProps={{
               channelTitle: videoData?.[0].snippet.channelTitle,
               likeCount: videoData?.[0].statistics.likeCount,
+              channelId: channelId,
             }}
           />
         )}
@@ -134,8 +156,6 @@ const Video = () => {
               return <VideoComments commentsData={comment} />;
             })}
         </Box>
-        {/* <Typography variant="h1">THIS IS H1</Typography> */}
-        <Stack></Stack>
       </Grid>
       <Grid
         item

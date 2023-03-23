@@ -1,6 +1,8 @@
-declare module 'images/logo' {
+declare module "images/logo" {
   const value: string;
   export default value;
 }
 
-declare module "*.png"
+declare module "*.jpeg";
+declare module "*.png";
+declare module "*.jpg";
