@@ -1,4 +1,4 @@
-import { useState, MouseEventHandler, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { styled, useTheme } from "@mui/material/styles";
 import {
   Box,
@@ -27,6 +27,7 @@ import { Outlet } from "react-router-dom";
 import customAxiosRequest from "constant/customAxiosRequest";
 import { BASE_URL } from "constant/Misc";
 import { useQuery } from "@tanstack/react-query";
+import { searchContext } from "context/SearchProvider";
 
 interface ICategories {
   name: string;
@@ -88,6 +89,7 @@ export default function PersistentDrawerLeft() {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState<string>("");
+  const { dispatch } = useContext(searchContext);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -112,18 +114,12 @@ export default function PersistentDrawerLeft() {
     refetchOnMount: false,
     enabled: false,
   });
-  useEffect(() => {
-    if (selectedCategories) {
-      console.log(selectedCategories);
-      refetch();
-    }
-  }, [selectedCategories]);
 
   const handleCategories = (name: string) => {
     // console.log(name);
     setSelectedCategories(name);
-    // refetch();
-    // Code to handle the click event goes here
+    dispatch({ type: "addSearchCategory", payload: { value: name } });
+    dispatch({ type: "addSearch", payload: { value: "" } });
   };
   return (
     <Box sx={{ display: "flex" }}>

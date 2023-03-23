@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { styled, alpha } from "@mui/material/styles";
 import {
   Box,
@@ -69,19 +69,26 @@ const Navbar: React.FC = (): JSX.Element => {
     React.useState<null | HTMLElement>(null);
   const [search, setSearch] = useState("");
 
-  const { dispatch } = useContext(searchContext);
+  const { dispatch, state } = useContext(searchContext);
 
   const handleSearch: React.KeyboardEventHandler<HTMLInputElement> = (
     event
   ) => {
     if (event.key === "Enter") {
       dispatch({ type: "addSearch", payload: { value: search } });
+      dispatch({ type: "addSearchCategory", payload: { value: "" } });
     }
   };
 
   const queryFunction = () => {
     return customAxiosRequest(`${BASE_URL}/search?part=snippet&q=`);
   };
+
+  useEffect(() => {
+    if (state.search.length === 0) {
+      setSearch("");
+    }
+  }, [state.search]);
 
   const { refetch } = useQuery({
     queryKey: ["AllVideos"],

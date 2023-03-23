@@ -30,19 +30,22 @@ const Home = () => {
   const { state } = useContext(searchContext);
   const [search, setSearch] = useState<string>(state.search);
   const [nextPage, setNextPage] = useState<string>("");
+  const [val, setVal] = useState("");
 
+  console.log(state.category, "category");
   const navigate = useNavigate();
   const [videos, setVideos] = useState<IVideo[]>([]);
   const mainWrapperRef = useRef<HTMLDivElement | null>(null);
 
   const queryFunction = () => {
     return customAxiosRequest(
-      `${BASE_URL}/search?part=snippet&q=${state.search}`
+      `${BASE_URL}/search?part=snippet&q=${state.search || state.category}`
     );
   };
 
+  useEffect(() => {}, []);
   const { data, isLoading }: IData = useQuery({
-    queryKey: ["AllVideos", state.search, nextPage],
+    queryKey: ["AllVideos", state.search, nextPage, state.category],
     queryFn: queryFunction,
     // staleTime: 1000 * 60 * 10000,
     refetchOnWindowFocus: false,
@@ -81,6 +84,7 @@ const Home = () => {
       setSearch(state.search);
       navigate(`/search?=${state.search}`);
     }
+
     if (mainWrapperRef.current !== null) {
       mainWrapperRef.current.scrollTop = 0;
     }
