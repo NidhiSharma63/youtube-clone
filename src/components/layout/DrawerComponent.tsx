@@ -20,9 +20,35 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
 import MuiDrawer from "muiStyledComponents/Drawer";
 import Navbar from "components/layout/Navbar";
+import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
+import HomeIcon from "@mui/icons-material/Home";
+import HeadphonesIcon from "@mui/icons-material/Headphones";
+import CodeIcon from "@mui/icons-material/Code";
+import TempleHinduIcon from "@mui/icons-material/TempleHindu";
+import SportsEsportsIcon from "@mui/icons-material/SportsEsports";
+import SwitchAccessShortcutIcon from "@mui/icons-material/SwitchAccessShortcut";
+import TheaterComedyIcon from "@mui/icons-material/TheaterComedy";
+
 import { categories } from "constant/categories";
 
 import { Outlet } from "react-router-dom";
+import Icon from "@mui/material/Icon";
+
+const icons = {
+  DirectionsCarIcon,
+  HomeIcon,
+  CodeIcon,
+  HeadphonesIcon,
+  TempleHinduIcon,
+  SportsEsportsIcon,
+  SwitchAccessShortcutIcon,
+  TheaterComedyIcon,
+};
+
+interface ICategories {
+  name: string;
+  icon: keyof typeof icons;
+}
 
 const drawerWidth = 190;
 
@@ -119,13 +145,22 @@ export default function PersistentDrawerLeft() {
         </DrawerHeader>
         <Divider />
         <List>
-          {categories.map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton>
-                <ListItemText sx={{ color: "secondary.main" }} primary={text} />
-              </ListItemButton>
-            </ListItem>
-          ))}
+          {categories.map((item: ICategories) => {
+            const Icon = icons[item.icon];
+            return (
+              <ListItem key={item.name} disablePadding>
+                <ListItemButton>
+                  <ListItemIcon>
+                    <Icon sx={{ color: "secondary.main" }} />
+                  </ListItemIcon>
+                  <ListItemText
+                    sx={{ color: "secondary.main" }}
+                    primary={item.name}
+                  />
+                </ListItemButton>
+              </ListItem>
+            );
+          })}
         </List>
         {/* <Divider /> */}
       </MuiDrawer>
