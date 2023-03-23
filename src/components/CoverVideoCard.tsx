@@ -18,7 +18,8 @@ const CoverVideoCard = (props: IProps) => {
   const handleClick = (id: string): void => {
     if (
       window.location.pathname.includes("/video") ||
-      window.location.pathname.includes("/search")
+      window.location.pathname.includes("/search") ||
+      window.location.pathname.includes("/channel")
     ) {
       window.location.href = `/video/${id}`;
     } else {

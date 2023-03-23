@@ -180,7 +180,7 @@ export default function PersistentDrawerLeft() {
         </List>
         {/* <Divider /> */}
       </MuiDrawer>
-      <Main open={open}>
+      <Main open={open} sx={{ p: 0 }}>
         <DrawerHeader />
         <Outlet />
       </Main>

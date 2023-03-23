@@ -5,10 +5,12 @@ import formatCounts from "utils/formatCounts";
 import ReplyIcon from "@mui/icons-material/Reply";
 import DownloadIcon from "@mui/icons-material/Download";
 import MoreIcon from "@mui/icons-material/MoreVert";
+import { Link } from "react-router-dom";
 
 interface IVideoInfoProps {
   videoProps: {
     channelTitle: string;
+    channelId: string;
     likeCount: string;
   };
 }
@@ -19,11 +21,8 @@ const VideoInfo = ({ videoProps }: IVideoInfoProps) => {
       sx={{
         display: "flex",
         justifyContent: "space-between",
-        // flexDirection: "row",
         flexDirection: { xs: "column", custom: "row" },
         gap: ".5rem",
-        // flexDirection: "column",
-        // border: "1px solid red",
       }}
     >
       {/*  */}
@@ -33,9 +32,11 @@ const VideoInfo = ({ videoProps }: IVideoInfoProps) => {
           alignItems: "center",
         }}
       >
-        <Typography variant="subtitle1" color="secondary.main">
-          {videoProps.channelTitle}
-        </Typography>
+        <Link to={`/channel/${videoProps.channelId}`}>
+          <Typography sx={{ color: "secondary.main" }}>
+            {videoProps.channelTitle}
+          </Typography>
+        </Link>
         <CheckCircleIcon
           sx={{ fontSize: ".9rem", ml: 1, color: "secondary.dark" }}
         />
