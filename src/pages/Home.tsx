@@ -49,12 +49,12 @@ const Home = () => {
   }, [state.category, state.search]);
 
   const queryFunction = () => {
+    console.log(searchValue, "SEARCH VALUE------");
     return customAxiosRequest(
       `${BASE_URL}/search?part=snippet&q=${searchValue}`
     );
   };
 
-  useEffect(() => {}, []);
   const { data, isLoading }: IData = useQuery({
     queryKey: ["AllVideos", nextPage, searchValue],
     queryFn: queryFunction,
@@ -64,6 +64,7 @@ const Home = () => {
     select: (AllVideos) => AllVideos.data,
   });
 
+  // console.log(isLoading, "this is loading");
   useEffect(() => {
     // As data can be undefined so first need to check because videos can have onlye Array of IVideo
     setVideos((prev: IVideo[]) => {
@@ -79,8 +80,8 @@ const Home = () => {
 
   useEffect(() => {
     // console.log(search, "setSearch");
-    if (search.length !== 0) {
-      // console.log("I SHOULD RUN ONLY-----------------");
+    if (searchValue.length !== 0) {
+      console.log("I SHOULD RUN ONLY-----------------");
       setVideos((val: IVideo[]) => {
         if (!data?.items) {
           return val;
@@ -88,7 +89,7 @@ const Home = () => {
         return data?.items;
       });
     }
-  }, [search, data]);
+  }, [searchValue, data]);
 
   useEffect(() => {
     if (state.search) {
@@ -113,7 +114,6 @@ const Home = () => {
       }
       if (el.scrollTop + el.offsetHeight >= el.scrollHeight) {
         if (data?.nextPageToken) {
-          console.log(data?.nextPageToken, "next page token");
           setNextPage(data?.nextPageToken);
         }
       }
@@ -141,6 +141,8 @@ const Home = () => {
           return <HomePage key={uuidv4()} videoProps={item} />;
         })}
       </Grid>
+      {/* <Loader /> */}
+      {/* {isLoading ? <Loader /> : null} */}
     </>
   );
 };
