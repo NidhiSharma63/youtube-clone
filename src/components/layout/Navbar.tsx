@@ -94,6 +94,7 @@ const Navbar: React.FC = (): JSX.Element => {
 
   const showHomePage = (): void => {
     naviagte("/");
+    dispatch({ type: "addSearch", payload: { value: "" } });
     refetch();
     setSearch("");
   };
