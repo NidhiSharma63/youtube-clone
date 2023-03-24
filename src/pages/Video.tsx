@@ -87,8 +87,6 @@ const Video = () => {
     }
   }, [videoData]);
 
-  console.log(channelId);
-
   const { data: suggestVideo }: ISuggestedVideo = useQuery({
     queryKey: ["suggestedVideo", id],
     queryFn: () =>
@@ -116,7 +114,15 @@ const Video = () => {
   if (isLoading) return <Loader />;
 
   return (
-    <Grid container spacing={1} mt={0.5}>
+    <Grid
+      container
+      mt={0.3}
+      spacing={1}
+      sx={{
+        p: 0,
+        justifyContent: "space-around",
+      }}
+    >
       <Grid item xs={12} custom={8}>
         <ReactPlayer
           url={`https://www.youtube.com/watch?v=${id}`}
@@ -146,11 +152,8 @@ const Video = () => {
             }}
           />
         )}
-        <Box
-          sx={{
-            display: { custom: "block", xs: "none" },
-          }}
-        >
+
+        <Box sx={{ display: { xs: "none", custom: "block" } }}>
           {commentData &&
             commentData.map((comment: IComments) => {
               return <VideoComments commentsData={comment} />;
@@ -160,12 +163,13 @@ const Video = () => {
       <Grid
         item
         xs={12}
-        custom={4}
-        mt="-1rem"
+        custom={3.2}
         sx={{
           display: "flex",
-          alignItems: { xs: "center", sm: "flex-start" },
+          marginTop: "-1rem",
+          alignItems: { custom: "center", xs: "flex-start" },
           flexDirection: "column",
+          paddingRight: 0,
         }}
       >
         {suggestVideo
@@ -174,13 +178,19 @@ const Video = () => {
                 <CoverVideoCard
                   key={uuidv4()}
                   videoProps={suggestion}
-                  width={{ width: 345 }}
+                  width={{ maxWidth: 345 }}
                 />
               );
             })
           : null}
       </Grid>
-      <Grid item sx={{ display: { custom: "none", xs: "block" } }}>
+      <Grid
+        item
+        xs={12}
+        sx={{
+          display: { custom: "none", xs: "block" },
+        }}
+      >
         <Divider />
         {commentData &&
           commentData.map((comment: IComments) => {
