@@ -116,8 +116,8 @@ const Video = () => {
   if (isLoading) return <Loader />;
 
   return (
-    <Grid container spacing={1} mt={0.3}>
-      <Grid item xs={12} custom={8}>
+    <Grid container mt={0.3} sx={{ border: "1px solid yellow", p: 0 }}>
+      <Grid item xs={12} custom={8} sx={{ border: "1px solid red" }}>
         <ReactPlayer
           url={`https://www.youtube.com/watch?v=${id}`}
           controls
@@ -146,11 +146,8 @@ const Video = () => {
             }}
           />
         )}
-        <Box
-          sx={{
-            display: { custom: "block", xs: "none" },
-          }}
-        >
+
+        <Box sx={{ display: { xs: "none", custom: "block" } }}>
           {commentData &&
             commentData.map((comment: IComments) => {
               return <VideoComments commentsData={comment} />;
@@ -161,11 +158,13 @@ const Video = () => {
         item
         xs={12}
         custom={4}
-        mt="-1rem"
         sx={{
           display: "flex",
-          alignItems: { xs: "center", sm: "flex-start" },
+          border: "3px solid green",
+          p: 0,
+          alignItems: { custom: "center", xs: "flex-start" },
           flexDirection: "column",
+          paddingRight: 0,
         }}
       >
         {suggestVideo
@@ -180,7 +179,14 @@ const Video = () => {
             })
           : null}
       </Grid>
-      <Grid item sx={{ display: { custom: "none", xs: "block" } }}>
+      <Grid
+        item
+        xs={12}
+        sx={{
+          display: { custom: "none", xs: "block" },
+          border: "1px solid green",
+        }}
+      >
         <Divider />
         {commentData &&
           commentData.map((comment: IComments) => {
