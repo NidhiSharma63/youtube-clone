@@ -1,7 +1,6 @@
 import { Grid } from "@mui/material";
 
 import { IVideo } from "common/Interfaces";
-import { useEffect, useState } from "react";
 
 import CoverVideoCard from "components/CoverVideoCard";
 
@@ -10,8 +9,6 @@ interface IVideoProps {
 }
 
 const HomePage = ({ videoProps }: IVideoProps) => {
-  const [publishedTime, setPublishedTime] = useState<string>();
-
   // useEffect(() => {
   //   const interval = setInterval(() => {
   //     const videoPublishedTime = new Date(videoProps.snippet.publishTime);

@@ -23,7 +23,7 @@ import Navbar from "components/layout/Navbar";
 import { categories } from "constant/categories";
 import { icons } from "assets";
 
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import { searchContext } from "context/SearchProvider";
 
 interface ICategories {
