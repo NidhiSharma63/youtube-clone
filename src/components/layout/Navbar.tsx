@@ -90,21 +90,11 @@ const Navbar: React.FC = (): JSX.Element => {
     }
   }, [state.search]);
 
-  const { refetch } = useQuery({
-    queryKey: ["AllVideos"],
-    queryFn: queryFunction,
-    // staleTime: 1000 * 60 * 10000,
-    refetchOnWindowFocus: false,
-    refetchOnMount: false,
-    enabled: false,
-  });
-
   const showHomePage = (): void => {
     navigate("/");
     dispatch({ type: "addSearch", payload: { value: "" } });
     dispatch({ type: "addSearchCategory", payload: { value: "" } });
 
-    refetch();
     setSearch("");
   };
 

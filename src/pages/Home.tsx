@@ -51,22 +51,6 @@ const Home = () => {
 
   const { data, isLoading } = useFetchAllVideos(nextPage, searchValue);
 
-  // const queryFunction = () => {
-  //   console.log(searchValue, "SEARCH VALUE------");
-  //   return customAxiosRequest(
-  //     `${BASE_URL}/search?part=snippet&q=${searchValue}`
-  //   );
-  // };
-
-  // const { data, isLoading }: IData = useQuery({
-  //   queryKey: ["AllVideos", nextPage, searchValue],
-  //   queryFn: queryFunction,
-  //   staleTime: Infinity,
-  //   refetchOnWindowFocus: false,
-  //   refetchOnMount: false,
-  //   select: (AllVideos) => AllVideos.data,
-  // });
-
   // console.log(isLoading, "this is loading");
   useEffect(() => {
     // As data can be undefined so first need to check because videos can have onlye Array of IVideo
@@ -82,6 +66,15 @@ const Home = () => {
   }, [data?.items]);
 
   useEffect(() => {
+    if (window.location.pathname === "/" && state.category.length === 0) {
+      setSearchValue("");
+    }
+    if (window.location.pathname === "/" && state.search.length === 0) {
+      setSearchValue("");
+    }
+  }, [state.category, state.search]);
+
+  useEffect(() => {
     // console.log(search, "setSearch");
     if (searchValue.length !== 0) {
       // console.log("I SHOULD RUN ONLY-----------------");
@@ -92,18 +85,23 @@ const Home = () => {
         return data?.items;
       });
     }
-  }, [searchValue, data]);
-
-  // useEffect(() => {
-  //   if (state.search) {
-  //     setSearch(state.search);
-  //     navigate(`/search?=${state.search}`);
-  //   }
-
-  //   if (mainWrapperRef.current !== null) {
-  //     mainWrapperRef.current.scrollTop = 0;
-  //   }
-  // }, [search, navigate]);
+    if (window.location.pathname === "/" && state.category.length === 0) {
+      setVideos((val: IVideo[]) => {
+        if (!data?.items) {
+          return val;
+        }
+        return data?.items;
+      });
+    }
+    if (window.location.pathname === "/" && state.search.length === 0) {
+      setVideos((val: IVideo[]) => {
+        if (!data?.items) {
+          return val;
+        }
+        return data?.items;
+      });
+    }
+  }, [searchValue, data, state.category, state.search]);
 
   // if user reaches at the end then set the next page token and it will refecth the data
   const handleScroll = useCallback(
@@ -145,8 +143,6 @@ const Home = () => {
           return <HomePage key={uuidv4()} videoProps={item} />;
         })}
       </Grid>
-      {/* <Loader /> */}
-      {/* {isLoading ? <Loader /> : null} */}
     </>
   );
 };
