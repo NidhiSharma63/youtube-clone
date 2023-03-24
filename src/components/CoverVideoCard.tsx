@@ -8,7 +8,7 @@ interface IProps {
   videoProps: IVideo;
   width: {
     maxWidth?: number;
-    width?: number;
+    width?: number | string;
   };
 }
 

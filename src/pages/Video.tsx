@@ -60,6 +60,7 @@ interface ISuggestedVideo {
 const Video = () => {
   const { id } = useParams();
   const [channelId, setChannelId] = useState<string>("");
+  const [widthVal, setWidthVal] = useState<string | number>("");
   const { data: videoData, isLoading }: IData = useQuery({
     queryKey: ["video", id],
     queryFn: () =>
@@ -87,8 +88,6 @@ const Video = () => {
     }
   }, [videoData]);
 
-  console.log(channelId);
-
   const { data: suggestVideo }: ISuggestedVideo = useQuery({
     queryKey: ["suggestedVideo", id],
     queryFn: () =>
@@ -115,8 +114,18 @@ const Video = () => {
 
   if (isLoading) return <Loader />;
 
+  console.log(widthVal, "width vale");
+
   return (
-    <Grid container mt={0.3} sx={{ border: "1px solid yellow", p: 0 }}>
+    <Grid
+      container
+      mt={0.3}
+      spacing={1}
+      sx={{
+        p: 0,
+        justifyContent: "space-around",
+      }}
+    >
       <Grid item xs={12} custom={8} sx={{ border: "1px solid red" }}>
         <ReactPlayer
           url={`https://www.youtube.com/watch?v=${id}`}
@@ -157,11 +166,10 @@ const Video = () => {
       <Grid
         item
         xs={12}
-        custom={4}
+        custom={3.2}
         sx={{
           display: "flex",
-          border: "3px solid green",
-          p: 0,
+          marginTop: "-1rem",
           alignItems: { custom: "center", xs: "flex-start" },
           flexDirection: "column",
           paddingRight: 0,
@@ -173,7 +181,7 @@ const Video = () => {
                 <CoverVideoCard
                   key={uuidv4()}
                   videoProps={suggestion}
-                  width={{ width: 345 }}
+                  width={{ maxWidth: 345 }}
                 />
               );
             })
@@ -184,7 +192,6 @@ const Video = () => {
         xs={12}
         sx={{
           display: { custom: "none", xs: "block" },
-          border: "1px solid green",
         }}
       >
         <Divider />
