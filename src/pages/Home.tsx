@@ -122,6 +122,7 @@ const Home = () => {
   );
 
   if (isLoading && videos.length === 0) return <Loader />;
+  if (isLoading && searchValue.length > 0) return <Loader />;
 
   return (
     <>
