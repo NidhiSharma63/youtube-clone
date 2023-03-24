@@ -16,7 +16,6 @@ import { useNavigate } from "react-router-dom";
 
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import SearchIcon from "@mui/icons-material/Search";
-import MoreIcon from "@mui/icons-material/MoreVert";
 import logo from "images/logo.png";
 import { searchContext } from "context/SearchProvider";
 import customAxiosRequest from "constant/customAxiosRequest";
@@ -63,7 +62,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const Navbar: React.FC = (): JSX.Element => {
-  const naviagte = useNavigate();
+  const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     React.useState<null | HTMLElement>(null);
@@ -77,6 +76,7 @@ const Navbar: React.FC = (): JSX.Element => {
     if (event.key === "Enter") {
       dispatch({ type: "addSearch", payload: { value: search } });
       dispatch({ type: "addSearchCategory", payload: { value: "" } });
+      navigate("/");
     }
   };
 
@@ -100,7 +100,7 @@ const Navbar: React.FC = (): JSX.Element => {
   });
 
   const showHomePage = (): void => {
-    naviagte("/");
+    navigate("/");
     dispatch({ type: "addSearch", payload: { value: "" } });
     refetch();
     setSearch("");

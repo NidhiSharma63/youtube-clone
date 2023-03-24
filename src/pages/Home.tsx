@@ -30,22 +30,33 @@ const Home = () => {
   const { state } = useContext(searchContext);
   const [search, setSearch] = useState<string>(state.search);
   const [nextPage, setNextPage] = useState<string>("");
-  const [val, setVal] = useState("");
-
-  console.log(state.category, "category");
+  const [searchValue, setSearchValue] = useState("");
   const navigate = useNavigate();
   const [videos, setVideos] = useState<IVideo[]>([]);
   const mainWrapperRef = useRef<HTMLDivElement | null>(null);
 
+  useEffect(() => {
+    if (state.search.length > 0) {
+      // console.log("I RUNG SEARCH", state.search);
+      setSearchValue(state.search);
+    }
+
+    if (state.category.length > 0) {
+      // console.log("I RUNG CATEGORY", state.category);
+
+      setSearchValue(state.category);
+    }
+  }, [state.category, state.search]);
+
   const queryFunction = () => {
     return customAxiosRequest(
-      `${BASE_URL}/search?part=snippet&q=${state.search || state.category}`
+      `${BASE_URL}/search?part=snippet&q=${searchValue}`
     );
   };
 
   useEffect(() => {}, []);
   const { data, isLoading }: IData = useQuery({
-    queryKey: ["AllVideos", state.search, nextPage, state.category],
+    queryKey: ["AllVideos", nextPage, searchValue],
     queryFn: queryFunction,
     // staleTime: 1000 * 60 * 10000,
     refetchOnWindowFocus: false,

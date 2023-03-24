@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useContext } from "react";
 import { styled, useTheme } from "@mui/material/styles";
 import {
   Box,
@@ -23,10 +23,7 @@ import Navbar from "components/layout/Navbar";
 import { categories } from "constant/categories";
 import { icons } from "assets";
 
-import { Outlet } from "react-router-dom";
-import customAxiosRequest from "constant/customAxiosRequest";
-import { BASE_URL } from "constant/Misc";
-import { useQuery } from "@tanstack/react-query";
+import { Outlet, useNavigate } from "react-router-dom";
 import { searchContext } from "context/SearchProvider";
 
 interface ICategories {
@@ -88,8 +85,8 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 export default function PersistentDrawerLeft() {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
-  const [selectedCategories, setSelectedCategories] = useState<string>("");
   const { dispatch } = useContext(searchContext);
+  const navigate = useNavigate();
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -99,27 +96,10 @@ export default function PersistentDrawerLeft() {
     setOpen(false);
   };
 
-  const queryFunction = () => {
-    console.log(selectedCategories, "jj");
-    return customAxiosRequest(
-      `${BASE_URL}/search?part=snippet&q=${selectedCategories}`
-    );
-  };
-
-  const { refetch } = useQuery({
-    queryKey: ["AllVideos"],
-    queryFn: queryFunction,
-    // staleTime: 1000 * 60 * 10000,
-    refetchOnWindowFocus: false,
-    refetchOnMount: false,
-    enabled: false,
-  });
-
   const handleCategories = (name: string) => {
-    // console.log(name);
-    setSelectedCategories(name);
     dispatch({ type: "addSearchCategory", payload: { value: name } });
     dispatch({ type: "addSearch", payload: { value: "" } });
+    navigate("/");
   };
   return (
     <Box sx={{ display: "flex" }}>
