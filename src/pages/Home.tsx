@@ -3,11 +3,9 @@ import { Grid } from "@mui/material";
 import HomePage from "components/HomePage";
 import { searchContext } from "context/SearchProvider";
 import { IVideo } from "common/Interfaces";
-import { useQuery } from "@tanstack/react-query";
-import customAxiosRequest from "constant/customAxiosRequest";
-import { BASE_URL } from "constant/Misc";
 import { useNavigate } from "react-router-dom";
 import Loader from "components/Loader";
+import { useFetchAllVideos } from "hook/useFetchAllVideos";
 
 import { v4 as uuidv4 } from "uuid";
 
@@ -30,7 +28,7 @@ const Home = () => {
   const { state } = useContext(searchContext);
   const [search, setSearch] = useState<string>(state.search);
   const [nextPage, setNextPage] = useState<string>("");
-  const [searchValue, setSearchValue] = useState("");
+  const [searchValue, setSearchValue] = useState<string>("");
   const navigate = useNavigate();
   const [videos, setVideos] = useState<IVideo[]>([]);
   const mainWrapperRef = useRef<HTMLDivElement | null>(null);
@@ -51,21 +49,23 @@ const Home = () => {
     }
   }, [state.category, state.search, navigate]);
 
-  const queryFunction = () => {
-    console.log(searchValue, "SEARCH VALUE------");
-    return customAxiosRequest(
-      `${BASE_URL}/search?part=snippet&q=${searchValue}`
-    );
-  };
+  const { data, isLoading } = useFetchAllVideos(nextPage, searchValue);
 
-  const { data, isLoading }: IData = useQuery({
-    queryKey: ["AllVideos", nextPage, searchValue],
-    queryFn: queryFunction,
-    staleTime: Infinity,
-    refetchOnWindowFocus: false,
-    refetchOnMount: false,
-    select: (AllVideos) => AllVideos.data,
-  });
+  // const queryFunction = () => {
+  //   console.log(searchValue, "SEARCH VALUE------");
+  //   return customAxiosRequest(
+  //     `${BASE_URL}/search?part=snippet&q=${searchValue}`
+  //   );
+  // };
+
+  // const { data, isLoading }: IData = useQuery({
+  //   queryKey: ["AllVideos", nextPage, searchValue],
+  //   queryFn: queryFunction,
+  //   staleTime: Infinity,
+  //   refetchOnWindowFocus: false,
+  //   refetchOnMount: false,
+  //   select: (AllVideos) => AllVideos.data,
+  // });
 
   // console.log(isLoading, "this is loading");
   useEffect(() => {
