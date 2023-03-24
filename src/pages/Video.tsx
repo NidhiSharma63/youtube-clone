@@ -116,7 +116,7 @@ const Video = () => {
   if (isLoading) return <Loader />;
 
   return (
-    <Grid container spacing={1}>
+    <Grid container spacing={1} mt={0.5}>
       <Grid item xs={12} custom={8}>
         <ReactPlayer
           url={`https://www.youtube.com/watch?v=${id}`}
