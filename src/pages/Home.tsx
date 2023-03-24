@@ -132,7 +132,7 @@ const Home = () => {
         ref={mainWrapperRef}
         spacing={1}
         sx={{
-          height: { xs: "auto", sm: "100vw" },
+          height: { xs: "auto", custom: "100vw" },
           overflowY: "scroll",
           overflowX: "hidden",
           justifyContent: "center",

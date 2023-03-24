@@ -60,7 +60,6 @@ interface ISuggestedVideo {
 const Video = () => {
   const { id } = useParams();
   const [channelId, setChannelId] = useState<string>("");
-  const [widthVal, setWidthVal] = useState<string | number>("");
   const { data: videoData, isLoading }: IData = useQuery({
     queryKey: ["video", id],
     queryFn: () =>
@@ -114,8 +113,6 @@ const Video = () => {
 
   if (isLoading) return <Loader />;
 
-  console.log(widthVal, "width vale");
-
   return (
     <Grid
       container
@@ -126,7 +123,7 @@ const Video = () => {
         justifyContent: "space-around",
       }}
     >
-      <Grid item xs={12} custom={8} sx={{ border: "1px solid red" }}>
+      <Grid item xs={12} custom={8}>
         <ReactPlayer
           url={`https://www.youtube.com/watch?v=${id}`}
           controls
