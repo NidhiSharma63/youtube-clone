@@ -94,7 +94,6 @@ const Navbar: React.FC = (): JSX.Element => {
 
   const showHomePage = (): void => {
     naviagte("/");
-    window.location.href = "/";
     refetch();
     setSearch("");
   };
