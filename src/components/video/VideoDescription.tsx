@@ -1,4 +1,4 @@
-import { Typography, Box, Grid, Button } from "@mui/material";
+import { Typography, Box, Button } from "@mui/material";
 import formatCounts from "utils/formatCounts";
 
 import { useState } from "react";
