@@ -9,21 +9,6 @@ import { useFetchAllVideos } from "hook/useFetchAllVideos";
 
 import { v4 as uuidv4 } from "uuid";
 
-// sometimes data is undefined so we need to make all properties optional
-interface IData {
-  data?: {
-    items?: IVideo[];
-    kind?: string;
-    nextPageToken?: string;
-    pageInfo?: {
-      resultsPerPage?: number;
-      totalResults?: number;
-    };
-    regionCode?: "IN";
-  };
-  isLoading: boolean;
-}
-
 const Home = () => {
   const { state } = useContext(searchContext);
   const [search, setSearch] = useState<string>(state.search);
