@@ -10,16 +10,12 @@ import {
   Typography,
 } from "@mui/material";
 
-import { useQuery } from "@tanstack/react-query";
-
 import { useNavigate } from "react-router-dom";
 
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import SearchIcon from "@mui/icons-material/Search";
 import logo from "images/logo.png";
 import { searchContext } from "context/SearchProvider";
-import customAxiosRequest from "constant/customAxiosRequest";
-import { BASE_URL } from "constant/Misc";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -80,29 +76,17 @@ const Navbar: React.FC = (): JSX.Element => {
     }
   };
 
-  const queryFunction = () => {
-    return customAxiosRequest(`${BASE_URL}/search?part=snippet&q=`);
-  };
-
   useEffect(() => {
     if (state.search.length === 0) {
       setSearch("");
     }
   }, [state.search]);
 
-  const { refetch } = useQuery({
-    queryKey: ["AllVideos"],
-    queryFn: queryFunction,
-    // staleTime: 1000 * 60 * 10000,
-    refetchOnWindowFocus: false,
-    refetchOnMount: false,
-    enabled: false,
-  });
-
   const showHomePage = (): void => {
     navigate("/");
     dispatch({ type: "addSearch", payload: { value: "" } });
-    refetch();
+    dispatch({ type: "addSearchCategory", payload: { value: "" } });
+
     setSearch("");
   };
 
@@ -120,10 +104,6 @@ const Navbar: React.FC = (): JSX.Element => {
   const handleMenuClose = () => {
     setAnchorEl(null);
     handleMobileMenuClose();
-  };
-
-  const handleMobileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-    setMobileMoreAnchorEl(event.currentTarget);
   };
 
   const menuId = "primary-search-account-menu";

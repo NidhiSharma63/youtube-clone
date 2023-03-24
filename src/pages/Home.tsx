@@ -3,66 +3,38 @@ import { Grid } from "@mui/material";
 import HomePage from "components/HomePage";
 import { searchContext } from "context/SearchProvider";
 import { IVideo } from "common/Interfaces";
-import { useQuery } from "@tanstack/react-query";
-import customAxiosRequest from "constant/customAxiosRequest";
-import { BASE_URL } from "constant/Misc";
 import { useNavigate } from "react-router-dom";
 import Loader from "components/Loader";
+import { useFetchAllVideos } from "hook/useFetchAllVideos";
 
 import { v4 as uuidv4 } from "uuid";
-
-// sometimes data is undefined so we need to make all properties optional
-interface IData {
-  data?: {
-    items?: IVideo[];
-    kind?: string;
-    nextPageToken?: string;
-    pageInfo?: {
-      resultsPerPage?: number;
-      totalResults?: number;
-    };
-    regionCode?: "IN";
-  };
-  isLoading: boolean;
-}
 
 const Home = () => {
   const { state } = useContext(searchContext);
   const [search, setSearch] = useState<string>(state.search);
   const [nextPage, setNextPage] = useState<string>("");
-  const [searchValue, setSearchValue] = useState("");
+  const [searchValue, setSearchValue] = useState<string>("");
   const navigate = useNavigate();
   const [videos, setVideos] = useState<IVideo[]>([]);
   const mainWrapperRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
+    console.log(state.category.length, "stat");
     if (state.search.length > 0) {
       // console.log("I RUNG SEARCH", state.search);
       setSearchValue(state.search);
+      navigate(`/search?=${state.search}`);
     }
 
     if (state.category.length > 0) {
       // console.log("I RUNG CATEGORY", state.category);
+      navigate(`/category?=${state.category}`);
 
       setSearchValue(state.category);
     }
-  }, [state.category, state.search]);
+  }, [state.category, state.search, navigate]);
 
-  const queryFunction = () => {
-    console.log(searchValue, "SEARCH VALUE------");
-    return customAxiosRequest(
-      `${BASE_URL}/search?part=snippet&q=${searchValue}`
-    );
-  };
-
-  const { data, isLoading }: IData = useQuery({
-    queryKey: ["AllVideos", nextPage, searchValue],
-    queryFn: queryFunction,
-    // staleTime: 1000 * 60 * 10000,
-    refetchOnWindowFocus: false,
-    refetchOnMount: false,
-    select: (AllVideos) => AllVideos.data,
-  });
+  const { data, isLoading } = useFetchAllVideos(nextPage, searchValue);
 
   // console.log(isLoading, "this is loading");
   useEffect(() => {
@@ -79,9 +51,18 @@ const Home = () => {
   }, [data?.items]);
 
   useEffect(() => {
+    if (window.location.pathname === "/" && state.category.length === 0) {
+      setSearchValue("");
+    }
+    if (window.location.pathname === "/" && state.search.length === 0) {
+      setSearchValue("");
+    }
+  }, [state.category, state.search]);
+
+  useEffect(() => {
     // console.log(search, "setSearch");
     if (searchValue.length !== 0) {
-      console.log("I SHOULD RUN ONLY-----------------");
+      // console.log("I SHOULD RUN ONLY-----------------");
       setVideos((val: IVideo[]) => {
         if (!data?.items) {
           return val;
@@ -89,18 +70,23 @@ const Home = () => {
         return data?.items;
       });
     }
-  }, [searchValue, data]);
-
-  useEffect(() => {
-    if (state.search) {
-      setSearch(state.search);
-      navigate(`/search?=${state.search}`);
+    if (window.location.pathname === "/" && state.category.length === 0) {
+      setVideos((val: IVideo[]) => {
+        if (!data?.items) {
+          return val;
+        }
+        return data?.items;
+      });
     }
-
-    if (mainWrapperRef.current !== null) {
-      mainWrapperRef.current.scrollTop = 0;
+    if (window.location.pathname === "/" && state.search.length === 0) {
+      setVideos((val: IVideo[]) => {
+        if (!data?.items) {
+          return val;
+        }
+        return data?.items;
+      });
     }
-  }, [state.search, navigate]);
+  }, [searchValue, data, state.category, state.search]);
 
   // if user reaches at the end then set the next page token and it will refecth the data
   const handleScroll = useCallback(
@@ -142,8 +128,6 @@ const Home = () => {
           return <HomePage key={uuidv4()} videoProps={item} />;
         })}
       </Grid>
-      {/* <Loader /> */}
-      {/* {isLoading ? <Loader /> : null} */}
     </>
   );
 };

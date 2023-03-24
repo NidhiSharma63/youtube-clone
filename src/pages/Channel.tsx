@@ -65,7 +65,7 @@ const Channel = () => {
     queryKey: ["channel", id],
     queryFn: () =>
       customAxiosRequest(`${BASE_URL}/channels?part=snippet&id=${id}`),
-    staleTime: 1000 * 60 * 10000,
+    staleTime: Infinity,
     select: (suggestedVideo) => suggestedVideo.data.items,
     refetchOnWindowFocus: false,
     refetchOnMount: false,
@@ -89,7 +89,7 @@ const Channel = () => {
     queryKey: ["channelVideo", id],
     queryFn: () =>
       customAxiosRequest(`${BASE_URL}/search?part=snippet&channelId=${id}`),
-    staleTime: 1000 * 60 * 10000,
+    staleTime: Infinity,
     select: (suggestedVideo) => suggestedVideo.data.items,
     refetchOnWindowFocus: false,
     refetchOnMount: false,

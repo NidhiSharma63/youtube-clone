@@ -64,7 +64,7 @@ const Video = () => {
     queryKey: ["video", id],
     queryFn: () =>
       customAxiosRequest(`${BASE_URL}/videos?part=snippet,statistic&id=${id}`),
-    staleTime: 1000 * 60 * 10000,
+    staleTime: Infinity,
     select: (AllVideos) => AllVideos.data.items,
     refetchOnWindowFocus: false,
     refetchOnMount: false,
@@ -76,7 +76,7 @@ const Video = () => {
       customAxiosRequest(
         `${BASE_URL}/commentThreads?part=snippet&videoId=${id}`
       ),
-    staleTime: 1000 * 60 * 10000,
+    staleTime: Infinity,
     select: (videoComments) => videoComments.data.items,
     refetchOnWindowFocus: false,
     refetchOnMount: false,
@@ -93,7 +93,7 @@ const Video = () => {
       customAxiosRequest(
         `${BASE_URL}/search?part=snippet&relatedToVideoId=${id}&type=video`
       ),
-    staleTime: 1000 * 60 * 10000,
+    staleTime: Infinity,
     select: (suggestedVideo) => suggestedVideo.data.items,
     refetchOnWindowFocus: false,
     refetchOnMount: false,
