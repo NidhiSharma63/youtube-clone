@@ -23,7 +23,6 @@ const VideoComments = ({ commentsData }: ICommentsDataProps) => {
   return (
     <Stack
       sx={{
-        display: "flex",
         alignItems: "flex-start",
         flexDirection: "row",
         gap: 2,

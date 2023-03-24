@@ -44,13 +44,8 @@ const CoverVideoCard = (props: IProps) => {
         image={`${videoProps?.snippet?.thumbnails?.high?.url}`}
         title={`${videoProps?.snippet?.title}`}
       />
-      <CardContent>
-        <Typography
-          sx={{ height: 55 }}
-          gutterBottom
-          variant="subtitle1"
-          color="secondary.main"
-        >
+      <CardContent sx={{ height: 105 }}>
+        <Typography gutterBottom variant="subtitle1" color="secondary.main">
           {`${videoProps?.snippet?.title}`.slice(0, 40)}
           ...
         </Typography>
