@@ -36,6 +36,7 @@ const Home = () => {
   const mainWrapperRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
+    console.log(state.category.length, "stat");
     if (state.search.length > 0) {
       // console.log("I RUNG SEARCH", state.search);
       setSearchValue(state.search);
@@ -60,7 +61,7 @@ const Home = () => {
   const { data, isLoading }: IData = useQuery({
     queryKey: ["AllVideos", nextPage, searchValue],
     queryFn: queryFunction,
-    // staleTime: 1000 * 60 * 10000,
+    staleTime: Infinity,
     refetchOnWindowFocus: false,
     refetchOnMount: false,
     select: (AllVideos) => AllVideos.data,

@@ -102,6 +102,8 @@ const Navbar: React.FC = (): JSX.Element => {
   const showHomePage = (): void => {
     navigate("/");
     dispatch({ type: "addSearch", payload: { value: "" } });
+    dispatch({ type: "addSearchCategory", payload: { value: "" } });
+
     refetch();
     setSearch("");
   };

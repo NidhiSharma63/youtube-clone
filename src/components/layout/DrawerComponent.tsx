@@ -86,7 +86,6 @@ export default function PersistentDrawerLeft() {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
   const { dispatch } = useContext(searchContext);
-  const navigate = useNavigate();
 
   const handleDrawerOpen = () => {
     setOpen(true);
