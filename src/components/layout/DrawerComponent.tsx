@@ -99,7 +99,6 @@ export default function PersistentDrawerLeft() {
   const handleCategories = (name: string) => {
     dispatch({ type: "addSearchCategory", payload: { value: name } });
     dispatch({ type: "addSearch", payload: { value: "" } });
-    navigate("/");
   };
   return (
     <Box sx={{ display: "flex" }}>

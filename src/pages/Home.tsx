@@ -39,14 +39,16 @@ const Home = () => {
     if (state.search.length > 0) {
       // console.log("I RUNG SEARCH", state.search);
       setSearchValue(state.search);
+      navigate(`/search?=${state.search}`);
     }
 
     if (state.category.length > 0) {
       // console.log("I RUNG CATEGORY", state.category);
+      navigate(`/category?=${state.category}`);
 
       setSearchValue(state.category);
     }
-  }, [state.category, state.search]);
+  }, [state.category, state.search, navigate]);
 
   const queryFunction = () => {
     console.log(searchValue, "SEARCH VALUE------");
@@ -81,7 +83,7 @@ const Home = () => {
   useEffect(() => {
     // console.log(search, "setSearch");
     if (searchValue.length !== 0) {
-      console.log("I SHOULD RUN ONLY-----------------");
+      // console.log("I SHOULD RUN ONLY-----------------");
       setVideos((val: IVideo[]) => {
         if (!data?.items) {
           return val;
@@ -91,16 +93,16 @@ const Home = () => {
     }
   }, [searchValue, data]);
 
-  useEffect(() => {
-    if (state.search) {
-      setSearch(state.search);
-      navigate(`/search?=${state.search}`);
-    }
+  // useEffect(() => {
+  //   if (state.search) {
+  //     setSearch(state.search);
+  //     navigate(`/search?=${state.search}`);
+  //   }
 
-    if (mainWrapperRef.current !== null) {
-      mainWrapperRef.current.scrollTop = 0;
-    }
-  }, [state.search, navigate]);
+  //   if (mainWrapperRef.current !== null) {
+  //     mainWrapperRef.current.scrollTop = 0;
+  //   }
+  // }, [search, navigate]);
 
   // if user reaches at the end then set the next page token and it will refecth the data
   const handleScroll = useCallback(
