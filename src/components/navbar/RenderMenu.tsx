@@ -1,7 +1,12 @@
 import { Menu, MenuItem } from "@mui/material";
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import {
+  getAuth,
+  signInWithPopup,
+  GoogleAuthProvider,
+  UserCredential,
+} from "firebase/auth";
 
-import { auth } from "auth/firebase";
+// import { auth } from "auth/firebase";
 
 interface IRenderMenu {
   anchorEl: null | HTMLElement;
@@ -10,13 +15,16 @@ interface IRenderMenu {
 }
 const RenderMenu = ({ anchorEl, isMenuOpen, handleMenuClose }: IRenderMenu) => {
   const provider = new GoogleAuthProvider();
+  const auth = getAuth();
 
   const handleSignIn = () => {
     signInWithPopup(auth, provider)
       .then((result) => {
         // This gives you a Google Access Token. You can use it to access the Google API.
         const credential = GoogleAuthProvider.credentialFromResult(result);
-        const token = credential.accessToken;
+        if (credential) {
+          const token = credential.accessToken;
+        }
         // The signed-in user info.
         const user = result.user;
         // IdP data available using getAdditionalUserInfo(result)
@@ -50,7 +58,7 @@ const RenderMenu = ({ anchorEl, isMenuOpen, handleMenuClose }: IRenderMenu) => {
       onClose={handleMenuClose}
     >
       {/* <MenuItem onClick={handleMenuClose}>Profile</MenuItem> */}
-      <MenuItem onClick={handleMenuClose}>Add account</MenuItem>
+      <MenuItem onClick={handleSignIn}>Add account</MenuItem>
     </Menu>
   );
 };
