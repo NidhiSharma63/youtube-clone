@@ -41,6 +41,18 @@ const theme = createTheme({
       custom: 1000,
     },
   },
+  components: {
+    MuiMenu: {
+      styleOverrides: {
+        list: {
+          '&[role="menu"]': {
+            backgroundColor: "#0F0F0F",
+            color: "#fff",
+          },
+        },
+      },
+    },
+  },
 });
 
 export default theme;

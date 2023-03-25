@@ -7,6 +7,7 @@ import { auth } from "auth/firebase";
 import { useState, useEffect } from "react";
 import { Avatar } from "@mui/material";
 import { USER_INFO } from "constant/Misc";
+import Divider from "@mui/material/Divider";
 
 interface IRenderMenu {
   anchorEl: null | HTMLElement;
@@ -96,6 +97,7 @@ const RenderMenu = ({ anchorEl, isMenuOpen, handleMenuClose }: IRenderMenu) => {
           <MenuItem sx={{ justifyContent: "center", display: "flex" }}>
             {userAddress.email}
           </MenuItem>
+          <Divider />
           <MenuItem
             sx={{ justifyContent: "center", display: "flex" }}
             onClick={handelSignOut}
