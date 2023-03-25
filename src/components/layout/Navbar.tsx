@@ -97,7 +97,7 @@ const Navbar: React.FC = (): JSX.Element => {
               cursor: "pointer",
             }}
           />
-          <Typography sx={{ display: { sm: "none", md: "flex" } }} variant="h6">
+          <Typography sx={{ display: { xs: "none", md: "flex" } }} variant="h6">
             Youtube
           </Typography>
         </Box>
