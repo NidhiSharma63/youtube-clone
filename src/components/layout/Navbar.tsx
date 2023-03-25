@@ -8,7 +8,6 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import SearchIcon from "@mui/icons-material/Search";
 import logo from "images/logo.png";
 import { searchContext } from "context/SearchProvider";
-import RenderMobileView from "components/navbar/RenderMobileView";
 import RenderMenu from "components/navbar/RenderMenu";
 import {
   SearchStyled,
@@ -65,6 +64,9 @@ const Navbar: React.FC = (): JSX.Element => {
     setAnchorEl(event.currentTarget);
   };
 
+  const handleMobileMenuOpen = (e: React.MouseEvent<HTMLElement>) => {
+    setMobileMoreAnchorEl(e.currentTarget);
+  };
   const handleMobileMenuClose = () => {
     setMobileMoreAnchorEl(null);
   };
@@ -115,7 +117,7 @@ const Navbar: React.FC = (): JSX.Element => {
           />
         </SearchStyled>
         <Box sx={{ flexGrow: 1 }} />
-        <Box sx={{ display: { xs: "none", md: "flex" } }}>
+        <Box sx={{ display: { xs: "flex", md: "flex" } }}>
           <IconButton
             size="large"
             edge="end"
@@ -131,24 +133,8 @@ const Navbar: React.FC = (): JSX.Element => {
             )}
           </IconButton>
         </Box>
-        {/* <Box sx={{ display: { xs: "flex", md: "none" }, mr: "-2rem" }}>
-          <IconButton
-            size="large"
-            aria-label="show more"
-            aria-controls={mobileMenuId}
-            aria-haspopup="true"
-            onClick={handleMobileMenuOpen}
-            color="inherit"
-          >
-            <MoreIcon />
-          </IconButton>
-        </Box> */}
       </Toolbar>
-      <RenderMobileView
-        setAnchorEl={setAnchorEl}
-        handleMobileMenuClose={handleMobileMenuClose}
-        mobileMoreAnchorEl={mobileMoreAnchorEl}
-      />
+
       <RenderMenu
         anchorEl={anchorEl}
         handleMenuClose={handleMenuClose}
