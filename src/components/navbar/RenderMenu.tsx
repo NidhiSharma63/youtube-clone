@@ -1,11 +1,5 @@
 import { Menu, MenuItem } from "@mui/material";
-import {
-  signInWithPopup,
-  GoogleAuthProvider,
-  UserCredential,
-  signOut,
-  onAuthStateChanged,
-} from "firebase/auth";
+import { signInWithPopup, GoogleAuthProvider, signOut } from "firebase/auth";
 
 import { getValueFromLS, setValueTOLS } from "utils/localstorage";
 
