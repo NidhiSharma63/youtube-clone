@@ -2,16 +2,8 @@ import React, { useContext, useState, useEffect } from "react";
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 
 import { auth } from "auth/firebase";
-import { styled, alpha } from "@mui/material/styles";
-import {
-  Box,
-  Toolbar,
-  IconButton,
-  InputBase,
-  MenuItem,
-  Menu,
-  Typography,
-} from "@mui/material";
+
+import { Box, Toolbar, IconButton, Typography } from "@mui/material";
 
 import { useNavigate } from "react-router-dom";
 
@@ -21,46 +13,11 @@ import logo from "images/logo.png";
 import { searchContext } from "context/SearchProvider";
 import RenderMobileView from "components/navbar/RenderMobileView";
 import RenderMenu from "components/navbar/RenderMenu";
-
-const Search = styled("div")(({ theme }) => ({
-  position: "relative",
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
-  "&:hover": {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
-  },
-  marginRight: theme.spacing(-2),
-  marginLeft: 0,
-  width: "100%",
-  [theme.breakpoints.up("sm")]: {
-    marginLeft: theme.spacing(3),
-    width: "auto",
-  },
-}));
-
-const SearchIconWrapper = styled("div")(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: "100%",
-  position: "absolute",
-  pointerEvents: "none",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: "inherit",
-  "& .MuiInputBase-input": {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create("width"),
-    width: "100%",
-    [theme.breakpoints.up("md")]: {
-      width: "20ch",
-    },
-  },
-}));
+import {
+  SearchStyled,
+  SearchIconWrapper,
+  StyledInputBase,
+} from "muiStyledComponents/Navbar";
 
 const Navbar: React.FC = (): JSX.Element => {
   const navigate = useNavigate();
@@ -158,7 +115,7 @@ const Navbar: React.FC = (): JSX.Element => {
             Youtube
           </Typography>
         </Box>
-        <Search>
+        <SearchStyled>
           <SearchIconWrapper>
             <SearchIcon />
           </SearchIconWrapper>
@@ -169,7 +126,7 @@ const Navbar: React.FC = (): JSX.Element => {
             inputProps={{ "aria-label": "search" }}
             onKeyUp={handleSearch}
           />
-        </Search>
+        </SearchStyled>
         <Box sx={{ flexGrow: 1 }} />
         <Box sx={{ display: { xs: "none", md: "flex" } }}>
           <IconButton
