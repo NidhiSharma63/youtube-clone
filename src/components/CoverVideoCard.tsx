@@ -1,6 +1,16 @@
-import { Card, CardMedia, CardContent, Typography } from "@mui/material";
+import {
+  Card,
+  CardMedia,
+  CardContent,
+  Typography,
+  Box,
+  Menu,
+  MenuItem,
+  IconButton,
+} from "@mui/material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { IVideo } from "common/Interfaces";
 
@@ -13,11 +23,26 @@ interface IProps {
 }
 
 const CoverVideoCard = (props: IProps) => {
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const { videoProps, width } = props;
   const navigate = useNavigate();
 
   const handleClick = (id: string): void => {
     navigate(`/video/${id}`);
+  };
+
+  const handleMenuClose = () => {
+    setIsMenuOpen(false);
+  };
+
+  const saveToPlayList = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    videoId: string
+  ) => {
+    setAnchorEl(event.currentTarget);
+    console.log(videoId);
+    setIsMenuOpen(true);
   };
 
   return (
@@ -37,25 +62,56 @@ const CoverVideoCard = (props: IProps) => {
           transform: "scale(1.04)",
         },
       }}
-      onClick={() => handleClick(videoProps.id.videoId)}
     >
       <CardMedia
         sx={{ height: 180, borderRadius: 3 }}
         image={`${videoProps?.snippet?.thumbnails?.high?.url}`}
         title={`${videoProps?.snippet?.title}`}
+        onClick={() => handleClick(videoProps.id.videoId)}
       />
       <CardContent sx={{ height: 105 }}>
-        <Typography gutterBottom variant="subtitle1" color="secondary.main">
-          {`${videoProps?.snippet?.title}`.slice(0, 40)}
-          ...
-        </Typography>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            color: "secondary.main",
+          }}
+        >
+          <Typography
+            gutterBottom
+            variant="subtitle1"
+            sx={{ maxWidth: "70%", border: "1px solid red" }}
+          >
+            {`${videoProps?.snippet?.title}`.slice(0, 40)}
+            ...
+          </Typography>
+
+          <IconButton onClick={(e) => saveToPlayList(e, videoProps.id.videoId)}>
+            <MoreVertIcon sx={{ color: "secondary.main" }} />
+          </IconButton>
+          <Menu
+            anchorEl={anchorEl}
+            anchorOrigin={{
+              vertical: "top",
+              horizontal: "right",
+            }}
+            keepMounted
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "right",
+            }}
+            open={isMenuOpen}
+            onClose={handleMenuClose}
+          >
+            <MenuItem>Save to playlist</MenuItem>
+            <MenuItem>Add to watch later</MenuItem>
+          </Menu>
+        </Box>
         <Typography variant="body2" color="secondary.dark">
           {`${videoProps?.snippet?.channelTitle}`}
           {<CheckCircleIcon sx={{ fontSize: ".9rem" }} />}
         </Typography>
-        {/* <Typography color="secondary.dark" variant="body2">
-          {publishedTime} ago
-        </Typography> */}
       </CardContent>
     </Card>
   );

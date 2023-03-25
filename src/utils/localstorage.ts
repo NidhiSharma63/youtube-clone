@@ -2,6 +2,7 @@ interface ISetValueToLs {
   email?: string | null;
   profileUrl?: string | null;
   displayedName?: string | null;
+  videoId?: string;
 }
 
 export const setValueTOLS = (key: string, value: ISetValueToLs) => {
