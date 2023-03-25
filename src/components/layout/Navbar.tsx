@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 
-import { Box, Toolbar, IconButton, Typography } from "@mui/material";
+import { Box, Toolbar, IconButton, Typography, Avatar } from "@mui/material";
 
 import { useNavigate } from "react-router-dom";
 
@@ -15,6 +15,8 @@ import {
   SearchIconWrapper,
   StyledInputBase,
 } from "muiStyledComponents/Navbar";
+import { getValueFromLS } from "utils/localstorage";
+import { USER_INFO } from "constant/Misc";
 
 const Navbar: React.FC = (): JSX.Element => {
   const navigate = useNavigate();
@@ -22,6 +24,8 @@ const Navbar: React.FC = (): JSX.Element => {
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     React.useState<null | HTMLElement>(null);
   const [search, setSearch] = useState("");
+  const [userProfile, setUserProfile] = useState<string>("");
+  const userInfo = getValueFromLS(USER_INFO);
 
   const { dispatch, state } = useContext(searchContext);
 
@@ -34,6 +38,12 @@ const Navbar: React.FC = (): JSX.Element => {
       navigate("/");
     }
   };
+
+  useEffect(() => {
+    if (userInfo) {
+      setUserProfile(JSON.parse(userInfo).profileUrl);
+    }
+  }, [userInfo]);
 
   useEffect(() => {
     if (state.search.length === 0) {
@@ -63,6 +73,10 @@ const Navbar: React.FC = (): JSX.Element => {
     handleMobileMenuClose();
   };
 
+  // const userInfo = JSON.parse(getValueFromLS(USER_INFO));
+  // console.log(getValueFromLS(USER_INFO));
+
+  console.log(JSON.parse(getValueFromLS(USER_INFO) ?? "").photoURL);
   return (
     <Box sx={{ flexGrow: 1, boxShadow: 0 }}>
       <Toolbar>
@@ -110,7 +124,11 @@ const Navbar: React.FC = (): JSX.Element => {
             onClick={handleProfileMenuOpen}
             color="inherit"
           >
-            <AccountCircle />
+            {getValueFromLS(USER_INFO) ? (
+              <Avatar alt="profile" src={userProfile} />
+            ) : (
+              <AccountCircle />
+            )}
           </IconButton>
         </Box>
         {/* <Box sx={{ display: { xs: "flex", md: "none" }, mr: "-2rem" }}>
