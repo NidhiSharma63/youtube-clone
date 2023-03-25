@@ -1,6 +1,5 @@
 import { styled, alpha } from "@mui/material/styles";
 import { InputBase } from "@mui/material";
-import Menu from "@mui/material/Menu";
 
 export const SearchStyled = styled("div")(({ theme }) => ({
   position: "relative",
