@@ -41,7 +41,8 @@ const Navbar: React.FC = (): JSX.Element => {
 
   useEffect(() => {
     if (userInfo) {
-      setUserProfile(JSON.parse(userInfo).profileUrl);
+      console.log(userInfo, "user");
+      setUserProfile(JSON.parse(userInfo)?.profileUrl);
     }
   }, [userInfo]);
 
@@ -76,7 +77,6 @@ const Navbar: React.FC = (): JSX.Element => {
   // const userInfo = JSON.parse(getValueFromLS(USER_INFO));
   // console.log(getValueFromLS(USER_INFO));
 
-  console.log(JSON.parse(getValueFromLS(USER_INFO) ?? "").photoURL);
   return (
     <Box sx={{ flexGrow: 1, boxShadow: 0 }}>
       <Toolbar>

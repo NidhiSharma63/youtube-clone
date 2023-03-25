@@ -43,57 +43,39 @@ const RenderMenu = ({ anchorEl, isMenuOpen, handleMenuClose }: IRenderMenu) => {
     }
   }, [userInfo]);
 
-  console.log(userAddress.profile);
-
   const handleSignIn = () => {
     signInWithPopup(auth, provider)
       .then((result) => {
-        // This gives you a Google Access Token. You can use it to access the Google API.
-        // const credential = GoogleAuthProvider.credentialFromResult(result);
-        // if (credential) {
-        //   const token = credential.accessToken;
-        // }
-        // // The signed-in user info.
-        // const user = result.user;
-        // // IdP data available using getAdditionalUserInfo(result)
-        // ...
-
         const value = {
           email: result.user.email,
           profileUrl: result.user.photoURL,
           displayedName: result.user.displayName,
         };
         setValueTOLS(USER_INFO, value);
+        handleMenuClose();
       })
       .catch((error) => {
-        // Handle Errors here.
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        // The email of the user's account used.
-        const email = error.customData.email;
-        // The AuthCredential type that was used.
-        const credential = GoogleAuthProvider.credentialFromError(error);
-        // ...
+        console.log(error);
+        alert("An Error Occured");
       });
   };
 
-  const handelSignOut = () => {
-    signOut(auth)
-      .then(() => {
-        // Sign-out successful.
-        console.log("sign out");
-      })
-      .catch((error) => {
-        // An error happened.
-        console.log("Error occured", error);
-      });
+  const handelSignOut = async () => {
+    try {
+      signOut(auth);
+      const value = {
+        email: "",
+        profileUrl: "",
+        displayedName: "",
+      };
+      setValueTOLS(USER_INFO, value);
+      setUserAddress({ email: "", profile: "" });
+      handleMenuClose();
+    } catch (error) {
+      console.log("Error occured", error);
+    }
   };
 
-  // {
-  Object.values(userAddress).map((val) => {
-    console.log(val, "h");
-  });
-  // }
   return (
     <>
       {/* <MenuItem onClick={handleMenuClose}>Profile</MenuItem> */}
