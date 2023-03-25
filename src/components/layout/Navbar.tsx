@@ -100,7 +100,7 @@ const Navbar: React.FC = (): JSX.Element => {
               cursor: "pointer",
             }}
           />
-          <Typography sx={{ display: { xs: "none", sm: "flex" } }} variant="h6">
+          <Typography sx={{ display: { sm: "none", md: "flex" } }} variant="h6">
             Youtube
           </Typography>
         </Box>
@@ -117,7 +117,7 @@ const Navbar: React.FC = (): JSX.Element => {
           />
         </SearchStyled>
         <Box sx={{ flexGrow: 1 }} />
-        <Box sx={{ display: { xs: "flex", md: "flex" } }}>
+        <Box sx={{ display: { xs: "flex", md: "flex" }, mr: "-1.5rem" }}>
           <IconButton
             size="large"
             edge="end"
