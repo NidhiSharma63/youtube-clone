@@ -64,9 +64,6 @@ const Navbar: React.FC = (): JSX.Element => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleMobileMenuOpen = (e: React.MouseEvent<HTMLElement>) => {
-    setMobileMoreAnchorEl(e.currentTarget);
-  };
   const handleMobileMenuClose = () => {
     setMobileMoreAnchorEl(null);
   };

@@ -100,9 +100,21 @@ export default function PersistentDrawerLeft() {
     dispatch({ type: "addSearch", payload: { value: "" } });
   };
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box
+      sx={{
+        display: "flex",
+        maxWidth: "1440px",
+        position: "relative",
+        // border: "1px solid red",
+        margin: "auto",
+      }}
+    >
       <CssBaseline />
-      <AppBar position="fixed" open={open}>
+      <AppBar
+        position="fixed"
+        sx={{ maxWidth: "1440px", margin: "auto", left: 0 }}
+        open={open}
+      >
         <Toolbar>
           <IconButton
             color="inherit"
@@ -159,7 +171,12 @@ export default function PersistentDrawerLeft() {
         </List>
         {/* <Divider /> */}
       </MuiDrawer>
-      <Main open={open} sx={{ p: 0 }}>
+      <Main
+        open={open}
+        sx={{
+          p: 0,
+        }}
+      >
         <DrawerHeader />
         <Outlet />
       </Main>
