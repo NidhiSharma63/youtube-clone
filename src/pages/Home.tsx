@@ -88,7 +88,7 @@ const Home = () => {
     }
   }, [searchValue, data, state.category, state.search]);
 
-  // if user reaches at the end then set the next page token and it will refecth the data
+  //  if user reaches at the end then set the next page token and it will refecth the data
   const handleScroll = useCallback(
     (event: React.UIEvent<HTMLDivElement>) => {
       const el = event.target as HTMLDivElement;
