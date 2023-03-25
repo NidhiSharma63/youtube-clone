@@ -1,7 +1,4 @@
 import React, { useContext, useState, useEffect } from "react";
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
-
-import { auth } from "auth/firebase";
 
 import { Box, Toolbar, IconButton, Typography } from "@mui/material";
 
@@ -25,7 +22,6 @@ const Navbar: React.FC = (): JSX.Element => {
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     React.useState<null | HTMLElement>(null);
   const [search, setSearch] = useState("");
-  const provider = new GoogleAuthProvider();
 
   const { dispatch, state } = useContext(searchContext);
 
@@ -66,29 +62,6 @@ const Navbar: React.FC = (): JSX.Element => {
     setAnchorEl(null);
     handleMobileMenuClose();
   };
-
-  // const handleSignIn = () => {
-  //   signInWithPopup(auth, provider)
-  //     .then((result) => {
-  //       // This gives you a Google Access Token. You can use it to access the Google API.
-  //       const credential = GoogleAuthProvider.credentialFromResult(result);
-  //       const token = credential.accessToken;
-  //       // The signed-in user info.
-  //       const user = result.user;
-  //       // IdP data available using getAdditionalUserInfo(result)
-  //       // ...
-  //     })
-  //     .catch((error) => {
-  //       // Handle Errors here.
-  //       const errorCode = error.code;
-  //       const errorMessage = error.message;
-  //       // The email of the user's account used.
-  //       const email = error.customData.email;
-  //       // The AuthCredential type that was used.
-  //       const credential = GoogleAuthProvider.credentialFromError(error);
-  //       // ...
-  //     });
-  // };
 
   return (
     <Box sx={{ flexGrow: 1, boxShadow: 0 }}>
