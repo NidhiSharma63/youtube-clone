@@ -1,4 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+
+import { auth } from "auth/firebase";
 import { styled, alpha } from "@mui/material/styles";
 import {
   Box,
@@ -16,6 +19,8 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import SearchIcon from "@mui/icons-material/Search";
 import logo from "images/logo.png";
 import { searchContext } from "context/SearchProvider";
+import RenderMobileView from "components/navbar/RenderMobileView";
+import RenderMenu from "components/navbar/RenderMenu";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -63,6 +68,7 @@ const Navbar: React.FC = (): JSX.Element => {
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     React.useState<null | HTMLElement>(null);
   const [search, setSearch] = useState("");
+  const provider = new GoogleAuthProvider();
 
   const { dispatch, state } = useContext(searchContext);
 
@@ -91,8 +97,6 @@ const Navbar: React.FC = (): JSX.Element => {
   };
 
   const isMenuOpen = Boolean(anchorEl);
-  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-
   const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -106,59 +110,28 @@ const Navbar: React.FC = (): JSX.Element => {
     handleMobileMenuClose();
   };
 
-  const menuId = "primary-search-account-menu";
-  const renderMenu = (
-    <Menu
-      anchorEl={anchorEl}
-      anchorOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
-      id={menuId}
-      keepMounted
-      transformOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
-      open={isMenuOpen}
-      onClose={handleMenuClose}
-    >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-    </Menu>
-  );
-
-  const mobileMenuId = "primary-search-account-menu-mobile";
-  const renderMobileMenu = (
-    <Menu
-      anchorEl={mobileMoreAnchorEl}
-      anchorOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
-      id={mobileMenuId}
-      keepMounted
-      transformOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
-      open={isMobileMenuOpen}
-      onClose={handleMobileMenuClose}
-    >
-      <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          size="large"
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="primary"
-        >
-          <AccountCircle />
-        </IconButton>
-        <p>Profile</p>
-      </MenuItem>
-    </Menu>
-  );
+  // const handleSignIn = () => {
+  //   signInWithPopup(auth, provider)
+  //     .then((result) => {
+  //       // This gives you a Google Access Token. You can use it to access the Google API.
+  //       const credential = GoogleAuthProvider.credentialFromResult(result);
+  //       const token = credential.accessToken;
+  //       // The signed-in user info.
+  //       const user = result.user;
+  //       // IdP data available using getAdditionalUserInfo(result)
+  //       // ...
+  //     })
+  //     .catch((error) => {
+  //       // Handle Errors here.
+  //       const errorCode = error.code;
+  //       const errorMessage = error.message;
+  //       // The email of the user's account used.
+  //       const email = error.customData.email;
+  //       // The AuthCredential type that was used.
+  //       const credential = GoogleAuthProvider.credentialFromError(error);
+  //       // ...
+  //     });
+  // };
 
   return (
     <Box sx={{ flexGrow: 1, boxShadow: 0 }}>
@@ -203,7 +176,6 @@ const Navbar: React.FC = (): JSX.Element => {
             size="large"
             edge="end"
             aria-label="account of current user"
-            aria-controls={menuId}
             aria-haspopup="true"
             onClick={handleProfileMenuOpen}
             color="inherit"
@@ -224,8 +196,16 @@ const Navbar: React.FC = (): JSX.Element => {
           </IconButton>
         </Box> */}
       </Toolbar>
-      {renderMobileMenu}
-      {renderMenu}
+      <RenderMobileView
+        setAnchorEl={setAnchorEl}
+        handleMobileMenuClose={handleMobileMenuClose}
+        mobileMoreAnchorEl={mobileMoreAnchorEl}
+      />
+      <RenderMenu
+        anchorEl={anchorEl}
+        handleMenuClose={handleMenuClose}
+        isMenuOpen={isMenuOpen}
+      />
     </Box>
   );
 };
