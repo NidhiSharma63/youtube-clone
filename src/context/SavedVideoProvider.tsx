@@ -1,7 +1,7 @@
-import { createContext, useReducer, useEffect } from "react";
+import { createContext, useReducer } from "react";
 
 import { IChildren } from "common/Interfaces";
-import { setValueTOLS } from "utils/localstorage";
+import { setValueTOLS, getValueFromLS } from "utils/localstorage";
 import { SAVE_TO_PLAYLIST, SAVE_TO_WATCHLATER } from "constant/Misc";
 
 interface IInitialState {
@@ -10,20 +10,35 @@ interface IInitialState {
 }
 
 interface IAction {
-  type: "addToPlayList" | "addToWatchLater";
+  type:
+    | "addToPlayList"
+    | "addToWatchLater"
+    | "removeFromPlayList"
+    | "removeFromWatchLater";
   payload: { videoId: string };
 }
 interface MyContextValue {
   state: IInitialState;
   dispatch: React.Dispatch<{
-    type: "addToPlayList" | "addToWatchLater";
+    type:
+      | "addToPlayList"
+      | "addToWatchLater"
+      | "removeFromPlayList"
+      | "removeFromWatchLater";
     payload: { videoId: string };
   }>;
 }
 
+const getPlayListFromLS = getValueFromLS(SAVE_TO_PLAYLIST);
+const getWatchLaterFromLS = getValueFromLS(SAVE_TO_WATCHLATER);
+
 const initialState: IInitialState = {
-  saveToPlayelist: [],
-  saveToWatchLater: [],
+  saveToPlayelist: getPlayListFromLS
+    ? JSON.parse(getPlayListFromLS).savedPlayListValueArray
+    : [],
+  saveToWatchLater: getWatchLaterFromLS
+    ? JSON.parse(getWatchLaterFromLS).savedPlayListValueArray
+    : [],
 };
 
 export const SavedVideoContext = createContext<MyContextValue>({
@@ -32,17 +47,57 @@ export const SavedVideoContext = createContext<MyContextValue>({
 });
 
 const reducer = (state: IInitialState, action: IAction): IInitialState => {
-  console.log(action.type, "tyep");
   switch (action.type) {
     case "addToPlayList":
+      const updatedValueOfPlayList = [
+        ...state.saveToPlayelist,
+        action.payload.videoId,
+      ];
+      setValueTOLS(SAVE_TO_PLAYLIST, {
+        savedPlayListValueArray: updatedValueOfPlayList,
+      });
       return {
         ...state,
-        saveToPlayelist: [...state.saveToPlayelist, action.payload.videoId],
+        saveToPlayelist: updatedValueOfPlayList,
       };
     case "addToWatchLater":
+      const updatedValueOfWatchLater = [
+        ...state.saveToWatchLater,
+        action.payload.videoId,
+      ];
+
+      setValueTOLS(SAVE_TO_WATCHLATER, {
+        savedPlayListValueArray: updatedValueOfWatchLater,
+      });
       return {
         ...state,
-        saveToWatchLater: [...state.saveToWatchLater, action.payload.videoId],
+        saveToWatchLater: updatedValueOfWatchLater,
+      };
+
+    case "removeFromPlayList":
+      const afterRemovingVideoFromPlaylist = state.saveToPlayelist.filter(
+        (item) => item !== action.payload.videoId
+      );
+
+      setValueTOLS(SAVE_TO_PLAYLIST, {
+        savedPlayListValueArray: afterRemovingVideoFromPlaylist,
+      });
+      return {
+        ...state,
+        saveToPlayelist: afterRemovingVideoFromPlaylist,
+      };
+
+    case "removeFromWatchLater":
+      const afterRemovingVideoFromWatchLater = state.saveToWatchLater.filter(
+        (item) => item !== action.payload.videoId
+      );
+
+      setValueTOLS(SAVE_TO_WATCHLATER, {
+        savedPlayListValueArray: afterRemovingVideoFromWatchLater,
+      });
+      return {
+        ...state,
+        saveToWatchLater: afterRemovingVideoFromWatchLater,
       };
 
     default:
@@ -53,23 +108,23 @@ const reducer = (state: IInitialState, action: IAction): IInitialState => {
 const SavedVideoProvider = ({ children }: IChildren) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  useEffect(() => {
-    const savedValueArray = state.saveToPlayelist;
-    if (savedValueArray.length > 0) {
-      setValueTOLS(SAVE_TO_PLAYLIST, {
-        savedPlayListValueArray: savedValueArray,
-      });
-    }
-  }, [state.saveToPlayelist]);
+  // useEffect(() => {
+  //   const savedValueArray = state.saveToPlayelist;
+  //   if (savedValueArray.length > 0) {
+  //     setValueTOLS(SAVE_TO_PLAYLIST, {
+  //       savedPlayListValueArray: savedValueArray,
+  //     });
+  //   }
+  // }, [state.saveToPlayelist]);
 
-  useEffect(() => {
-    const savedValueArray = state.saveToWatchLater;
-    if (savedValueArray.length > 0) {
-      setValueTOLS(SAVE_TO_WATCHLATER, {
-        savedPlayListValueArray: savedValueArray,
-      });
-    }
-  }, [state.saveToWatchLater]);
+  // useEffect(() => {
+  //   const savedValueArray = state.saveToWatchLater;
+  //   if (savedValueArray.length > 0) {
+  //     setValueTOLS(SAVE_TO_WATCHLATER, {
+  //       savedPlayListValueArray: savedValueArray,
+  //     });
+  //   }
+  // }, [state.saveToWatchLater]);
 
   return (
     <SavedVideoContext.Provider value={{ state, dispatch }}>

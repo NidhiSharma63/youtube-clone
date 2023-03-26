@@ -1,27 +1,19 @@
 import customAxiosRequest from "constant/customAxiosRequest";
-import { useEffect, useState } from "react";
-import { BASE_URL, SAVE_TO_WATCHLATER } from "constant/Misc";
+import { useContext } from "react";
+import { BASE_URL } from "constant/Misc";
+import { SavedVideoContext } from "context/SavedVideoProvider";
 
 import { useQueries } from "@tanstack/react-query";
-import { getValueFromLS } from "utils/localstorage";
 interface QueryResult {
   data: any;
   isLoading: boolean;
 }
 
 const useFetchWatchLaterVideos = () => {
-  const getWatchLaterFromLs = getValueFromLS(SAVE_TO_WATCHLATER);
-  const [videoIdArray, setVideoIdArray] = useState<string[]>([]);
-
-  useEffect(() => {
-    if (getWatchLaterFromLs) {
-      const idArray = JSON.parse(getWatchLaterFromLs).savedPlayListValueArray;
-      setVideoIdArray(idArray);
-    }
-  }, [getWatchLaterFromLs]);
+  const { state } = useContext(SavedVideoContext);
 
   const userQueries = useQueries({
-    queries: videoIdArray.map((id) => {
+    queries: state.saveToWatchLater.map((id) => {
       return {
         queryKey: ["playListVideo", id],
         queryFn: () =>

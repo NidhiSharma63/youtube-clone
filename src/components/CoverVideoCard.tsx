@@ -26,10 +26,12 @@ interface IProps {
 const CoverVideoCard = (props: IProps) => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
-  const { dispatch } = useContext(SavedVideoContext);
+  const { state, dispatch } = useContext(SavedVideoContext);
   const { videoProps, width } = props;
+  const { saveToWatchLater, saveToPlayelist } = state;
   const navigate = useNavigate();
 
+  // console.log(videoProps, "video props");
   const handleClick = (id: string): void => {
     navigate(`/video/${id}`);
   };
@@ -43,7 +45,7 @@ const CoverVideoCard = (props: IProps) => {
     setIsMenuOpen(true);
   };
 
-  const saveToPlayList = (
+  const saveToPlayListFun = (
     event: React.MouseEvent<HTMLLIElement>,
     videoId: string
   ) => {
@@ -52,13 +54,31 @@ const CoverVideoCard = (props: IProps) => {
     dispatch({ type: "addToPlayList", payload: { videoId: videoId } });
   };
 
-  const saveToWatchLater = (
+  const saveToWatchLaterFun = (
     event: React.MouseEvent<HTMLLIElement>,
     videoId: string
   ) => {
     setIsMenuOpen(false);
     setAnchorEl(null);
     dispatch({ type: "addToWatchLater", payload: { videoId: videoId } });
+  };
+
+  const removeFromWatchLaterFun = (
+    event: React.MouseEvent<HTMLLIElement>,
+    videoId: string
+  ) => {
+    setIsMenuOpen(false);
+    setAnchorEl(null);
+    dispatch({ type: "removeFromWatchLater", payload: { videoId: videoId } });
+  };
+
+  const removeFromPlaylistFun = (
+    event: React.MouseEvent<HTMLLIElement>,
+    videoId: string
+  ) => {
+    setIsMenuOpen(false);
+    setAnchorEl(null);
+    dispatch({ type: "removeFromPlayList", payload: { videoId: videoId } });
   };
 
   return (
@@ -81,7 +101,7 @@ const CoverVideoCard = (props: IProps) => {
         sx={{ height: 180, borderRadius: 3 }}
         image={`${videoProps?.snippet?.thumbnails?.high?.url}`}
         title={`${videoProps?.snippet?.title}`}
-        onClick={() => handleClick(videoProps.id.videoId)}
+        onClick={() => handleClick(videoProps.id.videoId ?? videoProps.id)}
       />
       <CardContent sx={{ height: 105 }}>
         <Box
@@ -114,14 +134,52 @@ const CoverVideoCard = (props: IProps) => {
             open={isMenuOpen}
             onClose={handleMenuClose}
           >
-            <MenuItem
-              onClick={(e) => saveToWatchLater(e, videoProps.id.videoId)}
-            >
-              Add to watch later
-            </MenuItem>
-            <MenuItem onClick={(e) => saveToPlayList(e, videoProps.id.videoId)}>
-              Save to playlist
-            </MenuItem>
+            {saveToWatchLater.find((item) => {
+              // console.log(item);
+              return item === (videoProps.id.videoId ?? videoProps.id);
+            }) ? (
+              <MenuItem
+                onClick={(e) =>
+                  removeFromWatchLaterFun(
+                    e,
+                    videoProps.id.videoId ?? videoProps.id
+                  )
+                }
+              >
+                Remove from watch later
+              </MenuItem>
+            ) : (
+              <MenuItem
+                onClick={(e) =>
+                  saveToWatchLaterFun(e, videoProps.id.videoId ?? videoProps.id)
+                }
+              >
+                Add to watch later
+              </MenuItem>
+            )}
+            {saveToPlayelist.find((item) => {
+              // console.log(item);
+              return item === (videoProps.id.videoId || videoProps.id);
+            }) ? (
+              <MenuItem
+                onClick={(e) =>
+                  removeFromPlaylistFun(
+                    e,
+                    videoProps.id.videoId ?? videoProps.id
+                  )
+                }
+              >
+                Remove from playlist
+              </MenuItem>
+            ) : (
+              <MenuItem
+                onClick={(e) =>
+                  saveToPlayListFun(e, videoProps.id.videoId ?? videoProps.id)
+                }
+              >
+                Save to playlist
+              </MenuItem>
+            )}
           </Menu>
         </Box>
         <Typography variant="body2" color="secondary.dark">
