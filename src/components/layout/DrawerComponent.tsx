@@ -103,6 +103,7 @@ export default function PersistentDrawerLeft() {
   const handleCategories = (name: string) => {
     dispatch({ type: "addSearchCategory", payload: { value: name } });
     dispatch({ type: "addSearch", payload: { value: "" } });
+    navigate("/");
   };
 
   const moveToPlayList = () => {
@@ -125,7 +126,11 @@ export default function PersistentDrawerLeft() {
       <CssBaseline />
       <AppBar
         position="fixed"
-        sx={{ maxWidth: "1440px", margin: "auto", left: 0 }}
+        sx={{
+          maxWidth: "1440px",
+          margin: "auto",
+          left: `${open ? drawerWidth : 0}`,
+        }}
         open={open}
       >
         <Toolbar>
