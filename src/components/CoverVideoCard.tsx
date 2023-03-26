@@ -14,7 +14,7 @@ import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { IVideo } from "common/Interfaces";
 import { SavedVideoContext } from "context/SavedVideoProvider";
-
+import { toast } from "react-toastify";
 interface IProps {
   videoProps: IVideo;
   width: {
@@ -52,6 +52,7 @@ const CoverVideoCard = (props: IProps) => {
     setIsMenuOpen(false);
     setAnchorEl(null);
     dispatch({ type: "addToPlayList", payload: { videoId: videoId } });
+    toast.info("video added to playlist");
   };
 
   const saveToWatchLaterFun = (
@@ -61,6 +62,7 @@ const CoverVideoCard = (props: IProps) => {
     setIsMenuOpen(false);
     setAnchorEl(null);
     dispatch({ type: "addToWatchLater", payload: { videoId: videoId } });
+    toast.info("video added to watch later");
   };
 
   const removeFromWatchLaterFun = (
@@ -70,6 +72,7 @@ const CoverVideoCard = (props: IProps) => {
     setIsMenuOpen(false);
     setAnchorEl(null);
     dispatch({ type: "removeFromWatchLater", payload: { videoId: videoId } });
+    toast.info("video removed from watch later");
   };
 
   const removeFromPlaylistFun = (
@@ -79,6 +82,7 @@ const CoverVideoCard = (props: IProps) => {
     setIsMenuOpen(false);
     setAnchorEl(null);
     dispatch({ type: "removeFromPlayList", payload: { videoId: videoId } });
+    toast.info("video removed from playlist");
   };
 
   return (
