@@ -31,6 +31,7 @@ const CoverVideoCard = (props: IProps) => {
   const { saveToWatchLater, saveToPlayelist } = state;
   const navigate = useNavigate();
 
+  // console.log(videoProps, "video props");
   const handleClick = (id: string): void => {
     navigate(`/video/${id}`);
   };
@@ -100,7 +101,7 @@ const CoverVideoCard = (props: IProps) => {
         sx={{ height: 180, borderRadius: 3 }}
         image={`${videoProps?.snippet?.thumbnails?.high?.url}`}
         title={`${videoProps?.snippet?.title}`}
-        onClick={() => handleClick(videoProps.id.videoId)}
+        onClick={() => handleClick(videoProps.id.videoId ?? videoProps.id)}
       />
       <CardContent sx={{ height: 105 }}>
         <Box
@@ -135,34 +136,46 @@ const CoverVideoCard = (props: IProps) => {
           >
             {saveToWatchLater.find((item) => {
               // console.log(item);
-              return item === videoProps.id.videoId;
+              return item === (videoProps.id.videoId ?? videoProps.id);
             }) ? (
               <MenuItem
                 onClick={(e) =>
-                  removeFromWatchLaterFun(e, videoProps.id.videoId)
+                  removeFromWatchLaterFun(
+                    e,
+                    videoProps.id.videoId ?? videoProps.id
+                  )
                 }
               >
                 Remove from watch later
               </MenuItem>
             ) : (
               <MenuItem
-                onClick={(e) => saveToWatchLaterFun(e, videoProps.id.videoId)}
+                onClick={(e) =>
+                  saveToWatchLaterFun(e, videoProps.id.videoId ?? videoProps.id)
+                }
               >
                 Add to watch later
               </MenuItem>
             )}
             {saveToPlayelist.find((item) => {
               // console.log(item);
-              return item === videoProps.id.videoId;
+              return item === (videoProps.id.videoId || videoProps.id);
             }) ? (
               <MenuItem
-                onClick={(e) => removeFromPlaylistFun(e, videoProps.id.videoId)}
+                onClick={(e) =>
+                  removeFromPlaylistFun(
+                    e,
+                    videoProps.id.videoId ?? videoProps.id
+                  )
+                }
               >
                 Remove from playlist
               </MenuItem>
             ) : (
               <MenuItem
-                onClick={(e) => saveToPlayListFun(e, videoProps.id.videoId)}
+                onClick={(e) =>
+                  saveToPlayListFun(e, videoProps.id.videoId ?? videoProps.id)
+                }
               >
                 Save to playlist
               </MenuItem>
