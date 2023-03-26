@@ -24,7 +24,7 @@ const Playlist = () => {
         height: { xs: "auto" },
         overflowY: "scroll",
         overflowX: "hidden",
-        justifyContent: "flex-start",
+        justifyContent: "center",
       }}
     >
       {playlistData.length > 0 ? (
