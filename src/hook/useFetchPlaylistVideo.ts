@@ -1,19 +1,27 @@
 import customAxiosRequest from "constant/customAxiosRequest";
-import { SavedVideoContext } from "context/SavedVideoProvider";
-import { useContext } from "react";
-import { BASE_URL } from "constant/Misc";
+import { useState, useEffect } from "react";
+import { BASE_URL, SAVE_TO_PLAYLIST } from "constant/Misc";
 
 import { useQueries } from "@tanstack/react-query";
+import { getValueFromLS } from "utils/localstorage";
 interface QueryResult {
   data: any;
   isLoading: boolean;
 }
 
 const useFetchPlaylistVideos = () => {
-  const { state } = useContext(SavedVideoContext);
+  const getPlayListFromLS = getValueFromLS(SAVE_TO_PLAYLIST);
+  const [videoIdArray, setVideoIdArray] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (getPlayListFromLS) {
+      const idArray = JSON.parse(getPlayListFromLS).savedPlayListValueArray;
+      setVideoIdArray(idArray);
+    }
+  }, [getPlayListFromLS]);
 
   const userQueries = useQueries({
-    queries: state.saveToPlayelist.map((id) => {
+    queries: videoIdArray.map((id) => {
       return {
         queryKey: ["playListVideo", id],
         queryFn: () =>

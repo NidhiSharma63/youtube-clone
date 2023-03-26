@@ -55,16 +55,20 @@ const SavedVideoProvider = ({ children }: IChildren) => {
 
   useEffect(() => {
     const savedValueArray = state.saveToPlayelist;
-    setValueTOLS(SAVE_TO_PLAYLIST, {
-      savedPlayListValueArray: savedValueArray,
-    });
+    if (savedValueArray.length > 0) {
+      setValueTOLS(SAVE_TO_PLAYLIST, {
+        savedPlayListValueArray: savedValueArray,
+      });
+    }
   }, [state.saveToPlayelist]);
 
   useEffect(() => {
     const savedValueArray = state.saveToWatchLater;
-    setValueTOLS(SAVE_TO_WATCHLATER, {
-      savedPlayListValueArray: savedValueArray,
-    });
+    if (savedValueArray.length > 0) {
+      setValueTOLS(SAVE_TO_WATCHLATER, {
+        savedPlayListValueArray: savedValueArray,
+      });
+    }
   }, [state.saveToWatchLater]);
 
   return (

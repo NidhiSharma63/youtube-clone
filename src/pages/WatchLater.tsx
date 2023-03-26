@@ -1,6 +1,4 @@
-import { useContext, useEffect, useState } from "react";
-import { SavedVideoContext } from "context/SavedVideoProvider";
-import { Box, Grid, Typography } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import useFetchWatchLaterVideos from "hook/useFetchWatchLaterVideo";
 import { IVideo } from "common/Interfaces";
 import HomePage from "components/HomePage";
@@ -13,7 +11,6 @@ interface IItems {
 }
 
 const Watchlater = () => {
-  const { state } = useContext(SavedVideoContext);
   const { watchLaterVideo, isLoading }: IItems = useFetchWatchLaterVideos();
 
   if (isLoading) {
