@@ -61,12 +61,12 @@ const CoverVideoCard = (props: IProps) => {
     setAnchorEl(null);
     dispatch({ type: "addToWatchLater", payload: { videoId: videoId } });
   };
-  console.log(
-    state.saveToPlayelist,
-    "playlist",
-    state.saveToWatchLater,
-    "wathc later"
-  );
+  // console.log(
+  //   state.saveToPlayelist,
+  //   "playlist",
+  //   state.saveToWatchLater,
+  //   "wathc later"
+  // );
 
   return (
     <Card

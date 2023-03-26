@@ -1,6 +1,8 @@
-import { createContext, useReducer } from "react";
+import { createContext, useReducer, useEffect } from "react";
 
 import { IChildren } from "common/Interfaces";
+import { setValueTOLS } from "utils/localstorage";
+import { SAVE_TO_PLAYLIST, SAVE_TO_WATCHLATER } from "constant/Misc";
 
 interface IInitialState {
   saveToPlayelist: string[];
@@ -50,6 +52,21 @@ const reducer = (state: IInitialState, action: IAction): IInitialState => {
 
 const SavedVideoProvider = ({ children }: IChildren) => {
   const [state, dispatch] = useReducer(reducer, initialState);
+
+  useEffect(() => {
+    const savedValueArray = state.saveToPlayelist;
+    setValueTOLS(SAVE_TO_PLAYLIST, {
+      savedPlayListValueArray: savedValueArray,
+    });
+  }, [state.saveToPlayelist]);
+
+  useEffect(() => {
+    const savedValueArray = state.saveToWatchLater;
+    setValueTOLS(SAVE_TO_WATCHLATER, {
+      savedPlayListValueArray: savedValueArray,
+    });
+  }, [state.saveToWatchLater]);
+
   return (
     <SavedVideoContext.Provider value={{ state, dispatch }}>
       {children}

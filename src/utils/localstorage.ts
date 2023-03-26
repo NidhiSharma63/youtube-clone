@@ -2,10 +2,10 @@ interface ISetValueToLs {
   email?: string | null;
   profileUrl?: string | null;
   displayedName?: string | null;
-  videoId?: string;
+  savedPlayListValueArray?: string[];
 }
 
-export const setValueTOLS = (key: string, value: ISetValueToLs) => {
+export const setValueTOLS = (key: string, value: ISetValueToLs): void => {
   localStorage.setItem(key, JSON.stringify(value));
 };
 
