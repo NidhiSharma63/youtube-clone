@@ -7,10 +7,9 @@ import CoverVideoCard from "components/CoverVideoCard";
 
 interface IVideoProps {
   videoProps: IVideo;
-  setPlayListVideoId: Dispatch<SetStateAction<string[]>>;
 }
 
-const HomePage = ({ videoProps, setPlayListVideoId }: IVideoProps) => {
+const HomePage = ({ videoProps }: IVideoProps) => {
   // useEffect(() => {
   //   const interval = setInterval(() => {
   //     const videoPublishedTime = new Date(videoProps.snippet.publishTime);
@@ -63,11 +62,7 @@ const HomePage = ({ videoProps, setPlayListVideoId }: IVideoProps) => {
         alignItems: "center",
       }}
     >
-      <CoverVideoCard
-        setPlayListVideoId={setPlayListVideoId}
-        videoProps={videoProps}
-        width={{ maxWidth: 320 }}
-      />
+      <CoverVideoCard videoProps={videoProps} width={{ maxWidth: 320 }} />
     </Grid>
   );
 };

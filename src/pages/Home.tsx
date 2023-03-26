@@ -17,8 +17,6 @@ const Home = () => {
   const navigate = useNavigate();
   const [videos, setVideos] = useState<IVideo[]>([]);
   const mainWrapperRef = useRef<HTMLDivElement | null>(null);
-  const [playListVideoId, setPlayListVideoId] = useState<string[]>([]);
-
   useEffect(() => {
     if (state.search.length > 0) {
       // console.log("I RUNG SEARCH", state.search);
@@ -107,11 +105,6 @@ const Home = () => {
     [data?.nextPageToken, search.length]
   );
 
-  // if user set andy videos to save to playlist
-  useEffect(() => {
-    console.log("value is updated", playListVideoId);
-  }, [playListVideoId]);
-
   if (isLoading && videos.length === 0) return <Loader />;
   if (isLoading && searchValue.length > 0) return <Loader />;
 
@@ -130,13 +123,7 @@ const Home = () => {
         }}
       >
         {videos?.map((item: IVideo) => {
-          return (
-            <HomePage
-              key={uuidv4()}
-              setPlayListVideoId={setPlayListVideoId}
-              videoProps={item}
-            />
-          );
+          return <HomePage key={uuidv4()} videoProps={item} />;
         })}
       </Grid>
     </>
