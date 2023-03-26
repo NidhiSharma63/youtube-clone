@@ -36,6 +36,10 @@ const RenderMenu = ({ anchorEl, isMenuOpen, handleMenuClose }: IRenderMenu) => {
         profile: JSON.parse(userInfo).profileUrl,
       });
     }
+    if (!userInfo) {
+      // signOut(auth);
+      handelSignOut();
+    }
   }, [userInfo]);
 
   const handleSignIn = () => {
