@@ -40,6 +40,13 @@ const HomePage = ({ videoProps }: IVideoProps) => {
   //   return () => clearInterval(interval);
   // }, []);
 
+  // const [playListVideoId, setPlayListVideoId] = useState<string[]>([]);
+
+  // // console.log("renders");
+  // useEffect(() => {
+  //   console.log(playListVideoId, "value is updated");
+  // }, [playListVideoId]);
+
   return (
     <Grid
       item

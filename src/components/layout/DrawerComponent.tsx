@@ -23,8 +23,12 @@ import Navbar from "components/layout/Navbar";
 import { categories } from "constant/categories";
 import { icons } from "assets";
 
+import SmartDisplayIcon from "@mui/icons-material/SmartDisplay";
+import { useNavigate } from "react-router-dom";
+
 import { Outlet } from "react-router-dom";
 import { searchContext } from "context/SearchProvider";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
 
 interface ICategories {
   name: string;
@@ -86,6 +90,7 @@ export default function PersistentDrawerLeft() {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
   const { dispatch } = useContext(searchContext);
+  const navigate = useNavigate();
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -99,6 +104,14 @@ export default function PersistentDrawerLeft() {
     dispatch({ type: "addSearchCategory", payload: { value: name } });
     dispatch({ type: "addSearch", payload: { value: "" } });
   };
+
+  const moveToPlayList = () => {
+    navigate("/playlist");
+  };
+  const moveToWatchLater = () => {
+    navigate("/watchlater");
+  };
+
   return (
     <Box
       sx={{
@@ -168,6 +181,28 @@ export default function PersistentDrawerLeft() {
               </ListItem>
             );
           })}
+          <ListItem disablePadding onClick={() => moveToWatchLater()}>
+            <ListItemButton>
+              <ListItemIcon sx={{ color: "secondary.main" }}>
+                <AccessTimeIcon />
+              </ListItemIcon>
+              <ListItemText
+                sx={{ color: "secondary.main" }}
+                primary={"Wacth Later"}
+              />
+            </ListItemButton>
+          </ListItem>
+          <ListItem disablePadding onClick={() => moveToPlayList()}>
+            <ListItemButton>
+              <ListItemIcon sx={{ color: "secondary.main" }}>
+                <SmartDisplayIcon />
+              </ListItemIcon>
+              <ListItemText
+                sx={{ color: "secondary.main" }}
+                primary={"Your Videos"}
+              />
+            </ListItemButton>
+          </ListItem>
         </List>
         {/* <Divider /> */}
       </MuiDrawer>

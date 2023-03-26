@@ -40,7 +40,6 @@ const Navbar: React.FC = (): JSX.Element => {
 
   useEffect(() => {
     if (userInfo) {
-      console.log(userInfo, "user");
       setUserProfile(JSON.parse(userInfo)?.profileUrl);
     }
   }, [userInfo]);

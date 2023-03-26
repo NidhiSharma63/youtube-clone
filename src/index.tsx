@@ -7,17 +7,20 @@ import { ThemeProvider } from "@mui/material";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import SearchProvider from "context/SearchProvider";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import SavedVideoProvider from "context/SavedVideoProvider";
 
 const queryClient = new QueryClient();
 
 const element = (
   <QueryClientProvider client={queryClient}>
     <SearchProvider>
-      <ThemeProvider theme={theme}>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      </ThemeProvider>
+      <SavedVideoProvider>
+        <ThemeProvider theme={theme}>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </ThemeProvider>
+      </SavedVideoProvider>
     </SearchProvider>
     <ReactQueryDevtools initialIsOpen={false} />
   </QueryClientProvider>

@@ -17,9 +17,7 @@ const Home = () => {
   const navigate = useNavigate();
   const [videos, setVideos] = useState<IVideo[]>([]);
   const mainWrapperRef = useRef<HTMLDivElement | null>(null);
-
   useEffect(() => {
-    console.log(state.category.length, "stat");
     if (state.search.length > 0) {
       // console.log("I RUNG SEARCH", state.search);
       setSearchValue(state.search);

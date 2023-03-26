@@ -1,3 +1,4 @@
+import { ReactNode } from "react";
 export interface IImage {
   url: string;
   width: number;
@@ -62,4 +63,8 @@ export interface IComments {
       };
     };
   };
+}
+
+export interface IChildren {
+  children: ReactNode;
 }
