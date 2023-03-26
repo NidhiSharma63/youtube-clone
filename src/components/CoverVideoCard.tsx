@@ -57,7 +57,6 @@ const CoverVideoCard = (props: IProps) => {
     videoId: string
   ) => {
     setIsMenuOpen(false);
-    console.log("watch later clicked------------------");
     setAnchorEl(null);
     dispatch({ type: "addToWatchLater", payload: { videoId: videoId } });
   };
@@ -93,11 +92,7 @@ const CoverVideoCard = (props: IProps) => {
             color: "secondary.main",
           }}
         >
-          <Typography
-            gutterBottom
-            variant="subtitle1"
-            sx={{ maxWidth: "70%", border: "1px solid red" }}
-          >
+          <Typography gutterBottom variant="subtitle1" sx={{ maxWidth: "70%" }}>
             {`${videoProps?.snippet?.title}`.slice(0, 40)}
             ...
           </Typography>

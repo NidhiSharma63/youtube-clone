@@ -1,7 +1,6 @@
 import { Grid } from "@mui/material";
 
 import { IVideo } from "common/Interfaces";
-import { useState, useEffect, Dispatch, SetStateAction } from "react";
 
 import CoverVideoCard from "components/CoverVideoCard";
 

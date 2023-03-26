@@ -1,5 +1,4 @@
 import customAxiosRequest from "constant/customAxiosRequest";
-import { SavedVideoContext } from "context/SavedVideoProvider";
 import { useEffect, useState } from "react";
 import { BASE_URL, SAVE_TO_WATCHLATER } from "constant/Misc";
 

@@ -24,7 +24,7 @@ const Watchlater = () => {
         height: { xs: "auto" },
         overflowY: "scroll",
         overflowX: "hidden",
-        justifyContent: "center",
+        justifyContent: "flex-start",
       }}
     >
       {watchLaterVideo.length > 0 ? (
