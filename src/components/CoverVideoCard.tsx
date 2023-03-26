@@ -26,8 +26,9 @@ interface IProps {
 const CoverVideoCard = (props: IProps) => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
-  const { dispatch } = useContext(SavedVideoContext);
+  const { state, dispatch } = useContext(SavedVideoContext);
   const { videoProps, width } = props;
+  const { saveToWatchLater, saveToPlayelist } = state;
   const navigate = useNavigate();
 
   const handleClick = (id: string): void => {
@@ -43,7 +44,7 @@ const CoverVideoCard = (props: IProps) => {
     setIsMenuOpen(true);
   };
 
-  const saveToPlayList = (
+  const saveToPlayListFun = (
     event: React.MouseEvent<HTMLLIElement>,
     videoId: string
   ) => {
@@ -52,7 +53,7 @@ const CoverVideoCard = (props: IProps) => {
     dispatch({ type: "addToPlayList", payload: { videoId: videoId } });
   };
 
-  const saveToWatchLater = (
+  const saveToWatchLaterFun = (
     event: React.MouseEvent<HTMLLIElement>,
     videoId: string
   ) => {
@@ -114,14 +115,38 @@ const CoverVideoCard = (props: IProps) => {
             open={isMenuOpen}
             onClose={handleMenuClose}
           >
-            <MenuItem
-              onClick={(e) => saveToWatchLater(e, videoProps.id.videoId)}
-            >
-              Add to watch later
-            </MenuItem>
-            <MenuItem onClick={(e) => saveToPlayList(e, videoProps.id.videoId)}>
-              Save to playlist
-            </MenuItem>
+            {saveToWatchLater.find((item) => {
+              // console.log(item);
+              return item === videoProps.id.videoId;
+            }) ? (
+              <MenuItem
+                onClick={(e) => saveToWatchLaterFun(e, videoProps.id.videoId)}
+              >
+                Add to watch later
+              </MenuItem>
+            ) : (
+              <MenuItem
+                onClick={(e) => saveToWatchLaterFun(e, videoProps.id.videoId)}
+              >
+                Remove from watch later
+              </MenuItem>
+            )}
+            {saveToPlayelist.find((item) => {
+              // console.log(item);
+              return item === videoProps.id.videoId;
+            }) ? (
+              <MenuItem
+                onClick={(e) => saveToPlayListFun(e, videoProps.id.videoId)}
+              >
+                Save to playlist
+              </MenuItem>
+            ) : (
+              <MenuItem
+                onClick={(e) => saveToWatchLaterFun(e, videoProps.id.videoId)}
+              >
+                Remove from playlist
+              </MenuItem>
+            )}
           </Menu>
         </Box>
         <Typography variant="body2" color="secondary.dark">
