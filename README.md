@@ -1,46 +1,53 @@
-# Getting Started with Create React App
+# Youtube Clone
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is a Youtube clone built with React, Material UI, and React-Player. It has search functionality, categories, and the ability to save videos to watch later and to playlist. It uses RapidAPI to fetch video data.
 
-## Available Scripts
+## [Demo](https://nidhisharma63.github.io/youtube-clone/)
 
-In the project directory, you can run:
+![Screenshot-2023-03-26-204936.png](https://i.postimg.cc/s2Ksyb8j/Screenshot-2023-03-26-204936.png)
 
-### `npm start`
+## Features
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Search Functionality: Users can search for videos using keywords.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Categories: Users can browse videos by categories.
 
-### `npm test`
+Save to Watch Later: Users can save videos to watch later.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Save Playlist: Users can create and save playlists.
 
-### `npm run build`
+Video Player: Users can watch videos using the React-Player.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Tech Stack
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+The following technologies were used to build this YouTube clone:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Material UI: A popular React UI framework that helps in building responsive and beautiful web applications.
 
-### `npm run eject`
+React: A JavaScript library for building user interfaces.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+React-Player: A React component for playing videos using YouTube.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Rapid API: An API marketplace that provides access to a wide range of APIs.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+TypeScript: A strongly typed programming language that helps in writing more maintainable and scalable code.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+React-Toastify:React-Toastify allows you to add notifications to your app with ease.
 
-## Learn More
+## Getting Started
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+To get started with this project, follow these steps:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+1. Clone this repository using git clone https://github.com/NidhiSharma63/youtube-clone.git.
+
+2. Install the required dependencies using `npm install --legacy-peer-deps`.
+
+3. Sign up for Rapid API and obtain an API key for the YouTube API.
+
+4. Create a `.env` file in the root directory of the project and add the following:
+
+```
+REACT_APP_RAPID_API_KEY
+```
+
+5. Start the development server using npm start.
