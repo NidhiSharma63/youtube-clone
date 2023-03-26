@@ -1,7 +1,7 @@
-import { createContext, useReducer, useEffect } from "react";
+import { createContext, useReducer } from "react";
 
 import { IChildren } from "common/Interfaces";
-import { setValueTOLS } from "utils/localstorage";
+import { setValueTOLS, getValueFromLS } from "utils/localstorage";
 import { SAVE_TO_PLAYLIST, SAVE_TO_WATCHLATER } from "constant/Misc";
 
 interface IInitialState {
@@ -29,9 +29,16 @@ interface MyContextValue {
   }>;
 }
 
+const getPlayListFromLS = getValueFromLS(SAVE_TO_PLAYLIST);
+const getWatchLaterFromLS = getValueFromLS(SAVE_TO_WATCHLATER);
+
 const initialState: IInitialState = {
-  saveToPlayelist: [],
-  saveToWatchLater: [],
+  saveToPlayelist: getPlayListFromLS
+    ? JSON.parse(getPlayListFromLS).savedPlayListValueArray
+    : [],
+  saveToWatchLater: getWatchLaterFromLS
+    ? JSON.parse(getWatchLaterFromLS).savedPlayListValueArray
+    : [],
 };
 
 export const SavedVideoContext = createContext<MyContextValue>({
