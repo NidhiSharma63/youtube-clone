@@ -10,9 +10,10 @@ import {
 } from "@mui/material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { useState, useEffect, SetStateAction, Dispatch } from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { IVideo } from "common/Interfaces";
+import { SavedVideoContext } from "context/SavedVideoProvider";
 
 interface IProps {
   videoProps: IVideo;
@@ -20,14 +21,13 @@ interface IProps {
     maxWidth?: number;
     width?: number;
   };
-  setPlayListVideoId?: Dispatch<SetStateAction<string[]>>;
 }
 
 const CoverVideoCard = (props: IProps) => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
-  const { videoProps, width, setPlayListVideoId } = props;
-  // const [playListVideoId, setPlayListVideoId] = useState<string[]>([]);
+  const { state, dispatch } = useContext(SavedVideoContext);
+  const { videoProps, width } = props;
   const navigate = useNavigate();
 
   const handleClick = (id: string): void => {
@@ -39,7 +39,6 @@ const CoverVideoCard = (props: IProps) => {
   };
 
   const openOptions = (event: React.MouseEvent<HTMLButtonElement>) => {
-    // console.log(playListVideoId, "playListVideoId at open options");
     setAnchorEl(event.currentTarget);
     setIsMenuOpen(true);
   };
@@ -48,12 +47,26 @@ const CoverVideoCard = (props: IProps) => {
     event: React.MouseEvent<HTMLLIElement>,
     videoId: string
   ) => {
-    if (setPlayListVideoId) {
-      setPlayListVideoId((prev) => [...prev, videoId]);
-    }
     setIsMenuOpen(false);
     setAnchorEl(null);
+    dispatch({ type: "addToPlayList", payload: { videoId: videoId } });
   };
+
+  const saveToWatchLater = (
+    event: React.MouseEvent<HTMLLIElement>,
+    videoId: string
+  ) => {
+    setIsMenuOpen(false);
+    console.log("watch later clicked------------------");
+    setAnchorEl(null);
+    dispatch({ type: "addToWatchLater", payload: { videoId: videoId } });
+  };
+  console.log(
+    state.saveToPlayelist,
+    "playlist",
+    state.saveToWatchLater,
+    "wathc later"
+  );
 
   return (
     <Card
@@ -112,7 +125,11 @@ const CoverVideoCard = (props: IProps) => {
             open={isMenuOpen}
             onClose={handleMenuClose}
           >
-            <MenuItem>Add to watch later</MenuItem>
+            <MenuItem
+              onClick={(e) => saveToWatchLater(e, videoProps.id.videoId)}
+            >
+              Add to watch later
+            </MenuItem>
             <MenuItem onClick={(e) => saveToPlayList(e, videoProps.id.videoId)}>
               Save to playlist
             </MenuItem>

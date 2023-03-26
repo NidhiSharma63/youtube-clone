@@ -1,4 +1,4 @@
-import { createContext, useReducer, Dispatch } from "react";
+import { createContext, useReducer } from "react";
 
 import { IChildren } from "common/Interfaces";
 
@@ -30,6 +30,7 @@ export const SavedVideoContext = createContext<MyContextValue>({
 });
 
 const reducer = (state: IInitialState, action: IAction): IInitialState => {
+  console.log(action.type, "tyep");
   switch (action.type) {
     case "addToPlayList":
       return {
@@ -39,7 +40,7 @@ const reducer = (state: IInitialState, action: IAction): IInitialState => {
     case "addToWatchLater":
       return {
         ...state,
-        saveToPlayelist: [...state.saveToWatchLater, action.payload.videoId],
+        saveToWatchLater: [...state.saveToWatchLater, action.payload.videoId],
       };
 
     default:

@@ -59,6 +59,7 @@ interface IChannelVideData {
 const Channel = () => {
   const { id } = useParams();
   const [channelVideoData, setChannelVideoData] = useState<IVideo[]>([]);
+
   const [positionVal, setPositionVal] = useState("relative");
 
   const { data: channelData }: IChannelData = useQuery({
