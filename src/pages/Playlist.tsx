@@ -1,10 +1,9 @@
-import { useContext, useEffect, useState } from "react";
-import { SavedVideoContext } from "context/SavedVideoProvider";
-import { Box, Grid, Typography } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import useFetchPlaylistVideos from "hook/useFetchPlaylistVideo";
 import { IVideo } from "common/Interfaces";
 import HomePage from "components/HomePage";
 import { v4 as uuidv4 } from "uuid";
+import Loader from "components/Loader";
 
 interface IItems {
   playlistData: IVideo[];
@@ -12,9 +11,11 @@ interface IItems {
 }
 
 const Playlist = () => {
-  const { state } = useContext(SavedVideoContext);
   const { playlistData, isLoading }: IItems = useFetchPlaylistVideos();
 
+  if (isLoading) {
+    return <Loader />;
+  }
   return (
     <Grid
       container
