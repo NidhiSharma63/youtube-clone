@@ -122,13 +122,13 @@ const CoverVideoCard = (props: IProps) => {
               <MenuItem
                 onClick={(e) => saveToWatchLaterFun(e, videoProps.id.videoId)}
               >
-                Add to watch later
+                Remove from watch later
               </MenuItem>
             ) : (
               <MenuItem
                 onClick={(e) => saveToWatchLaterFun(e, videoProps.id.videoId)}
               >
-                Remove from watch later
+                Add to watch later
               </MenuItem>
             )}
             {saveToPlayelist.find((item) => {
@@ -136,15 +136,15 @@ const CoverVideoCard = (props: IProps) => {
               return item === videoProps.id.videoId;
             }) ? (
               <MenuItem
-                onClick={(e) => saveToPlayListFun(e, videoProps.id.videoId)}
-              >
-                Save to playlist
-              </MenuItem>
-            ) : (
-              <MenuItem
                 onClick={(e) => saveToWatchLaterFun(e, videoProps.id.videoId)}
               >
                 Remove from playlist
+              </MenuItem>
+            ) : (
+              <MenuItem
+                onClick={(e) => saveToPlayListFun(e, videoProps.id.videoId)}
+              >
+                Save to playlist
               </MenuItem>
             )}
           </Menu>
