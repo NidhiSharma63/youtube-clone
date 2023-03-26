@@ -9,11 +9,11 @@ interface QueryResult {
   isLoading: boolean;
 }
 
-const useFetchPlaylistVideos = () => {
+const useFetchWatchLaterVideos = () => {
   const { state } = useContext(SavedVideoContext);
 
   const userQueries = useQueries({
-    queries: state.saveToPlayelist.map((id) => {
+    queries: state.saveToWatchLater.map((id) => {
       return {
         queryKey: ["playListVideo", id],
         queryFn: () =>
@@ -31,14 +31,13 @@ const useFetchPlaylistVideos = () => {
 
   const allVideso = userQueries?.map((item: QueryResult) => {
     isLoading = item.isLoading;
-
     return item?.data?.[0];
   });
 
   const newData = new Set(allVideso);
-  const playlistData = Array.from(newData);
+  const watchLaterVideo = Array.from(newData);
 
-  return { playlistData, isLoading };
+  return { watchLaterVideo, isLoading };
 };
 
-export default useFetchPlaylistVideos;
+export default useFetchWatchLaterVideos;
