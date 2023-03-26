@@ -14,4 +14,7 @@ export const categories: ICategories[] = [
   { name: "Bhajan", icon: "TempleHinduIcon" },
   { name: "Tech", icon: "CodeIcon" },
   { name: "Dance", icon: "SwitchAccessShortcutIcon" },
+  { name: "Wacth Later", icon: "AccessTimeIcon" },
+
+  { name: "Your Videos", icon: "SmartDisplayIcon" },
 ];

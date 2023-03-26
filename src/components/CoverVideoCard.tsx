@@ -26,7 +26,7 @@ interface IProps {
 const CoverVideoCard = (props: IProps) => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
-  const { state, dispatch } = useContext(SavedVideoContext);
+  const { dispatch } = useContext(SavedVideoContext);
   const { videoProps, width } = props;
   const navigate = useNavigate();
 
@@ -61,12 +61,6 @@ const CoverVideoCard = (props: IProps) => {
     setAnchorEl(null);
     dispatch({ type: "addToWatchLater", payload: { videoId: videoId } });
   };
-  // console.log(
-  //   state.saveToPlayelist,
-  //   "playlist",
-  //   state.saveToWatchLater,
-  //   "wathc later"
-  // );
 
   return (
     <Card

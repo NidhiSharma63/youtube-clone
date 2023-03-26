@@ -6,6 +6,8 @@ import TempleHinduIcon from "@mui/icons-material/TempleHindu";
 import SportsEsportsIcon from "@mui/icons-material/SportsEsports";
 import SwitchAccessShortcutIcon from "@mui/icons-material/SwitchAccessShortcut";
 import TheaterComedyIcon from "@mui/icons-material/TheaterComedy";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import SmartDisplayIcon from "@mui/icons-material/SmartDisplay";
 
 export const icons = {
   DirectionsCarIcon,
@@ -16,4 +18,6 @@ export const icons = {
   SportsEsportsIcon,
   SwitchAccessShortcutIcon,
   TheaterComedyIcon,
+  AccessTimeIcon,
+  SmartDisplayIcon,
 };
