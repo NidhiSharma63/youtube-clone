@@ -1,14 +1,16 @@
 import { Grid } from "@mui/material";
 
 import { IVideo } from "common/Interfaces";
+import { useState, useEffect, Dispatch, SetStateAction } from "react";
 
 import CoverVideoCard from "components/CoverVideoCard";
 
 interface IVideoProps {
   videoProps: IVideo;
+  setPlayListVideoId: Dispatch<SetStateAction<string[]>>;
 }
 
-const HomePage = ({ videoProps }: IVideoProps) => {
+const HomePage = ({ videoProps, setPlayListVideoId }: IVideoProps) => {
   // useEffect(() => {
   //   const interval = setInterval(() => {
   //     const videoPublishedTime = new Date(videoProps.snippet.publishTime);
@@ -40,6 +42,13 @@ const HomePage = ({ videoProps }: IVideoProps) => {
   //   return () => clearInterval(interval);
   // }, []);
 
+  // const [playListVideoId, setPlayListVideoId] = useState<string[]>([]);
+
+  // // console.log("renders");
+  // useEffect(() => {
+  //   console.log(playListVideoId, "value is updated");
+  // }, [playListVideoId]);
+
   return (
     <Grid
       item
@@ -54,7 +63,11 @@ const HomePage = ({ videoProps }: IVideoProps) => {
         alignItems: "center",
       }}
     >
-      <CoverVideoCard videoProps={videoProps} width={{ maxWidth: 320 }} />
+      <CoverVideoCard
+        setPlayListVideoId={setPlayListVideoId}
+        videoProps={videoProps}
+        width={{ maxWidth: 320 }}
+      />
     </Grid>
   );
 };

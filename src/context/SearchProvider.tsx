@@ -1,4 +1,5 @@
-import { createContext, useReducer, ReactNode } from "react";
+import { createContext, useReducer } from "react";
+import { IChildren } from "common/Interfaces";
 
 interface IState {
   search: string;
@@ -18,9 +19,6 @@ interface MyContextValue {
   }>;
 }
 
-interface IChildren {
-  children: ReactNode;
-}
 const initialState: IState = {
   search: "",
   category: "",

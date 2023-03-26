@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { useState } from "react";
+import { useState, useEffect, SetStateAction, Dispatch } from "react";
 import { useNavigate } from "react-router-dom";
 import { IVideo } from "common/Interfaces";
 
@@ -20,12 +20,14 @@ interface IProps {
     maxWidth?: number;
     width?: number;
   };
+  setPlayListVideoId?: Dispatch<SetStateAction<string[]>>;
 }
 
 const CoverVideoCard = (props: IProps) => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
-  const { videoProps, width } = props;
+  const { videoProps, width, setPlayListVideoId } = props;
+  // const [playListVideoId, setPlayListVideoId] = useState<string[]>([]);
   const navigate = useNavigate();
 
   const handleClick = (id: string): void => {
@@ -36,21 +38,27 @@ const CoverVideoCard = (props: IProps) => {
     setIsMenuOpen(false);
   };
 
+  const openOptions = (event: React.MouseEvent<HTMLButtonElement>) => {
+    // console.log(playListVideoId, "playListVideoId at open options");
+    setAnchorEl(event.currentTarget);
+    setIsMenuOpen(true);
+  };
+
   const saveToPlayList = (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    event: React.MouseEvent<HTMLLIElement>,
     videoId: string
   ) => {
-    setAnchorEl(event.currentTarget);
-    console.log(videoId);
-    setIsMenuOpen(true);
+    if (setPlayListVideoId) {
+      setPlayListVideoId((prev) => [...prev, videoId]);
+    }
+    setIsMenuOpen(false);
+    setAnchorEl(null);
   };
 
   return (
     <Card
       sx={{
         ...{ width },
-        // display: "flex",
-        // width: { xs: "100% !important" },
         height: 310,
         mt: 0.6,
         borderRadius: 0,
@@ -87,7 +95,7 @@ const CoverVideoCard = (props: IProps) => {
             ...
           </Typography>
 
-          <IconButton onClick={(e) => saveToPlayList(e, videoProps.id.videoId)}>
+          <IconButton onClick={(e) => openOptions(e)}>
             <MoreVertIcon sx={{ color: "secondary.main" }} />
           </IconButton>
           <Menu
@@ -104,8 +112,10 @@ const CoverVideoCard = (props: IProps) => {
             open={isMenuOpen}
             onClose={handleMenuClose}
           >
-            <MenuItem>Save to playlist</MenuItem>
             <MenuItem>Add to watch later</MenuItem>
+            <MenuItem onClick={(e) => saveToPlayList(e, videoProps.id.videoId)}>
+              Save to playlist
+            </MenuItem>
           </Menu>
         </Box>
         <Typography variant="body2" color="secondary.dark">
