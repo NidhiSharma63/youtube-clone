@@ -101,8 +101,10 @@ export default function PersistentDrawerLeft() {
   };
 
   const handleCategories = (name: string) => {
+    console.log("i run");
     dispatch({ type: "addSearchCategory", payload: { value: name } });
     dispatch({ type: "addSearch", payload: { value: "" } });
+    navigate("/");
   };
 
   const moveToPlayList = () => {
