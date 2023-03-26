@@ -10,13 +10,21 @@ interface IInitialState {
 }
 
 interface IAction {
-  type: "addToPlayList" | "addToWatchLater";
+  type:
+    | "addToPlayList"
+    | "addToWatchLater"
+    | "removeFromPlayList"
+    | "removeFromWatchLater";
   payload: { videoId: string };
 }
 interface MyContextValue {
   state: IInitialState;
   dispatch: React.Dispatch<{
-    type: "addToPlayList" | "addToWatchLater";
+    type:
+      | "addToPlayList"
+      | "addToWatchLater"
+      | "removeFromPlayList"
+      | "removeFromWatchLater";
     payload: { videoId: string };
   }>;
 }
@@ -32,7 +40,6 @@ export const SavedVideoContext = createContext<MyContextValue>({
 });
 
 const reducer = (state: IInitialState, action: IAction): IInitialState => {
-  console.log(action.type, "tyep");
   switch (action.type) {
     case "addToPlayList":
       const updatedValueOfPlayList = [
@@ -52,12 +59,38 @@ const reducer = (state: IInitialState, action: IAction): IInitialState => {
         action.payload.videoId,
       ];
 
-      setValueTOLS(SAVE_TO_PLAYLIST, {
+      setValueTOLS(SAVE_TO_WATCHLATER, {
         savedPlayListValueArray: updatedValueOfWatchLater,
       });
       return {
         ...state,
         saveToWatchLater: updatedValueOfWatchLater,
+      };
+
+    case "removeFromPlayList":
+      const afterRemovingVideoFromPlaylist = state.saveToPlayelist.filter(
+        (item) => item !== action.payload.videoId
+      );
+
+      setValueTOLS(SAVE_TO_PLAYLIST, {
+        savedPlayListValueArray: afterRemovingVideoFromPlaylist,
+      });
+      return {
+        ...state,
+        saveToPlayelist: afterRemovingVideoFromPlaylist,
+      };
+
+    case "removeFromWatchLater":
+      const afterRemovingVideoFromWatchLater = state.saveToWatchLater.filter(
+        (item) => item !== action.payload.videoId
+      );
+
+      setValueTOLS(SAVE_TO_WATCHLATER, {
+        savedPlayListValueArray: afterRemovingVideoFromWatchLater,
+      });
+      return {
+        ...state,
+        saveToWatchLater: afterRemovingVideoFromWatchLater,
       };
 
     default:

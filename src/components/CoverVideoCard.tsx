@@ -62,6 +62,24 @@ const CoverVideoCard = (props: IProps) => {
     dispatch({ type: "addToWatchLater", payload: { videoId: videoId } });
   };
 
+  const removeFromWatchLaterFun = (
+    event: React.MouseEvent<HTMLLIElement>,
+    videoId: string
+  ) => {
+    setIsMenuOpen(false);
+    setAnchorEl(null);
+    dispatch({ type: "removeFromWatchLater", payload: { videoId: videoId } });
+  };
+
+  const removeFromPlaylistFun = (
+    event: React.MouseEvent<HTMLLIElement>,
+    videoId: string
+  ) => {
+    setIsMenuOpen(false);
+    setAnchorEl(null);
+    dispatch({ type: "removeFromPlayList", payload: { videoId: videoId } });
+  };
+
   return (
     <Card
       sx={{
@@ -120,7 +138,9 @@ const CoverVideoCard = (props: IProps) => {
               return item === videoProps.id.videoId;
             }) ? (
               <MenuItem
-                onClick={(e) => saveToWatchLaterFun(e, videoProps.id.videoId)}
+                onClick={(e) =>
+                  removeFromWatchLaterFun(e, videoProps.id.videoId)
+                }
               >
                 Remove from watch later
               </MenuItem>
@@ -136,7 +156,7 @@ const CoverVideoCard = (props: IProps) => {
               return item === videoProps.id.videoId;
             }) ? (
               <MenuItem
-                onClick={(e) => saveToWatchLaterFun(e, videoProps.id.videoId)}
+                onClick={(e) => removeFromPlaylistFun(e, videoProps.id.videoId)}
               >
                 Remove from playlist
               </MenuItem>
