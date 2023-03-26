@@ -1,44 +1,52 @@
 import { useContext, useEffect, useState } from "react";
 import { SavedVideoContext } from "context/SavedVideoProvider";
-import { Box, Grid } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 import useFetchPlaylistVideos from "hook/useFetchPlaylistVideo";
 import { IVideo } from "common/Interfaces";
+import HomePage from "components/HomePage";
+import { v4 as uuidv4 } from "uuid";
 
 interface IItems {
-  items: IVideo[];
-  kind: string;
-  pageInfo: {
-    resultsPerPage: number;
-    totalResults: number;
-  }[];
+  playlistData: IVideo[];
+  isLoading: boolean;
 }
 
 const Playlist = () => {
   const { state } = useContext(SavedVideoContext);
-  const [videos, setVideos] = useState<IVideo[]>([]);
-  const {} = useFetchPlaylistVideos();
+  const { playlistData, isLoading }: IItems = useFetchPlaylistVideos();
 
-  // useEffect(() => {
-  //   const videosData = userQueries.map((item) => {
-  //     return item.data;
-  //   });
-
-  //   const videosArray = videosData.map((item) => {
-  //     // console.log(item?.items, "video item");
-  //     if (item) {
-  //       return item?.items;
-  //     }
-  //     // return item
-  //     return "name";
-  //   });
-  //   // setVideos(videosArray);
-  // }, [userQueries]);
-
-  // useEffect(() => {
-  //   const videosArray =
-  // }, []);
-
-  return <div>Playlist</div>;
+  return (
+    <Grid
+      container
+      spacing={1}
+      sx={{
+        height: { xs: "auto" },
+        overflowY: "scroll",
+        overflowX: "hidden",
+        justifyContent: "center",
+      }}
+    >
+      {playlistData.length > 0 ? (
+        playlistData.map((item) => {
+          return <HomePage key={uuidv4()} videoProps={item} />;
+        })
+      ) : (
+        <Grid
+          item
+          xs={12}
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            color: "secondary.main",
+            height: "80vh",
+          }}
+        >
+          <Typography variant="h5">Your playlist is empty!</Typography>
+        </Grid>
+      )}
+    </Grid>
+  );
 };
 
 export default Playlist;

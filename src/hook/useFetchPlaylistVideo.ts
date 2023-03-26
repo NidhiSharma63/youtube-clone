@@ -4,6 +4,9 @@ import { useContext } from "react";
 import { BASE_URL } from "constant/Misc";
 
 import { useQueries } from "@tanstack/react-query";
+interface QueryResult {
+  data: any;
+}
 
 const useFetchPlaylistVideos = () => {
   const { state } = useContext(SavedVideoContext);
@@ -16,20 +19,23 @@ const useFetchPlaylistVideos = () => {
           customAxiosRequest(
             `${BASE_URL}/videos?part=snippet,statistic&id=${id}`
           ),
-        select: (playListVideo: { data: { items: any[] } }) =>
-          playListVideo.data.items,
+        select: (playListVideo: any) => playListVideo.data.items,
         refetchOnWindowFocus: false,
         staleTime: Infinity,
       };
     }),
   });
 
-  const allVideso = userQueries?.map((item) => {
+  let isLoading = false;
+
+  const allVideso = userQueries?.map((item: QueryResult) => {
     return item?.data?.[0];
   });
-  console.log(allVideso, "allVideso");
 
-  return { userQueries };
+  const newData = new Set(allVideso);
+  const playlistData = Array.from(newData);
+
+  return { playlistData, isLoading };
 };
 
 export default useFetchPlaylistVideos;
