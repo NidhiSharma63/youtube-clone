@@ -13,7 +13,10 @@ import {
   Button,
   TextField,
   DialogTitle,
-  Stack,
+  FormControl,
+  FormControlLabel,
+  FormGroup,
+  Checkbox,
 } from "@mui/material";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
@@ -115,11 +118,16 @@ const CoverVideoCard = (props: IProps) => {
           />
         </DialogTitle>
         <DialogContent>
-          <Stack direction="row">
-            {" "}
-            <AccessTimeIcon />
-            <Typography ml={1}>Add to watch later</Typography>
-          </Stack>
+          <FormControl component="fieldset">
+            <FormGroup aria-label="position" row>
+              <FormControlLabel
+                value="end"
+                control={<Checkbox />}
+                label="End"
+                labelPlacement="end"
+              />
+            </FormGroup>
+          </FormControl>
         </DialogContent>
         <DialogActions
           sx={{
