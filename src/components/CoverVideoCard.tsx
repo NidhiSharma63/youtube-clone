@@ -21,12 +21,13 @@ import {
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { useState, useContext } from "react";
+import { useState, useContext, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { IVideo } from "common/Interfaces";
 import { SavedVideoContext } from "context/SavedVideoProvider";
 import { toast } from "react-toastify";
 import ListIcon from "@mui/icons-material/List";
+import ReactDOM from "react-dom";
 interface IProps {
   videoProps: IVideo;
   width: {
@@ -39,9 +40,12 @@ const CoverVideoCard = (props: IProps) => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const [open, setOpen] = useState<boolean>(false);
+  const [playlistName, setPlayListName] = useState<string>("");
   const { state, dispatch } = useContext(SavedVideoContext);
   const { videoProps, width } = props;
   const { saveToWatchLater, saveToPlayelist } = state;
+
+  const playListContainer = useRef<HTMLElement | null>(null);
   const navigate = useNavigate();
 
   // console.log(videoProps, "video props");
@@ -98,6 +102,27 @@ const CoverVideoCard = (props: IProps) => {
     toast.info("video removed from playlist");
   };
 
+  const createPlayList = () => {
+    console.log(playlistName, "playlistname");
+    if (playlistName.length === 0) return;
+    const newPlayList = (
+      <FormControlLabel
+        value="playlistName"
+        control={<Checkbox />}
+        label={playlistName}
+      />
+    );
+
+    if (playListContainer.current) {
+      const container = document.createElement("div");
+      ReactDOM.render(newPlayList, container);
+      playListContainer.current.appendChild(container.firstChild as Node);
+
+      setPlayListName("");
+      // playListContainer.current.appendChild(newPlayList);
+    }
+  };
+
   return (
     <>
       <Dialog
@@ -113,6 +138,8 @@ const CoverVideoCard = (props: IProps) => {
             id="name"
             label="your playlist"
             type="text"
+            value={playlistName}
+            onChange={(e) => setPlayListName(e.target.value)}
             fullWidth
             variant="standard"
           />
@@ -120,12 +147,20 @@ const CoverVideoCard = (props: IProps) => {
         <DialogContent>
           <FormControl component="fieldset">
             <FormGroup aria-label="position" row>
-              <FormControlLabel
-                value="end"
-                control={<Checkbox />}
-                label="End"
-                labelPlacement="end"
-              />
+              <Box
+                ref={playListContainer}
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+              >
+                <FormControlLabel
+                  value="end"
+                  control={<Checkbox />}
+                  label="End"
+                  labelPlacement="end"
+                />
+              </Box>
             </FormGroup>
           </FormControl>
         </DialogContent>
@@ -135,7 +170,7 @@ const CoverVideoCard = (props: IProps) => {
             justifyContent: "center",
           }}
         >
-          <Button onClick={() => setOpen(false)}>Create playlist</Button>
+          <Button onClick={createPlayList}>Create playlist</Button>
         </DialogActions>
       </Dialog>
       <Card
