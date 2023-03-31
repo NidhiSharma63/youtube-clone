@@ -8,6 +8,7 @@ import {
   MenuItem,
   IconButton,
 } from "@mui/material";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useState, useContext } from "react";
@@ -15,6 +16,7 @@ import { useNavigate } from "react-router-dom";
 import { IVideo } from "common/Interfaces";
 import { SavedVideoContext } from "context/SavedVideoProvider";
 import { toast } from "react-toastify";
+import ListIcon from "@mui/icons-material/List";
 interface IProps {
   videoProps: IVideo;
   width: {
@@ -150,7 +152,8 @@ const CoverVideoCard = (props: IProps) => {
                   )
                 }
               >
-                Remove from watch later
+                <AccessTimeIcon />
+                <Typography ml={1}>Remove from watch later</Typography>
               </MenuItem>
             ) : (
               <MenuItem
@@ -158,7 +161,8 @@ const CoverVideoCard = (props: IProps) => {
                   saveToWatchLaterFun(e, videoProps.id.videoId ?? videoProps.id)
                 }
               >
-                Add to watch later
+                <AccessTimeIcon />
+                <Typography ml={1}>Add to watch later</Typography>
               </MenuItem>
             )}
             {saveToPlayelist.find((item) => {
@@ -173,7 +177,8 @@ const CoverVideoCard = (props: IProps) => {
                   )
                 }
               >
-                Remove from playlist
+                <ListIcon />
+                <Typography ml={1}>Remove from playlist</Typography>
               </MenuItem>
             ) : (
               <MenuItem
@@ -181,7 +186,8 @@ const CoverVideoCard = (props: IProps) => {
                   saveToPlayListFun(e, videoProps.id.videoId ?? videoProps.id)
                 }
               >
-                Save to playlist
+                <ListIcon />
+                <Typography ml={1}>Save to playlist</Typography>
               </MenuItem>
             )}
           </Menu>
