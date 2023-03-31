@@ -7,6 +7,13 @@ import {
   Menu,
   MenuItem,
   IconButton,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  Button,
+  TextField,
+  DialogTitle,
+  Stack,
 } from "@mui/material";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
@@ -28,6 +35,7 @@ interface IProps {
 const CoverVideoCard = (props: IProps) => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+  const [open, setOpen] = useState<boolean>(false);
   const { state, dispatch } = useContext(SavedVideoContext);
   const { videoProps, width } = props;
   const { saveToWatchLater, saveToPlayelist } = state;
@@ -88,116 +96,159 @@ const CoverVideoCard = (props: IProps) => {
   };
 
   return (
-    <Card
-      sx={{
-        ...{ width },
-        height: 310,
-        mt: 0.6,
-        borderRadius: 0,
-        backgroundColor: "primary.main",
-        transition: ".2s",
-        cursor: "pointer",
-        boxShadow: 0,
-        "&:hover": {
-          transform: "scale(1.04)",
-        },
-      }}
-    >
-      <CardMedia
-        sx={{ height: 180, borderRadius: 3 }}
-        image={`${videoProps?.snippet?.thumbnails?.high?.url}`}
-        title={`${videoProps?.snippet?.title}`}
-        onClick={() => handleClick(videoProps.id.videoId ?? videoProps.id)}
-      />
-      <CardContent sx={{ height: 105 }}>
-        <Box
+    <>
+      <Dialog
+        open={open}
+        // sx={{ width: "300px" }}
+        maxWidth={"xs"}
+        onClose={() => setIsMenuOpen(false)}
+      >
+        <DialogTitle>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="name"
+            label="your playlist"
+            type="text"
+            fullWidth
+            variant="standard"
+          />
+        </DialogTitle>
+        <DialogContent>
+          <Stack direction="row">
+            {" "}
+            <AccessTimeIcon />
+            <Typography ml={1}>Add to watch later</Typography>
+          </Stack>
+        </DialogContent>
+        <DialogActions
           sx={{
             display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            color: "secondary.main",
+            justifyContent: "center",
           }}
         >
-          <Typography gutterBottom variant="subtitle1" sx={{ maxWidth: "70%" }}>
-            {`${videoProps?.snippet?.title}`.slice(0, 40)}
-            ...
-          </Typography>
-
-          <IconButton onClick={(e) => openOptions(e)}>
-            <MoreVertIcon sx={{ color: "secondary.main" }} />
-          </IconButton>
-          <Menu
-            anchorEl={anchorEl}
-            anchorOrigin={{
-              vertical: "top",
-              horizontal: "right",
+          <Button onClick={() => setOpen(false)}>Create playlist</Button>
+        </DialogActions>
+      </Dialog>
+      <Card
+        sx={{
+          ...{ width },
+          height: 310,
+          mt: 0.6,
+          borderRadius: 0,
+          backgroundColor: "primary.main",
+          transition: ".2s",
+          cursor: "pointer",
+          boxShadow: 0,
+          "&:hover": {
+            transform: "scale(1.04)",
+          },
+        }}
+      >
+        <CardMedia
+          sx={{ height: 180, borderRadius: 3 }}
+          image={`${videoProps?.snippet?.thumbnails?.high?.url}`}
+          title={`${videoProps?.snippet?.title}`}
+          onClick={() => handleClick(videoProps.id.videoId ?? videoProps.id)}
+        />
+        <CardContent sx={{ height: 105 }}>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              color: "secondary.main",
             }}
-            keepMounted
-            transformOrigin={{
-              vertical: "top",
-              horizontal: "right",
-            }}
-            open={isMenuOpen}
-            onClose={handleMenuClose}
           >
-            {saveToWatchLater.find((item) => {
-              // console.log(item);
-              return item === (videoProps.id.videoId ?? videoProps.id);
-            }) ? (
-              <MenuItem
-                onClick={(e) =>
-                  removeFromWatchLaterFun(
-                    e,
-                    videoProps.id.videoId ?? videoProps.id
-                  )
-                }
-              >
-                <AccessTimeIcon />
-                <Typography ml={1}>Remove from watch later</Typography>
-              </MenuItem>
-            ) : (
-              <MenuItem
-                onClick={(e) =>
-                  saveToWatchLaterFun(e, videoProps.id.videoId ?? videoProps.id)
-                }
-              >
-                <AccessTimeIcon />
-                <Typography ml={1}>Add to watch later</Typography>
-              </MenuItem>
-            )}
-            {saveToPlayelist.find((item) => {
-              // console.log(item);
-              return item === (videoProps.id.videoId || videoProps.id);
-            }) ? (
-              <MenuItem
-                onClick={(e) =>
-                  removeFromPlaylistFun(
-                    e,
-                    videoProps.id.videoId ?? videoProps.id
-                  )
-                }
-              >
-                <ListIcon />
-                <Typography ml={1}>Remove from playlist</Typography>
-              </MenuItem>
-            ) : (
-              <MenuItem
-                onClick={(e) =>
-                  saveToPlayListFun(e, videoProps.id.videoId ?? videoProps.id)
-                }
-              >
-                <ListIcon />
-                <Typography ml={1}>Save to playlist</Typography>
-              </MenuItem>
-            )}
-          </Menu>
-        </Box>
-        <Typography variant="body2" color="secondary.dark">
-          {`${videoProps?.snippet?.channelTitle}`}
-          {<CheckCircleIcon sx={{ fontSize: ".9rem" }} />}
-        </Typography>
-      </CardContent>
-    </Card>
+            <Typography
+              gutterBottom
+              variant="subtitle1"
+              sx={{ maxWidth: "70%" }}
+            >
+              {`${videoProps?.snippet?.title}`.slice(0, 40)}
+              ...
+            </Typography>
+
+            <IconButton onClick={(e) => openOptions(e)}>
+              <MoreVertIcon sx={{ color: "secondary.main" }} />
+            </IconButton>
+            <Menu
+              anchorEl={anchorEl}
+              anchorOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              open={isMenuOpen}
+              onClose={handleMenuClose}
+            >
+              {saveToWatchLater.find((item) => {
+                // console.log(item);
+                return item === (videoProps.id.videoId ?? videoProps.id);
+              }) ? (
+                <MenuItem
+                  onClick={(e) =>
+                    removeFromWatchLaterFun(
+                      e,
+                      videoProps.id.videoId ?? videoProps.id
+                    )
+                  }
+                >
+                  <AccessTimeIcon />
+                  <Typography ml={1}>Remove from watch later</Typography>
+                </MenuItem>
+              ) : (
+                <MenuItem
+                  onClick={(e) =>
+                    saveToWatchLaterFun(
+                      e,
+                      videoProps.id.videoId ?? videoProps.id
+                    )
+                  }
+                >
+                  <AccessTimeIcon />
+                  <Typography ml={1}>Add to watch later</Typography>
+                </MenuItem>
+              )}
+              {saveToPlayelist.find((item) => {
+                // console.log(item);
+                return item === (videoProps.id.videoId || videoProps.id);
+              }) ? (
+                <MenuItem
+                  onClick={(e) =>
+                    removeFromPlaylistFun(
+                      e,
+                      videoProps.id.videoId ?? videoProps.id
+                    )
+                  }
+                >
+                  <ListIcon />
+                  <Typography ml={1}>Remove from playlist</Typography>
+                </MenuItem>
+              ) : (
+                <MenuItem
+                  // onClick={(e) =>
+                  //   saveToPlayListFun(e, videoProps.id.videoId ?? videoProps.id)
+                  // }
+                  onClick={() => setOpen(true)}
+                >
+                  <ListIcon />
+                  <Typography ml={1}>Save to playlist</Typography>
+                </MenuItem>
+              )}
+            </Menu>
+          </Box>
+          <Typography variant="body2" color="secondary.dark">
+            {`${videoProps?.snippet?.channelTitle}`}
+            {<CheckCircleIcon sx={{ fontSize: ".9rem" }} />}
+          </Typography>
+        </CardContent>
+      </Card>
+    </>
   );
 };
 
