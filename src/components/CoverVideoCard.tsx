@@ -29,8 +29,6 @@ import { PlayListVideoContext } from "context/SavedPlayList";
 import { toast } from "react-toastify";
 import ListIcon from "@mui/icons-material/List";
 import ReactDOM from "react-dom";
-import { setValueTOLS, getValueFromLS } from "utils/localstorage";
-import { USER_PLAYLIST } from "constant/Misc";
 interface IProps {
   videoProps: IVideo;
   width: {
@@ -54,6 +52,7 @@ const CoverVideoCard = (props: IProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const [open, setOpen] = useState<boolean>(false);
   const [playlistName, setPlayListName] = useState<string>("");
+  const [addToPlayList, setAddToPlaylist] = useState(false);
   // const { state, dispatch } = useContext(SavedVideoContext);
   const { videoProps, width } = props;
   // const { saveToWatchLater, saveToPlayelist } = state;
@@ -85,6 +84,8 @@ const CoverVideoCard = (props: IProps) => {
     }
   };
 
+  console.log(state.playListVideo);
+
   useEffect(() => {
     window.addEventListener("click", handleClickOutside);
 
@@ -92,9 +93,12 @@ const CoverVideoCard = (props: IProps) => {
       window.removeEventListener("click", handleClickOutside);
     };
   }, []);
+
   const createPlayList = () => {
-    console.log(playlistName, "playlistname");
-    if (playlistName.length === 0) return;
+    if (playlistName.length === 0) {
+      setAddToPlaylist(true);
+      return;
+    }
     const newPlayList = (
       <FormControlLabel
         value="playlistName"
@@ -107,15 +111,24 @@ const CoverVideoCard = (props: IProps) => {
       const container = document.createElement("div");
       ReactDOM.render(newPlayList, container);
       playListContainer.current.appendChild(container.firstChild as Node);
-      // setValueTOLS("playListCreated", { playlistName });
       dispatch({
         type: "createNewPlayList",
         payload: { playListName: playlistName, videoId: videoProps.id.videoId },
       });
 
       setPlayListName("");
-      // playListContainer.current.appendChild(newPlayList);
     }
+    setOpen(false);
+  };
+
+  const addToPlaylist = (val: string) => {
+    if (addToPlayList) {
+      dispatch({
+        type: "videoAddToPlayList",
+        payload: { playListName: val, videoId: videoProps.id.videoId },
+      });
+    }
+    setAddToPlaylist(false);
   };
 
   return (
@@ -153,12 +166,14 @@ const CoverVideoCard = (props: IProps) => {
                   value="Watch later"
                   control={<Checkbox />}
                   label="Watch later"
+                  onClick={() => addToPlaylist("Watch later")}
                 />
                 {state.playListVideo.map((item) => {
                   return (
                     <FormControlLabel
                       value={item.playListName}
                       control={<Checkbox />}
+                      onClick={() => addToPlaylist(item.playListName)}
                       label={item.playListName}
                     />
                   );
