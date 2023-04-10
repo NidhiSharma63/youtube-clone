@@ -2,7 +2,7 @@ interface ISetValueToLs {
   email?: string | null;
   profileUrl?: string | null;
   displayedName?: string | null;
-  savedPlayListValueArray?: string[];
+  savedPlayListValueArray?: string;
   playlistName?: string;
 }
 
