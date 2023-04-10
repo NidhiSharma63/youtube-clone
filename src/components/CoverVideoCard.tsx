@@ -21,7 +21,7 @@ import {
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { useState, useContext, useRef } from "react";
+import { useState, useContext, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { IVideo } from "common/Interfaces";
 import { SavedVideoContext } from "context/SavedVideoProvider";
@@ -65,6 +65,22 @@ const CoverVideoCard = (props: IProps) => {
     setAnchorEl(event.currentTarget);
     setIsMenuOpen(true);
   };
+
+  const handleClickOutside = (e: MouseEvent) => {
+    if (e.target !== null) {
+      if ((e.target as HTMLElement).tagName === "DIV") {
+        setOpen(false);
+      }
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("click", handleClickOutside);
+
+    return () => {
+      window.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
 
   // const saveToPlayListFun = (
   //   event: React.MouseEvent<HTMLLIElement>,
