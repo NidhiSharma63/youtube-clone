@@ -92,8 +92,6 @@ const CoverVideoCard = (props: IProps) => {
       window.removeEventListener("click", handleClickOutside);
     };
   }, []);
-
-  console.log(state);
   const createPlayList = () => {
     console.log(playlistName, "playlistname");
     if (playlistName.length === 0) return;
@@ -152,11 +150,19 @@ const CoverVideoCard = (props: IProps) => {
                 }}
               >
                 <FormControlLabel
-                  value="end"
+                  value="Watch later"
                   control={<Checkbox />}
                   label="Watch later"
-                  labelPlacement="end"
                 />
+                {state.playListVideo.map((item) => {
+                  return (
+                    <FormControlLabel
+                      value={item.playListName}
+                      control={<Checkbox />}
+                      label={item.playListName}
+                    />
+                  );
+                })}
               </Box>
             </FormGroup>
           </FormControl>
