@@ -29,7 +29,8 @@ import { PlayListVideoContext } from "context/SavedPlayList";
 import { toast } from "react-toastify";
 import ListIcon from "@mui/icons-material/List";
 import ReactDOM from "react-dom";
-import { setValueTOLS } from "utils/localstorage";
+import { setValueTOLS, getValueFromLS } from "utils/localstorage";
+import { USER_PLAYLIST } from "constant/Misc";
 interface IProps {
   videoProps: IVideo;
   width: {
@@ -39,6 +40,16 @@ interface IProps {
 }
 
 const CoverVideoCard = (props: IProps) => {
+  // const playListFromLS = getValueFromLS(USER_PLAYLIST);
+
+  // if (playListFromLS) {
+  //   const parsePlayListVideoFromLS = JSON.parse(playListFromLS);
+  //   const playListVideo = JSON.parse(
+  //     parsePlayListVideoFromLS.savedPlayListValueArray
+  //   );
+
+  //   // console.log(playListVideo);
+  // }
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const [open, setOpen] = useState<boolean>(false);
@@ -47,7 +58,7 @@ const CoverVideoCard = (props: IProps) => {
   const { videoProps, width } = props;
   // const { saveToWatchLater, saveToPlayelist } = state;
 
-  const { dispatch } = useContext(PlayListVideoContext);
+  const { state, dispatch } = useContext(PlayListVideoContext);
 
   const playListContainer = useRef<HTMLElement | null>(null);
   const navigate = useNavigate();
@@ -82,46 +93,7 @@ const CoverVideoCard = (props: IProps) => {
     };
   }, []);
 
-  // const saveToPlayListFun = (
-  //   event: React.MouseEvent<HTMLLIElement>,
-  //   videoId: string
-  // ) => {
-  //   setIsMenuOpen(false);
-  //   setAnchorEl(null);
-  //   dispatch({ type: "addToPlayList", payload: { videoId: videoId } });
-  //   toast.info("video added to playlist");
-  // };
-
-  // const saveToWatchLaterFun = (
-  //   event: React.MouseEvent<HTMLLIElement>,
-  //   videoId: string
-  // ) => {
-  //   setIsMenuOpen(false);
-  //   setAnchorEl(null);
-  //   dispatch({ type: "addToWatchLater", payload: { videoId: videoId } });
-  //   toast.info("video added to watch later");
-  // };
-
-  // const removeFromWatchLaterFun = (
-  //   event: React.MouseEvent<HTMLLIElement>,
-  //   videoId: string
-  // ) => {
-  //   setIsMenuOpen(false);
-  //   setAnchorEl(null);
-  //   dispatch({ type: "removeFromWatchLater", payload: { videoId: videoId } });
-  //   toast.info("video removed from watch later");
-  // };
-
-  // const removeFromPlaylistFun = (
-  //   event: React.MouseEvent<HTMLLIElement>,
-  //   videoId: string
-  // ) => {
-  //   setIsMenuOpen(false);
-  //   setAnchorEl(null);
-  //   dispatch({ type: "removeFromPlayList", payload: { videoId: videoId } });
-  //   toast.info("video removed from playlist");
-  // };
-
+  console.log(state);
   const createPlayList = () => {
     console.log(playlistName, "playlistname");
     if (playlistName.length === 0) return;
