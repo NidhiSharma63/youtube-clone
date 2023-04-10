@@ -57,9 +57,9 @@ const reducer = (state: IInitialState, action: IAction): IInitialState => {
         ...state.saveToPlayelist,
         action.payload.videoId,
       ];
-      setValueTOLS(SAVE_TO_PLAYLIST, {
-        savedPlayListValueArray: updatedValueOfPlayList,
-      });
+      // setValueTOLS(SAVE_TO_PLAYLIST, {
+      //   savedPlayListValueArray: updatedValueOfPlayList,
+      // });
       return {
         ...state,
         saveToPlayelist: updatedValueOfPlayList,
@@ -70,9 +70,9 @@ const reducer = (state: IInitialState, action: IAction): IInitialState => {
         action.payload.videoId,
       ];
 
-      setValueTOLS(SAVE_TO_WATCHLATER, {
-        savedPlayListValueArray: updatedValueOfWatchLater,
-      });
+      // setValueTOLS(SAVE_TO_WATCHLATER, {
+      //   savedPlayListValueArray: updatedValueOfWatchLater,
+      // });
       return {
         ...state,
         saveToWatchLater: updatedValueOfWatchLater,
@@ -83,9 +83,9 @@ const reducer = (state: IInitialState, action: IAction): IInitialState => {
         (item) => item !== action.payload.videoId
       );
 
-      setValueTOLS(SAVE_TO_PLAYLIST, {
-        savedPlayListValueArray: afterRemovingVideoFromPlaylist,
-      });
+      // setValueTOLS(SAVE_TO_PLAYLIST, {
+      //   savedPlayListValueArray: afterRemovingVideoFromPlaylist,
+      // });
       return {
         ...state,
         saveToPlayelist: afterRemovingVideoFromPlaylist,
@@ -96,9 +96,9 @@ const reducer = (state: IInitialState, action: IAction): IInitialState => {
         (item) => item !== action.payload.videoId
       );
 
-      setValueTOLS(SAVE_TO_WATCHLATER, {
-        savedPlayListValueArray: afterRemovingVideoFromWatchLater,
-      });
+      // setValueTOLS(SAVE_TO_WATCHLATER, {
+      //   savedPlayListValueArray: afterRemovingVideoFromWatchLater,
+      // });
       return {
         ...state,
         saveToWatchLater: afterRemovingVideoFromWatchLater,

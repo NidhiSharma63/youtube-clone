@@ -25,6 +25,7 @@ import { useState, useContext, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { IVideo } from "common/Interfaces";
 import { SavedVideoContext } from "context/SavedVideoProvider";
+import { PlayListVideoContext } from "context/SavedPlayList";
 import { toast } from "react-toastify";
 import ListIcon from "@mui/icons-material/List";
 import ReactDOM from "react-dom";
@@ -42,9 +43,11 @@ const CoverVideoCard = (props: IProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const [open, setOpen] = useState<boolean>(false);
   const [playlistName, setPlayListName] = useState<string>("");
-  const { state, dispatch } = useContext(SavedVideoContext);
+  // const { state, dispatch } = useContext(SavedVideoContext);
   const { videoProps, width } = props;
-  const { saveToWatchLater, saveToPlayelist } = state;
+  // const { saveToWatchLater, saveToPlayelist } = state;
+
+  const { dispatch } = useContext(PlayListVideoContext);
 
   const playListContainer = useRef<HTMLElement | null>(null);
   const navigate = useNavigate();
@@ -63,45 +66,45 @@ const CoverVideoCard = (props: IProps) => {
     setIsMenuOpen(true);
   };
 
-  const saveToPlayListFun = (
-    event: React.MouseEvent<HTMLLIElement>,
-    videoId: string
-  ) => {
-    setIsMenuOpen(false);
-    setAnchorEl(null);
-    dispatch({ type: "addToPlayList", payload: { videoId: videoId } });
-    toast.info("video added to playlist");
-  };
+  // const saveToPlayListFun = (
+  //   event: React.MouseEvent<HTMLLIElement>,
+  //   videoId: string
+  // ) => {
+  //   setIsMenuOpen(false);
+  //   setAnchorEl(null);
+  //   dispatch({ type: "addToPlayList", payload: { videoId: videoId } });
+  //   toast.info("video added to playlist");
+  // };
 
-  const saveToWatchLaterFun = (
-    event: React.MouseEvent<HTMLLIElement>,
-    videoId: string
-  ) => {
-    setIsMenuOpen(false);
-    setAnchorEl(null);
-    dispatch({ type: "addToWatchLater", payload: { videoId: videoId } });
-    toast.info("video added to watch later");
-  };
+  // const saveToWatchLaterFun = (
+  //   event: React.MouseEvent<HTMLLIElement>,
+  //   videoId: string
+  // ) => {
+  //   setIsMenuOpen(false);
+  //   setAnchorEl(null);
+  //   dispatch({ type: "addToWatchLater", payload: { videoId: videoId } });
+  //   toast.info("video added to watch later");
+  // };
 
-  const removeFromWatchLaterFun = (
-    event: React.MouseEvent<HTMLLIElement>,
-    videoId: string
-  ) => {
-    setIsMenuOpen(false);
-    setAnchorEl(null);
-    dispatch({ type: "removeFromWatchLater", payload: { videoId: videoId } });
-    toast.info("video removed from watch later");
-  };
+  // const removeFromWatchLaterFun = (
+  //   event: React.MouseEvent<HTMLLIElement>,
+  //   videoId: string
+  // ) => {
+  //   setIsMenuOpen(false);
+  //   setAnchorEl(null);
+  //   dispatch({ type: "removeFromWatchLater", payload: { videoId: videoId } });
+  //   toast.info("video removed from watch later");
+  // };
 
-  const removeFromPlaylistFun = (
-    event: React.MouseEvent<HTMLLIElement>,
-    videoId: string
-  ) => {
-    setIsMenuOpen(false);
-    setAnchorEl(null);
-    dispatch({ type: "removeFromPlayList", payload: { videoId: videoId } });
-    toast.info("video removed from playlist");
-  };
+  // const removeFromPlaylistFun = (
+  //   event: React.MouseEvent<HTMLLIElement>,
+  //   videoId: string
+  // ) => {
+  //   setIsMenuOpen(false);
+  //   setAnchorEl(null);
+  //   dispatch({ type: "removeFromPlayList", payload: { videoId: videoId } });
+  //   toast.info("video removed from playlist");
+  // };
 
   const createPlayList = () => {
     console.log(playlistName, "playlistname");
@@ -118,7 +121,12 @@ const CoverVideoCard = (props: IProps) => {
       const container = document.createElement("div");
       ReactDOM.render(newPlayList, container);
       playListContainer.current.appendChild(container.firstChild as Node);
-      setValueTOLS("playListCreated", { playlistName });
+      // setValueTOLS("playListCreated", { playlistName });
+      dispatch({
+        type: "createNewPlayList",
+        payload: { playListName: playlistName, videoId: videoProps.id.videoId },
+      });
+
       setPlayListName("");
       // playListContainer.current.appendChild(newPlayList);
     }
@@ -158,7 +166,7 @@ const CoverVideoCard = (props: IProps) => {
                 <FormControlLabel
                   value="end"
                   control={<Checkbox />}
-                  label="End"
+                  label="Watch later"
                   labelPlacement="end"
                 />
               </Box>
@@ -230,60 +238,7 @@ const CoverVideoCard = (props: IProps) => {
               open={isMenuOpen}
               onClose={handleMenuClose}
             >
-              {saveToWatchLater.find((item) => {
-                // console.log(item);
-                return item === (videoProps.id.videoId ?? videoProps.id);
-              }) ? (
-                <MenuItem
-                  onClick={(e) =>
-                    removeFromWatchLaterFun(
-                      e,
-                      videoProps.id.videoId ?? videoProps.id
-                    )
-                  }
-                >
-                  <AccessTimeIcon />
-                  <Typography ml={1}>Remove from watch later</Typography>
-                </MenuItem>
-              ) : (
-                <MenuItem
-                  onClick={(e) =>
-                    saveToWatchLaterFun(
-                      e,
-                      videoProps.id.videoId ?? videoProps.id
-                    )
-                  }
-                >
-                  <AccessTimeIcon />
-                  <Typography ml={1}>Add to watch later</Typography>
-                </MenuItem>
-              )}
-              {saveToPlayelist.find((item) => {
-                // console.log(item);
-                return item === (videoProps.id.videoId || videoProps.id);
-              }) ? (
-                <MenuItem
-                  onClick={(e) =>
-                    removeFromPlaylistFun(
-                      e,
-                      videoProps.id.videoId ?? videoProps.id
-                    )
-                  }
-                >
-                  <ListIcon />
-                  <Typography ml={1}>Remove from playlist</Typography>
-                </MenuItem>
-              ) : (
-                <MenuItem
-                  // onClick={(e) =>
-                  //   saveToPlayListFun(e, videoProps.id.videoId ?? videoProps.id)
-                  // }
-                  onClick={() => setOpen(true)}
-                >
-                  <ListIcon />
-                  <Typography ml={1}>Save to playlist</Typography>
-                </MenuItem>
-              )}
+              <MenuItem onClick={() => setOpen(true)}>Add to PlayList</MenuItem>
             </Menu>
           </Box>
           <Typography variant="body2" color="secondary.dark">
