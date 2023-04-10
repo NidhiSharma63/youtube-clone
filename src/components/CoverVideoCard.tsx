@@ -28,6 +28,7 @@ import { SavedVideoContext } from "context/SavedVideoProvider";
 import { toast } from "react-toastify";
 import ListIcon from "@mui/icons-material/List";
 import ReactDOM from "react-dom";
+import { setValueTOLS } from "utils/localstorage";
 interface IProps {
   videoProps: IVideo;
   width: {
@@ -108,7 +109,7 @@ const CoverVideoCard = (props: IProps) => {
     const newPlayList = (
       <FormControlLabel
         value="playlistName"
-        control={<Checkbox />}
+        control={<Checkbox checked={true} />}
         label={playlistName}
       />
     );
@@ -117,7 +118,7 @@ const CoverVideoCard = (props: IProps) => {
       const container = document.createElement("div");
       ReactDOM.render(newPlayList, container);
       playListContainer.current.appendChild(container.firstChild as Node);
-
+      setValueTOLS("playListCreated", { playlistName });
       setPlayListName("");
       // playListContainer.current.appendChild(newPlayList);
     }

@@ -7,6 +7,7 @@ import { SAVE_TO_PLAYLIST, SAVE_TO_WATCHLATER } from "constant/Misc";
 interface IInitialState {
   saveToPlayelist: string[];
   saveToWatchLater: string[];
+  playlistCreatedByUser: string[];
 }
 
 interface IAction {
@@ -14,8 +15,9 @@ interface IAction {
     | "addToPlayList"
     | "addToWatchLater"
     | "removeFromPlayList"
-    | "removeFromWatchLater";
-  payload: { videoId: string };
+    | "removeFromWatchLater"
+    | "addPlayList";
+  payload: { videoId: string; playListName?: string };
 }
 interface MyContextValue {
   state: IInitialState;
@@ -24,8 +26,9 @@ interface MyContextValue {
       | "addToPlayList"
       | "addToWatchLater"
       | "removeFromPlayList"
-      | "removeFromWatchLater";
-    payload: { videoId: string };
+      | "removeFromWatchLater"
+      | "addPlayList";
+    payload: { videoId: string; playListName?: string };
   }>;
 }
 
@@ -39,6 +42,7 @@ const initialState: IInitialState = {
   saveToWatchLater: getWatchLaterFromLS
     ? JSON.parse(getWatchLaterFromLS).savedPlayListValueArray
     : [],
+  playlistCreatedByUser: [],
 };
 
 export const SavedVideoContext = createContext<MyContextValue>({
@@ -107,24 +111,6 @@ const reducer = (state: IInitialState, action: IAction): IInitialState => {
 
 const SavedVideoProvider = ({ children }: IChildren) => {
   const [state, dispatch] = useReducer(reducer, initialState);
-
-  // useEffect(() => {
-  //   const savedValueArray = state.saveToPlayelist;
-  //   if (savedValueArray.length > 0) {
-  //     setValueTOLS(SAVE_TO_PLAYLIST, {
-  //       savedPlayListValueArray: savedValueArray,
-  //     });
-  //   }
-  // }, [state.saveToPlayelist]);
-
-  // useEffect(() => {
-  //   const savedValueArray = state.saveToWatchLater;
-  //   if (savedValueArray.length > 0) {
-  //     setValueTOLS(SAVE_TO_WATCHLATER, {
-  //       savedPlayListValueArray: savedValueArray,
-  //     });
-  //   }
-  // }, [state.saveToWatchLater]);
 
   return (
     <SavedVideoContext.Provider value={{ state, dispatch }}>

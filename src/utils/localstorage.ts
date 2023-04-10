@@ -3,6 +3,7 @@ interface ISetValueToLs {
   profileUrl?: string | null;
   displayedName?: string | null;
   savedPlayListValueArray?: string[];
+  playlistName?: string;
 }
 
 export const setValueTOLS = (key: string, value: ISetValueToLs): void => {

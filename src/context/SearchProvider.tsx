@@ -35,6 +35,7 @@ const reducer = (state: IState, action: IAction): IState => {
       return { ...state, search: action.payload.value };
     case "addSearchCategory":
       return { ...state, category: action.payload.value };
+
     default:
       return state;
   }
