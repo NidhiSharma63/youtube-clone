@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { styled, useTheme } from "@mui/material/styles";
 import {
   Box,
@@ -89,7 +89,8 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 
 export default function PersistentDrawerLeft() {
   const theme = useTheme();
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState<boolean>(false);
+  const [selectedPlaylist, setSelectedPlaylist] = useState<string>("");
   const { dispatch } = useContext(searchContext);
   const navigate = useNavigate();
   const { state } = useContext(PlayListVideoContext);
@@ -108,12 +109,11 @@ export default function PersistentDrawerLeft() {
     navigate("/");
   };
 
-  const moveToPlayList = () => {
-    navigate("/playlist");
-  };
-  const moveToWatchLater = () => {
-    navigate("/watchlater");
-  };
+  useEffect(() => {
+    if (selectedPlaylist) {
+      navigate(`/playlist/${selectedPlaylist}`);
+    }
+  }, [selectedPlaylist, navigate]);
 
   return (
     <Box
@@ -189,10 +189,11 @@ export default function PersistentDrawerLeft() {
             );
           })}
           {state.playListVideo.map((item) => {
-            console.log(item.playListName, "item");
-
             return (
-              <ListItem disablePadding onClick={() => moveToWatchLater()}>
+              <ListItem
+                disablePadding
+                onClick={() => setSelectedPlaylist(item.playListName)}
+              >
                 <ListItemButton>
                   <ListItemIcon sx={{ color: "secondary.main" }}>
                     {item.playListName === "watch later" ? (

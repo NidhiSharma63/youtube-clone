@@ -29,6 +29,7 @@ const options: IOptions = {
 // Promise.reject(error) to solve the error
 
 function customAxiosRequest(url: string): Promise<AxiosResponse> {
+  console.log(url, "url");
   try {
     const response = axios.get(url, options);
     return response;

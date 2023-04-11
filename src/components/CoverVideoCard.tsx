@@ -18,16 +18,13 @@ import {
   FormGroup,
   Checkbox,
 } from "@mui/material";
-import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useState, useContext, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { IVideo } from "common/Interfaces";
-import { SavedVideoContext } from "context/SavedVideoProvider";
 import { PlayListVideoContext } from "context/SavedPlayList";
 import { toast } from "react-toastify";
-import ListIcon from "@mui/icons-material/List";
 import ReactDOM from "react-dom";
 interface IProps {
   videoProps: IVideo;
@@ -38,31 +35,18 @@ interface IProps {
 }
 
 const CoverVideoCard = (props: IProps) => {
-  // const playListFromLS = getValueFromLS(USER_PLAYLIST);
-
-  // if (playListFromLS) {
-  //   const parsePlayListVideoFromLS = JSON.parse(playListFromLS);
-  //   const playListVideo = JSON.parse(
-  //     parsePlayListVideoFromLS.savedPlayListValueArray
-  //   );
-
-  //   // console.log(playListVideo);
-  // }
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const [open, setOpen] = useState<boolean>(false);
   const [playlistName, setPlayListName] = useState<string>("");
   const [addToPlayList, setAddToPlaylist] = useState(false);
-  // const { state, dispatch } = useContext(SavedVideoContext);
   const { videoProps, width } = props;
-  // const { saveToWatchLater, saveToPlayelist } = state;
 
   const { state, dispatch } = useContext(PlayListVideoContext);
 
   const playListContainer = useRef<HTMLElement | null>(null);
   const navigate = useNavigate();
 
-  // console.log(videoProps, "video props");
   const handleClick = (id: string): void => {
     navigate(`/video/${id}`);
   };
@@ -84,8 +68,6 @@ const CoverVideoCard = (props: IProps) => {
     }
   };
 
-  console.log(state.playListVideo);
-
   useEffect(() => {
     window.addEventListener("click", handleClickOutside);
 
@@ -94,9 +76,11 @@ const CoverVideoCard = (props: IProps) => {
     };
   }, []);
 
-  const createPlayList = () => {
+  const createPlayList = (e: any) => {
+    e.stopPropagation();
     if (playlistName.length === 0) {
       setAddToPlaylist(true);
+      setOpen(false);
       return;
     }
     const newPlayList = (
@@ -119,6 +103,7 @@ const CoverVideoCard = (props: IProps) => {
       setPlayListName("");
     }
     setOpen(false);
+    toast("n");
   };
 
   const addToPlaylist = (val: string) => {
@@ -133,12 +118,7 @@ const CoverVideoCard = (props: IProps) => {
 
   return (
     <>
-      <Dialog
-        open={open}
-        // sx={{ width: "300px" }}
-        maxWidth={"xs"}
-        onClose={() => setIsMenuOpen(false)}
-      >
+      <Dialog open={open} maxWidth={"xs"} onClose={() => setIsMenuOpen(false)}>
         <DialogTitle>
           <TextField
             autoFocus

@@ -4,6 +4,7 @@ import { IVideo } from "common/Interfaces";
 import HomePage from "components/HomePage";
 import { v4 as uuidv4 } from "uuid";
 import Loader from "components/Loader";
+import { useParams } from "react-router-dom";
 
 interface IItems {
   playlistData: IVideo[];
@@ -11,11 +12,16 @@ interface IItems {
 }
 
 const Playlist = () => {
-  const { playlistData, isLoading }: IItems = useFetchPlaylistVideos();
+  const { playlist_name } = useParams();
+  const { playlistData, isLoading }: IItems =
+    useFetchPlaylistVideos(playlist_name);
+
+  useFetchPlaylistVideos(playlist_name);
 
   if (isLoading) {
     return <Loader />;
   }
+
   return (
     <Grid
       container

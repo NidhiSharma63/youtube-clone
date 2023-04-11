@@ -16,7 +16,7 @@ const App: React.FC = (): JSX.Element => {
       { path: "/video/:id", element: <Video /> },
       { path: "/channel/:id", element: <Channel /> },
       { path: "/watchlater", element: <WatchLater /> },
-      { path: "/playlist", element: <Playlist /> },
+      { path: "/playlist/:playlist_name", element: <Playlist /> },
     ],
   };
   const routing = useRoutes([Routes]);
