@@ -162,12 +162,6 @@ const CoverVideoCard = (props: IProps) => {
                   flexDirection: "column",
                 }}
               >
-                <FormControlLabel
-                  value="Watch later"
-                  control={<Checkbox />}
-                  label="Watch later"
-                  onClick={() => addToPlaylist("Watch later")}
-                />
                 {state.playListVideo.map((item) => {
                   return (
                     <FormControlLabel

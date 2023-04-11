@@ -17,7 +17,7 @@ const playListFromLS = getValueFromLS(USER_PLAYLIST);
 const initialState: IInitialState = {
   playListVideo: playListFromLS
     ? JSON.parse(JSON.parse(playListFromLS).savedPlayListValueArray)
-    : [],
+    : [{ playListName: "watch later", videoId: [] }],
 };
 
 interface IAction {

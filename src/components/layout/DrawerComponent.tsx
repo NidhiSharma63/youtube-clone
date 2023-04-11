@@ -29,6 +29,7 @@ import { useNavigate } from "react-router-dom";
 import { Outlet } from "react-router-dom";
 import { searchContext } from "context/SearchProvider";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import { PlayListVideoContext } from "context/SavedPlayList";
 
 interface ICategories {
   name: string;
@@ -91,6 +92,7 @@ export default function PersistentDrawerLeft() {
   const [open, setOpen] = useState(false);
   const { dispatch } = useContext(searchContext);
   const navigate = useNavigate();
+  const { state } = useContext(PlayListVideoContext);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -186,28 +188,27 @@ export default function PersistentDrawerLeft() {
               </ListItem>
             );
           })}
-          <ListItem disablePadding onClick={() => moveToWatchLater()}>
-            <ListItemButton>
-              <ListItemIcon sx={{ color: "secondary.main" }}>
-                <AccessTimeIcon />
-              </ListItemIcon>
-              <ListItemText
-                sx={{ color: "secondary.main" }}
-                primary={"Wacth Later"}
-              />
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding onClick={() => moveToPlayList()}>
-            <ListItemButton>
-              <ListItemIcon sx={{ color: "secondary.main" }}>
-                <SmartDisplayIcon />
-              </ListItemIcon>
-              <ListItemText
-                sx={{ color: "secondary.main" }}
-                primary={"Your Videos"}
-              />
-            </ListItemButton>
-          </ListItem>
+          {state.playListVideo.map((item) => {
+            console.log(item.playListName, "item");
+
+            return (
+              <ListItem disablePadding onClick={() => moveToWatchLater()}>
+                <ListItemButton>
+                  <ListItemIcon sx={{ color: "secondary.main" }}>
+                    {item.playListName === "watch later" ? (
+                      <AccessTimeIcon />
+                    ) : (
+                      <SmartDisplayIcon />
+                    )}
+                  </ListItemIcon>
+                  <ListItemText
+                    sx={{ color: "secondary.main" }}
+                    primary={item.playListName}
+                  />
+                </ListItemButton>
+              </ListItem>
+            );
+          })}
         </List>
         {/* <Divider /> */}
       </MuiDrawer>
