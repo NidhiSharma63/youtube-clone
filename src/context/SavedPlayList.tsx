@@ -31,7 +31,11 @@ interface IAction {
 interface MyContextValue {
   state: IInitialState;
   dispatch: React.Dispatch<{
-    type: "videoAddToPlayList" | "createNewPlayList";
+    type:
+      | "videoAddToPlayList"
+      | "createNewPlayList"
+      | "removeVideoFromPlaylist"
+      | "removePlayList";
     payload: { playListName: string; videoId: string };
   }>;
 }
@@ -81,9 +85,33 @@ const reducer = (state: IInitialState, action: IAction): IInitialState => {
         playListVideo: newPlayList,
       };
     }
-    // case "removeVideoFromPlaylist":{
+    case "removeVideoFromPlaylist": {
+      const targetedPlaylistIndex = state.playListVideo.findIndex((item) => {
+        return item.playListName === action.payload.playListName;
+      });
 
-    // }
+      const targetedPlaylist = state.playListVideo[targetedPlaylistIndex];
+
+      const indexToRemove = targetedPlaylist.videoId.indexOf(
+        action.payload.videoId
+      );
+      if (indexToRemove !== -1) {
+        targetedPlaylist.videoId.splice(indexToRemove, 1);
+      }
+
+      const newPlayListVideo = [
+        ...state.playListVideo.slice(0, targetedPlaylistIndex),
+        targetedPlaylist,
+        ...state.playListVideo.slice(targetedPlaylistIndex + 1),
+      ];
+      setValueTOLS(USER_PLAYLIST, {
+        savedPlayListValueArray: JSON.stringify(newPlayListVideo),
+      });
+      return {
+        ...state,
+        playListVideo: newPlayListVideo,
+      };
+    }
     default:
       return state;
   }

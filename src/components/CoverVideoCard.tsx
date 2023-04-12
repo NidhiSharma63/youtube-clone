@@ -106,6 +106,7 @@ const CoverVideoCard = (props: IProps) => {
 
   const handleClickOnPlaylist = (e: any) => {
     if (e.target.type === "checkbox") {
+      console.log("should run", e.target.checked);
       if (e.target.checked) {
         dispatch({
           type: "videoAddToPlayList",
@@ -115,7 +116,18 @@ const CoverVideoCard = (props: IProps) => {
           },
         });
       }
+      if (!e.target.checked) {
+        console.log("i run");
+        dispatch({
+          type: "removeVideoFromPlaylist",
+          payload: {
+            playListName: e.target.value,
+            videoId: videoProps.id.videoId,
+          },
+        });
+      }
     }
+    e.target.checked = !e.target.checked;
   };
 
   // useEffect(() => {}, [addToPlayList]);
@@ -146,15 +158,17 @@ const CoverVideoCard = (props: IProps) => {
                   flexDirection: "column",
                 }}
               >
-                {state.playListVideo.map((item) => {
+                {state.playListVideo.map((item, i) => {
                   return (
                     <FormControlLabel
+                      key={i}
                       value={item.playListName}
                       control={
                         <Checkbox
-                          checked={item?.videoId?.includes(
-                            videoProps?.id?.videoId
-                          )}
+                          checked={
+                            item?.videoId?.includes(videoProps?.id?.videoId) ||
+                            false
+                          }
                         />
                       }
                       onClick={handleClickOnPlaylist}
