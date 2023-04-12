@@ -39,7 +39,6 @@ const CoverVideoCard = (props: IProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const [open, setOpen] = useState<boolean>(false);
   const [playlistName, setPlayListName] = useState<string>("");
-  const [addToPlayList, setAddToPlaylist] = useState(false);
   const { videoProps, width } = props;
 
   const { state, dispatch } = useContext(PlayListVideoContext);
@@ -79,7 +78,6 @@ const CoverVideoCard = (props: IProps) => {
   const createPlayList = (e: any) => {
     e.stopPropagation();
     if (playlistName.length === 0) {
-      setAddToPlaylist(true);
       setOpen(false);
       return;
     }
@@ -106,15 +104,21 @@ const CoverVideoCard = (props: IProps) => {
     toast("n");
   };
 
-  const addToPlaylist = (val: string) => {
-    if (addToPlayList) {
-      dispatch({
-        type: "videoAddToPlayList",
-        payload: { playListName: val, videoId: videoProps.id.videoId },
-      });
+  const handleClickOnPlaylist = (e: any) => {
+    if (e.target.type === "checkbox") {
+      if (e.target.checked) {
+        dispatch({
+          type: "videoAddToPlayList",
+          payload: {
+            playListName: e.target.value,
+            videoId: videoProps.id.videoId,
+          },
+        });
+      }
     }
-    setAddToPlaylist(false);
   };
+
+  // useEffect(() => {}, [addToPlayList]);
 
   return (
     <>
@@ -147,7 +151,7 @@ const CoverVideoCard = (props: IProps) => {
                     <FormControlLabel
                       value={item.playListName}
                       control={<Checkbox />}
-                      onClick={() => addToPlaylist(item.playListName)}
+                      onClick={handleClickOnPlaylist}
                       label={item.playListName}
                     />
                   );
