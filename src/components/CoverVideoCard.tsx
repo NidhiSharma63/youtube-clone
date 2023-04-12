@@ -150,7 +150,13 @@ const CoverVideoCard = (props: IProps) => {
                   return (
                     <FormControlLabel
                       value={item.playListName}
-                      control={<Checkbox />}
+                      control={
+                        <Checkbox
+                          checked={item?.videoId?.includes(
+                            videoProps?.id?.videoId
+                          )}
+                        />
+                      }
                       onClick={handleClickOnPlaylist}
                       label={item.playListName}
                     />

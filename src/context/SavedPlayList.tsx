@@ -21,7 +21,11 @@ const initialState: IInitialState = {
 };
 
 interface IAction {
-  type: "videoAddToPlayList" | "createNewPlayList";
+  type:
+    | "videoAddToPlayList"
+    | "createNewPlayList"
+    | "removeVideoFromPlaylist"
+    | "removePlayList";
   payload: { playListName: string; videoId: string };
 }
 interface MyContextValue {
@@ -77,6 +81,9 @@ const reducer = (state: IInitialState, action: IAction): IInitialState => {
         playListVideo: newPlayList,
       };
     }
+    // case "removeVideoFromPlaylist":{
+
+    // }
     default:
       return state;
   }
