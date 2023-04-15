@@ -4,7 +4,6 @@ import DrawerComponent from "components/layout/DrawerComponent";
 import Home from "pages/Home";
 import Video from "pages/Video";
 import Channel from "pages/Channel";
-import WatchLater from "pages/WatchLater";
 import Playlist from "pages/Playlist";
 
 const App: React.FC = (): JSX.Element => {
@@ -15,7 +14,6 @@ const App: React.FC = (): JSX.Element => {
       { path: "/:search?", element: <Home /> },
       { path: "/video/:id", element: <Video /> },
       { path: "/channel/:id", element: <Channel /> },
-      { path: "/watchlater", element: <WatchLater /> },
       { path: "/playlist/:playlist_name", element: <Playlist /> },
     ],
   };
