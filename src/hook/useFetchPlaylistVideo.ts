@@ -19,7 +19,7 @@ const useFetchPlaylistVideos = (playlist_name: string | undefined) => {
     state.playListVideo
   );
 
-  console.log(state.playListVideo);
+  // console.log(state.playListVideo);
 
   useEffect(() => {
     if (playlist_name) {
