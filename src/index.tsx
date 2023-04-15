@@ -7,7 +7,6 @@ import { ThemeProvider } from "@mui/material";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import SearchProvider from "context/SearchProvider";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import SavedVideoProvider from "context/SavedVideoProvider";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import SavedPlayListProvider from "context/SavedPlayList";
@@ -18,27 +17,25 @@ const element = (
   <>
     <QueryClientProvider client={queryClient}>
       <SearchProvider>
-        <SavedVideoProvider>
-          <SavedPlayListProvider>
-            <ThemeProvider theme={theme}>
-              <BrowserRouter>
-                <ToastContainer
-                  position="top-center"
-                  autoClose={1000}
-                  hideProgressBar
-                  newestOnTop
-                  closeOnClick
-                  pauseOnFocusLoss
-                  draggable
-                  pauseOnHover
-                  theme="dark"
-                  closeButton={true}
-                />
-                <App />
-              </BrowserRouter>
-            </ThemeProvider>
-          </SavedPlayListProvider>
-        </SavedVideoProvider>
+        <SavedPlayListProvider>
+          <ThemeProvider theme={theme}>
+            <BrowserRouter>
+              <ToastContainer
+                position="top-center"
+                autoClose={1000}
+                hideProgressBar
+                newestOnTop
+                closeOnClick
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="dark"
+                closeButton={true}
+              />
+              <App />
+            </BrowserRouter>
+          </ThemeProvider>
+        </SavedPlayListProvider>
       </SearchProvider>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
