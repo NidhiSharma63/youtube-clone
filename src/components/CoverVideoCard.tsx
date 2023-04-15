@@ -42,6 +42,7 @@ const CoverVideoCard = (props: IProps) => {
   const { videoProps, width } = props;
 
   const { state, dispatch } = useContext(PlayListVideoContext);
+  console.log(videoProps, "video props");
 
   const playListContainer = useRef<HTMLElement | null>(null);
   const navigate = useNavigate();
@@ -77,6 +78,7 @@ const CoverVideoCard = (props: IProps) => {
 
   const createPlayList = (e: any) => {
     e.stopPropagation();
+    console.log("I RUN");
     if (playlistName.length === 0) {
       setOpen(false);
       return;
@@ -106,23 +108,22 @@ const CoverVideoCard = (props: IProps) => {
 
   const handleClickOnPlaylist = (e: any) => {
     if (e.target.type === "checkbox") {
-      console.log("should run", e.target.checked);
+      console.log("should run", e.target.checked, videoProps.id);
       if (e.target.checked) {
         dispatch({
           type: "videoAddToPlayList",
           payload: {
             playListName: e.target.value,
-            videoId: videoProps.id.videoId,
+            videoId: videoProps.id.videoId ?? videoProps.id,
           },
         });
       }
       if (!e.target.checked) {
-        console.log("i run");
         dispatch({
           type: "removeVideoFromPlaylist",
           payload: {
             playListName: e.target.value,
-            videoId: videoProps.id.videoId,
+            videoId: videoProps.id.videoId ?? videoProps.id,
           },
         });
       }
@@ -166,8 +167,9 @@ const CoverVideoCard = (props: IProps) => {
                       control={
                         <Checkbox
                           checked={
-                            item?.videoId?.includes(videoProps?.id?.videoId) ||
-                            false
+                            item?.videoId?.includes(
+                              videoProps?.id?.videoId ?? videoProps?.id
+                            ) || false
                           }
                         />
                       }
