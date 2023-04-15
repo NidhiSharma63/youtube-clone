@@ -17,7 +17,10 @@ import {
 import { getValueFromLS } from "utils/localstorage";
 import { USER_INFO } from "constant/Misc";
 
-const Navbar: React.FC = (): JSX.Element => {
+interface ISelectedPlaylist {
+  setSelectedPlaylist: React.Dispatch<React.SetStateAction<string>>;
+}
+const Navbar = ({ setSelectedPlaylist }: ISelectedPlaylist) => {
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
@@ -51,6 +54,7 @@ const Navbar: React.FC = (): JSX.Element => {
   }, [state.search]);
 
   const showHomePage = (): void => {
+    setSelectedPlaylist("");
     navigate("/");
     dispatch({ type: "addSearch", payload: { value: "" } });
     dispatch({ type: "addSearchCategory", payload: { value: "" } });

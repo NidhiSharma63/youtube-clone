@@ -151,7 +151,7 @@ export default function PersistentDrawerLeft() {
           >
             <MenuIcon />
           </IconButton>
-          <Navbar />
+          <Navbar setSelectedPlaylist={setSelectedPlaylist} />
         </Toolbar>
       </AppBar>
       <MuiDrawer variant="persistent" anchor="left" open={open}>
