@@ -193,7 +193,7 @@ export default function PersistentDrawerLeft() {
               </ListItemIcon>
               <ListItemText
                 sx={{ color: "secondary.main" }}
-                primary={"Wacth Later"}
+                primary={"Watch Later"}
               />
             </ListItemButton>
           </ListItem>
