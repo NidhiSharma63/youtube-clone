@@ -19,7 +19,6 @@ const CoverVideoCard = (props: any) => {
     navigate(`/video/${id}`);
   };
 
-  console.log({ videoProps });
   const handleMenuClose = () => {
     setIsMenuOpen(false);
   };
@@ -74,9 +73,9 @@ const CoverVideoCard = (props: any) => {
       }}>
       <CardMedia
         sx={{ height: 180, borderRadius: 3 }}
-        image={`${videoProps?.video?.thumbnails?.[1]?.url}`}
-        title={`${videoProps?.video?.title}`}
-        onClick={() => handleClick(videoProps.video.videoId ?? videoProps.id)}
+        image={`${videoProps?.video?.thumbnails?.[1]?.url ?? videoProps?.snippet?.thumbnails?.high?.url}`}
+        title={`${videoProps?.video?.title ?? videoProps?.snippet?.title}`}
+        onClick={() => handleClick(videoProps.video.videoId ?? videoProps.id ?? videoProps.id.videoId)}
       />
       <CardContent sx={{ height: 105 }}>
         <Box
@@ -87,7 +86,7 @@ const CoverVideoCard = (props: any) => {
             color: "secondary.main",
           }}>
           <Typography gutterBottom variant="subtitle1" sx={{ maxWidth: "70%" }}>
-            {`${videoProps?.video?.title}`.slice(0, 40)}
+            {`${videoProps?.video?.title ?? videoProps?.snippet?.title}`.slice(0, 40)}
             ...
           </Typography>
 
@@ -109,25 +108,37 @@ const CoverVideoCard = (props: any) => {
             onClose={handleMenuClose}>
             {saveToWatchLater.find((item) => {
               // console.log(item);
-              return item === (videoProps.video.videoId ?? videoProps.id);
+              return item === (videoProps.video.videoId ?? videoProps.id ?? videoProps.id.videoId);
             }) ? (
-              <MenuItem onClick={(e) => removeFromWatchLaterFun(e, videoProps.video.videoId ?? videoProps.id)}>
+              <MenuItem
+                onClick={(e) =>
+                  removeFromWatchLaterFun(e, videoProps.video.videoId ?? videoProps.id ?? videoProps.id.videoId)
+                }>
                 Remove from watch later
               </MenuItem>
             ) : (
-              <MenuItem onClick={(e) => saveToWatchLaterFun(e, videoProps.video.videoId ?? videoProps.id)}>
+              <MenuItem
+                onClick={(e) =>
+                  saveToWatchLaterFun(e, videoProps.video.videoId ?? videoProps.id ?? videoProps.id.videoId)
+                }>
                 Add to watch later
               </MenuItem>
             )}
             {saveToPlayelist.find((item) => {
               // console.log(item);
-              return item === (videoProps.video.videoId || videoProps.id);
+              return item === ((videoProps.video.videoId || videoProps.id) ?? videoProps.id.videoId);
             }) ? (
-              <MenuItem onClick={(e) => removeFromPlaylistFun(e, videoProps.video.videoId ?? videoProps.id)}>
+              <MenuItem
+                onClick={(e) =>
+                  removeFromPlaylistFun(e, videoProps.video.videoId ?? videoProps.id ?? videoProps.id.videoId)
+                }>
                 Remove from playlist
               </MenuItem>
             ) : (
-              <MenuItem onClick={(e) => saveToPlayListFun(e, videoProps.video.videoId ?? videoProps.id)}>
+              <MenuItem
+                onClick={(e) =>
+                  saveToPlayListFun(e, videoProps.video.videoId ?? videoProps.id ?? videoProps.id.videoId)
+                }>
                 Save to playlist
               </MenuItem>
             )}
@@ -136,7 +147,7 @@ const CoverVideoCard = (props: any) => {
         <Box sx={{ display: "flex", justifyContent: "flex-start", alignItems: "center", gap: 1 }}>
           <Avatar src={videoProps?.video?.author?.avatar?.[0].url} />
           <Typography variant="body2" color="secondary.dark">
-            {`${videoProps?.video?.author?.title}`}
+            {`${videoProps?.video?.author?.title ?? videoProps?.snippet?.channelTitle}`}
             {<CheckCircleIcon sx={{ fontSize: ".9rem" }} />}
           </Typography>
         </Box>

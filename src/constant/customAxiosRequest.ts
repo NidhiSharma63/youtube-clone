@@ -12,23 +12,26 @@ interface IOptions {
   };
 }
 
-const options: IOptions = {
-  params: {
-    regionCode: "IN",
-    maxResults: "50",
-    pageToken: "CDIQAA",
-  },
-  headers: {
-    "X-RapidAPI-Key": process.env.REACT_APP_RAPID_API_KEY,
-    "X-RapidAPI-Host": "youtube138.p.rapidapi.com",
-  },
-};
+
 
 // Promise<AxiosResponse> for resolve the promise
 // if promise is rejected then it will return the error that is not the part of AxiosResponse
 // Promise.reject(error) to solve the error
 
-function customAxiosRequest(url: string): Promise<AxiosResponse> {
+function customAxiosRequest(url: string,headersParams?:{"X-RapidAPI-Key":string|undefined,"X-RapidAPI-Host":string}): Promise<AxiosResponse> {
+
+  const options: IOptions = {
+    params: {
+      regionCode: "IN",
+      maxResults: "50",
+      pageToken: "CDIQAA",
+    },
+    headers:headersParams?headersParams: {
+      "X-RapidAPI-Key": process.env.REACT_APP_RAPID_API_KEY,
+      "X-RapidAPI-Host": "youtube-v31.p.rapidapi.com",
+    },
+  };
+
   try {
     const response = axios.get(url, options);
     return response;

@@ -13,6 +13,11 @@ import { useParams } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 
 import Loader from "components/Loader";
+
+const headersParams = {
+  "X-RapidAPI-Key": process.env.REACT_APP_RAPID_API_KEY,
+  "X-RapidAPI-Host": "youtube138.p.rapidapi.com",
+};
 interface ISnippetVideo extends ISnippet {
   categoryId: string;
   defaultAudioLanguage: string;
@@ -83,14 +88,14 @@ const Video = () => {
 
   const { data: suggestVideo }: ISuggestedVideo = useQuery({
     queryKey: ["suggestedVideo", id],
-    queryFn: () => customAxiosRequest(`https://youtube-v138.p.rapidapi.com/video/related-contents/?id=${id}`),
+    queryFn: () =>
+      customAxiosRequest(`https://youtube-v138.p.rapidapi.com/video/related-contents/?id=${id}`, headersParams),
     staleTime: Infinity,
     select: (suggestedVideo) => suggestedVideo.data.contents,
     refetchOnWindowFocus: false,
     refetchOnMount: false,
   });
 
-  console.log({ suggestVideo });
   if (isLoading) return <Loader />;
 
   return (
