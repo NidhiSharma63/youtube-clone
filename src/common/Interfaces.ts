@@ -34,9 +34,17 @@ export interface IVideo {
   snippet: ISnippet;
 }
 
+
+
 export interface IComments {
-  id: string;
-  kind: string;
+  commentId: string;
+  author:{
+    avatar:{
+      height:number,
+      url:string,
+      width:number
+    }[]
+  }
   snippet: {
     canReply: boolean;
     isPublic: boolean;

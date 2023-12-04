@@ -1,4 +1,4 @@
-import { Box, Stack, Button, Avatar, Typography } from "@mui/material";
+import { Avatar, Box, Button, Stack, Typography } from "@mui/material";
 import { IComments } from "common/Interfaces";
 import { useState } from "react";
 
@@ -12,8 +12,7 @@ const VideoComments = ({ commentsData }: ICommentsDataProps) => {
 
   const hanldeWordLength = (): void => {
     setWordLength((prev) => {
-      return prev ===
-        commentsData.snippet.topLevelComment.snippet.textDisplay.length
+      return prev === commentsData.snippet.topLevelComment.snippet.textDisplay.length
         ? 200
         : commentsData.snippet.topLevelComment.snippet.textDisplay.length;
     });
@@ -27,49 +26,31 @@ const VideoComments = ({ commentsData }: ICommentsDataProps) => {
         flexDirection: "row",
         gap: 2,
         mt: 3,
-      }}
-    >
+      }}>
       {" "}
-      <Avatar
-        alt="Remy Sharp"
-        src={commentsData.snippet.topLevelComment.snippet.authorProfileImageUrl}
-      />
+      <Avatar alt="Remy Sharp" src={commentsData.snippet.topLevelComment.snippet.authorProfileImageUrl} />
       <Box
         sx={{
           display: "flex",
           alignItems: "flex-start",
           flexDirection: "column",
           // gap: 1,
-        }}
-      >
+        }}>
         <Box>
           <Typography variant="body1" sx={{ color: "secondary.main" }}>
             {commentsData.snippet.topLevelComment.snippet.authorDisplayName}
           </Typography>
         </Box>
         <Typography variant="body2" sx={{ color: "secondary.main" }}>
-          {commentsData.snippet.topLevelComment.snippet.textDisplay.slice(
-            0,
-            wordLength
-          )}
+          {commentsData.snippet.topLevelComment.snippet.textDisplay.slice(0, wordLength)}
 
-          {wordLength <=
-            commentsData.snippet.topLevelComment.snippet.textDisplay.length &&
-          !showMore ? (
-            <Button
-              variant="text"
-              sx={{ color: "secondary.main" }}
-              onClick={hanldeWordLength}
-            >
+          {wordLength <= commentsData.snippet.topLevelComment.snippet.textDisplay.length && !showMore ? (
+            <Button variant="text" sx={{ color: "secondary.main" }} onClick={hanldeWordLength}>
               Show more
             </Button>
           ) : null}
           {showMore ? (
-            <Button
-              variant="text"
-              sx={{ color: "secondary.main" }}
-              onClick={hanldeWordLength}
-            >
+            <Button variant="text" sx={{ color: "secondary.main" }} onClick={hanldeWordLength}>
               Show less
             </Button>
           ) : null}

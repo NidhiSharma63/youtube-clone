@@ -1,18 +1,16 @@
-import { useParams } from "react-router-dom";
-import customAxiosRequest from "constant/customAxiosRequest";
+import { Box, Divider, Grid, Typography } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
-import { BASE_URL } from "constant/Misc";
-import ReactPlayer from "react-player";
-import { Typography, Box, Grid, Divider } from "@mui/material";
-import { ISnippet } from "common/Interfaces";
-import VideoInfo from "components/video/VideoInfo";
-import VideoDescription from "components/video/VideoDescription";
-import { IComments } from "common/Interfaces";
-import VideoComments from "components/video/VideoComments";
+import { IComments, ISnippet, IVideo } from "common/Interfaces";
 import CoverVideoCard from "components/CoverVideoCard";
-import { IVideo } from "common/Interfaces";
+import VideoComments from "components/video/VideoComments";
+import VideoDescription from "components/video/VideoDescription";
+import VideoInfo from "components/video/VideoInfo";
+import { BASE_URL } from "constant/Misc";
+import customAxiosRequest from "constant/customAxiosRequest";
+import { useEffect, useState } from "react";
+import ReactPlayer from "react-player";
+import { useParams } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
-import { useState, useEffect } from "react";
 
 import Loader from "components/Loader";
 interface ISnippetVideo extends ISnippet {
@@ -62,8 +60,7 @@ const Video = () => {
   const [channelId, setChannelId] = useState<string>("");
   const { data: videoData, isLoading }: IData = useQuery({
     queryKey: ["video", id],
-    queryFn: () =>
-      customAxiosRequest(`${BASE_URL}/videos?part=snippet,statistic&id=${id}`),
+    queryFn: () => customAxiosRequest(`${BASE_URL}/videos?part=snippet,statistic&id=${id}`),
     staleTime: Infinity,
     select: (AllVideos) => AllVideos.data.items,
     refetchOnWindowFocus: false,
@@ -72,10 +69,7 @@ const Video = () => {
 
   const { data: commentData }: ICommentsData = useQuery({
     queryKey: ["videoComments", id],
-    queryFn: () =>
-      customAxiosRequest(
-        `${BASE_URL}/commentThreads?part=snippet&videoId=${id}`
-      ),
+    queryFn: () => customAxiosRequest(`${BASE_URL}/commentThreads?part=snippet&videoId=${id}`),
     staleTime: Infinity,
     select: (videoComments) => videoComments.data.items,
     refetchOnWindowFocus: false,
@@ -89,28 +83,14 @@ const Video = () => {
 
   const { data: suggestVideo }: ISuggestedVideo = useQuery({
     queryKey: ["suggestedVideo", id],
-    queryFn: () =>
-      customAxiosRequest(
-        `${BASE_URL}/search?part=snippet&relatedToVideoId=${id}&type=video`
-      ),
+    queryFn: () => customAxiosRequest(`https://youtube-v138.p.rapidapi.com/video/related-contents/?id=${id}`),
     staleTime: Infinity,
-    select: (suggestedVideo) => suggestedVideo.data.items,
+    select: (suggestedVideo) => suggestedVideo.data.contents,
     refetchOnWindowFocus: false,
     refetchOnMount: false,
   });
 
-  // const { data: channelData }: any = useQuery({
-  //   queryKey: ["channel", channelId],
-  //   queryFn: () =>
-  //     customAxiosRequest(`${BASE_URL}/channels?part=snippet&id=${channelId}`),
-  //   staleTime: 1000 * 60 * 10000,
-  //   select: (suggestedVideo) => suggestedVideo.data.items,
-  //   refetchOnWindowFocus: false,
-  //   refetchOnMount: false,
-  // });
-
-  // console.log(channelData, "hhhhhhh");
-
+  console.log({ suggestVideo });
   if (isLoading) return <Loader />;
 
   return (
@@ -121,14 +101,9 @@ const Video = () => {
       sx={{
         p: 0,
         justifyContent: "space-around",
-      }}
-    >
+      }}>
       <Grid item xs={12} custom={8}>
-        <ReactPlayer
-          url={`https://www.youtube.com/watch?v=${id}`}
-          controls
-          width={"100%"}
-        />
+        <ReactPlayer url={`https://www.youtube.com/watch?v=${id}`} controls width={"100%"} />
         <Typography gutterBottom variant="h5" color="secondary.main" mt={1}>
           {videoData?.[0].snippet.title}
         </Typography>
@@ -156,7 +131,7 @@ const Video = () => {
         <Box sx={{ display: { xs: "none", custom: "block" } }}>
           {commentData &&
             commentData.map((comment: IComments) => {
-              return <VideoComments commentsData={comment} />;
+              return <VideoComments key={uuidv4()} commentsData={comment} />;
             })}
         </Box>
       </Grid>
@@ -170,17 +145,10 @@ const Video = () => {
           alignItems: { custom: "center", xs: "flex-start" },
           flexDirection: "column",
           paddingRight: 0,
-        }}
-      >
+        }}>
         {suggestVideo
           ? suggestVideo.map((suggestion: IVideo) => {
-              return (
-                <CoverVideoCard
-                  key={uuidv4()}
-                  videoProps={suggestion}
-                  width={{ maxWidth: 345 }}
-                />
-              );
+              return <CoverVideoCard key={uuidv4()} videoProps={suggestion} width={{ maxWidth: 345 }} />;
             })
           : null}
       </Grid>
@@ -189,12 +157,11 @@ const Video = () => {
         xs={12}
         sx={{
           display: { custom: "none", xs: "block" },
-        }}
-      >
+        }}>
         <Divider />
         {commentData &&
           commentData.map((comment: IComments) => {
-            return <VideoComments commentsData={comment} />;
+            return <VideoComments key={uuidv4()} commentsData={comment} />;
           })}
       </Grid>
     </Grid>

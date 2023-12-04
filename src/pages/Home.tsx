@@ -1,11 +1,11 @@
-import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { Grid } from "@mui/material";
-import HomePage from "components/HomePage";
-import { searchContext } from "context/SearchProvider";
 import { IVideo } from "common/Interfaces";
-import { useNavigate } from "react-router-dom";
+import HomePage from "components/HomePage";
 import Loader from "components/Loader";
+import { searchContext } from "context/SearchProvider";
 import { useFetchAllVideos } from "hook/useFetchAllVideos";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { v4 as uuidv4 } from "uuid";
 
@@ -18,7 +18,6 @@ const Home = () => {
   const [videos, setVideos] = useState<IVideo[]>([]);
   const mainWrapperRef = useRef<HTMLDivElement | null>(null);
 
-  console.log(state.category);
   useEffect(() => {
     if (state.search.length > 0) {
       // console.log("I RUNG SEARCH", state.search);
@@ -27,7 +26,6 @@ const Home = () => {
     }
 
     if (state.category.length > 0) {
-      console.log("I RUNG CATEGORY", state.category);
       navigate(`/category?=${state.category}`);
 
       setSearchValue(state.category);
@@ -122,8 +120,7 @@ const Home = () => {
           overflowY: "scroll",
           overflowX: "hidden",
           justifyContent: "center",
-        }}
-      >
+        }}>
         {videos?.map((item: IVideo) => {
           return <HomePage key={uuidv4()} videoProps={item} />;
         })}

@@ -1,29 +1,12 @@
-import {
-  Card,
-  CardMedia,
-  CardContent,
-  Typography,
-  Box,
-  Menu,
-  MenuItem,
-  IconButton,
-} from "@mui/material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
-import { IVideo } from "common/Interfaces";
+import { Avatar, Box, Card, CardContent, CardMedia, IconButton, Menu, MenuItem, Typography } from "@mui/material";
 import { SavedVideoContext } from "context/SavedVideoProvider";
+import { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-interface IProps {
-  videoProps: IVideo;
-  width: {
-    maxWidth?: number;
-    width?: number;
-  };
-}
 
-const CoverVideoCard = (props: IProps) => {
+const CoverVideoCard = (props: any) => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const { state, dispatch } = useContext(SavedVideoContext);
@@ -36,6 +19,7 @@ const CoverVideoCard = (props: IProps) => {
     navigate(`/video/${id}`);
   };
 
+  console.log({ videoProps });
   const handleMenuClose = () => {
     setIsMenuOpen(false);
   };
@@ -45,40 +29,28 @@ const CoverVideoCard = (props: IProps) => {
     setIsMenuOpen(true);
   };
 
-  const saveToPlayListFun = (
-    event: React.MouseEvent<HTMLLIElement>,
-    videoId: string
-  ) => {
+  const saveToPlayListFun = (event: React.MouseEvent<HTMLLIElement>, videoId: string) => {
     setIsMenuOpen(false);
     setAnchorEl(null);
     dispatch({ type: "addToPlayList", payload: { videoId: videoId } });
     toast.info("video added to playlist");
   };
 
-  const saveToWatchLaterFun = (
-    event: React.MouseEvent<HTMLLIElement>,
-    videoId: string
-  ) => {
+  const saveToWatchLaterFun = (event: React.MouseEvent<HTMLLIElement>, videoId: string) => {
     setIsMenuOpen(false);
     setAnchorEl(null);
     dispatch({ type: "addToWatchLater", payload: { videoId: videoId } });
     toast.info("video added to watch later");
   };
 
-  const removeFromWatchLaterFun = (
-    event: React.MouseEvent<HTMLLIElement>,
-    videoId: string
-  ) => {
+  const removeFromWatchLaterFun = (event: React.MouseEvent<HTMLLIElement>, videoId: string) => {
     setIsMenuOpen(false);
     setAnchorEl(null);
     dispatch({ type: "removeFromWatchLater", payload: { videoId: videoId } });
     toast.info("video removed from watch later");
   };
 
-  const removeFromPlaylistFun = (
-    event: React.MouseEvent<HTMLLIElement>,
-    videoId: string
-  ) => {
+  const removeFromPlaylistFun = (event: React.MouseEvent<HTMLLIElement>, videoId: string) => {
     setIsMenuOpen(false);
     setAnchorEl(null);
     dispatch({ type: "removeFromPlayList", payload: { videoId: videoId } });
@@ -99,13 +71,12 @@ const CoverVideoCard = (props: IProps) => {
         "&:hover": {
           transform: "scale(1.04)",
         },
-      }}
-    >
+      }}>
       <CardMedia
         sx={{ height: 180, borderRadius: 3 }}
-        image={`${videoProps?.snippet?.thumbnails?.high?.url}`}
-        title={`${videoProps?.snippet?.title}`}
-        onClick={() => handleClick(videoProps.id.videoId ?? videoProps.id)}
+        image={`${videoProps?.video?.thumbnails?.[1]?.url}`}
+        title={`${videoProps?.video?.title}`}
+        onClick={() => handleClick(videoProps.video.videoId ?? videoProps.id)}
       />
       <CardContent sx={{ height: 105 }}>
         <Box
@@ -114,10 +85,9 @@ const CoverVideoCard = (props: IProps) => {
             alignItems: "center",
             justifyContent: "space-between",
             color: "secondary.main",
-          }}
-        >
+          }}>
           <Typography gutterBottom variant="subtitle1" sx={{ maxWidth: "70%" }}>
-            {`${videoProps?.snippet?.title}`.slice(0, 40)}
+            {`${videoProps?.video?.title}`.slice(0, 40)}
             ...
           </Typography>
 
@@ -136,60 +106,40 @@ const CoverVideoCard = (props: IProps) => {
               horizontal: "right",
             }}
             open={isMenuOpen}
-            onClose={handleMenuClose}
-          >
+            onClose={handleMenuClose}>
             {saveToWatchLater.find((item) => {
               // console.log(item);
-              return item === (videoProps.id.videoId ?? videoProps.id);
+              return item === (videoProps.video.videoId ?? videoProps.id);
             }) ? (
-              <MenuItem
-                onClick={(e) =>
-                  removeFromWatchLaterFun(
-                    e,
-                    videoProps.id.videoId ?? videoProps.id
-                  )
-                }
-              >
+              <MenuItem onClick={(e) => removeFromWatchLaterFun(e, videoProps.video.videoId ?? videoProps.id)}>
                 Remove from watch later
               </MenuItem>
             ) : (
-              <MenuItem
-                onClick={(e) =>
-                  saveToWatchLaterFun(e, videoProps.id.videoId ?? videoProps.id)
-                }
-              >
+              <MenuItem onClick={(e) => saveToWatchLaterFun(e, videoProps.video.videoId ?? videoProps.id)}>
                 Add to watch later
               </MenuItem>
             )}
             {saveToPlayelist.find((item) => {
               // console.log(item);
-              return item === (videoProps.id.videoId || videoProps.id);
+              return item === (videoProps.video.videoId || videoProps.id);
             }) ? (
-              <MenuItem
-                onClick={(e) =>
-                  removeFromPlaylistFun(
-                    e,
-                    videoProps.id.videoId ?? videoProps.id
-                  )
-                }
-              >
+              <MenuItem onClick={(e) => removeFromPlaylistFun(e, videoProps.video.videoId ?? videoProps.id)}>
                 Remove from playlist
               </MenuItem>
             ) : (
-              <MenuItem
-                onClick={(e) =>
-                  saveToPlayListFun(e, videoProps.id.videoId ?? videoProps.id)
-                }
-              >
+              <MenuItem onClick={(e) => saveToPlayListFun(e, videoProps.video.videoId ?? videoProps.id)}>
                 Save to playlist
               </MenuItem>
             )}
           </Menu>
         </Box>
-        <Typography variant="body2" color="secondary.dark">
-          {`${videoProps?.snippet?.channelTitle}`}
-          {<CheckCircleIcon sx={{ fontSize: ".9rem" }} />}
-        </Typography>
+        <Box sx={{ display: "flex", justifyContent: "flex-start", alignItems: "center", gap: 1 }}>
+          <Avatar src={videoProps?.video?.author?.avatar?.[0].url} />
+          <Typography variant="body2" color="secondary.dark">
+            {`${videoProps?.video?.author?.title}`}
+            {<CheckCircleIcon sx={{ fontSize: ".9rem" }} />}
+          </Typography>
+        </Box>
       </CardContent>
     </Card>
   );
